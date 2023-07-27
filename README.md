@@ -1,0 +1,2 @@
+# TurkcellPasajCloneApp
+ Turkcell Staj Projesidir.
