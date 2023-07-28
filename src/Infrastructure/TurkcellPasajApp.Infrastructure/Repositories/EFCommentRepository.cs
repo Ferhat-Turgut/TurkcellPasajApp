@@ -50,13 +50,13 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             return comment;
         }
 
-        public IEnumerable<Comment> GetCommentsByCustomerId(int userId, string Role)
+        public IEnumerable<Comment> GetCommentsByUserId(int userId, string Role)
         {
             var customerComments = _turkcellPasajAppDbContext.Comments.Where(c => c.UserId == userId && c.Role==Role).ToList().AsEnumerable();
             return customerComments;
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsByCustomerIdAsync(int userId, string Role)
+        public async Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(int userId, string Role)
         {
             var customerComments = await _turkcellPasajAppDbContext.Comments.Where(c => c.UserId == userId && c.Role == Role).ToListAsync();
             return customerComments;

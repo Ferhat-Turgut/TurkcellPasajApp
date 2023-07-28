@@ -16,7 +16,15 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         [MaxLength(300)]
         public string Address { get; set; }
         [Required]
-        public bool IsActive { get; set; }
+        public string Phone { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Password { get; set; }
+        [Required]
+        public bool IsActive { get; set; } = true;
 
 
     }

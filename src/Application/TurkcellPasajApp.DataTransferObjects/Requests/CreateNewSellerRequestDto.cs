@@ -8,7 +8,7 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         [MaxLength(50)]
         public string Name { get; set; }
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         [Required]
         public string Address { get; set; }
       

@@ -1,0 +1,78 @@
+﻿using AutoMapper;
+using TurkcellPasajApp.DataTransferObjects.Requests;
+using TurkcellPasajApp.DataTransferObjects.Responses;
+using TurkcellPasajApp.Entities;
+using TurkcellPasajApp.Infrastructure.Repositories;
+
+namespace TurkcellPasajApp.Services
+{
+    public class OrderService : IOrderService
+    {
+        private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
+
+        public OrderService(IOrderRepository orderRepository, IMapper mapper)
+        {
+            _orderRepository = orderRepository;
+            _mapper = mapper;
+        }
+
+        public void CreateOrder(CreateNewOrderRequestDto createNewOrderRequestDto)
+        {
+            var order=_mapper.Map<Order>(createNewOrderRequestDto);
+            _orderRepository.Create(order);
+        }
+
+        public async Task CreateOrderAsync(CreateNewOrderRequestDto createNewOrderRequestDto)
+        {
+            var order = _mapper.Map<Order>(createNewOrderRequestDto);
+            await _orderRepository.CreateAsync(order);
+        }
+
+        public void DeleteOrder(int id)
+        {
+            _orderRepository.Delete(id);
+        }
+
+        public async Task DeleteOrderAsync(int id)
+        {
+           await _orderRepository.DeleteAsync(id);
+        }
+
+        public IEnumerable<OrderDisplayResponseDto>? GetAllOrdersByCustomerId(int customerId)
+        {
+            var customersOrders=_orderRepository.GetAllByCustomerId(customerId);
+            return _mapper.Map<IEnumerable<OrderDisplayResponseDto>>(customersOrders);
+        }
+
+        public async Task<IEnumerable<OrderDisplayResponseDto>>? GetAllOrdersByCustomerIdAsync(int customerId)
+        {
+            var customersOrders =await _orderRepository.GetAllByCustomerIdAsync(customerId);
+            return _mapper.Map<IEnumerable<OrderDisplayResponseDto>>(customersOrders);
+        }
+
+        public IEnumerable<OrderDisplayResponseDto>? GetAllOrdersBySellerId(int sellerId)
+        {
+            var sellersOrders = _orderRepository.GetAllBySellerId(sellerId);
+            return _mapper.Map<IEnumerable<OrderDisplayResponseDto>>(sellerId);
+        }
+
+        public async Task<IEnumerable<OrderDisplayResponseDto>>? GetAllOrdersBySellerIdAsync(int sellerId)
+        {
+            var sellersOrders =await _orderRepository.GetAllBySellerIdAsync(sellerId);
+            return _mapper.Map<IEnumerable<OrderDisplayResponseDto>>(sellerId);
+        }
+
+        public OrderDisplayResponseDto? GetOrderById(int orderId)
+        {
+            var order=_orderRepository.Get(orderId);
+            return _mapper.Map<OrderDisplayResponseDto>(order);
+        }
+
+        public async Task<OrderDisplayResponseDto?> GetOrderByIdAsync(int orderId)
+        {
+            var order =await _orderRepository.GetAsync(orderId);
+            return _mapper.Map<OrderDisplayResponseDto>(order);
+        }
+    }
+}
