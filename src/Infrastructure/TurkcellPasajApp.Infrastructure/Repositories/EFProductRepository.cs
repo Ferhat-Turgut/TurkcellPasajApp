@@ -64,13 +64,24 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
 
         public IEnumerable<Product> GetAllByCategoryId(int categoryId)
         {
-            var productsByCategory = _turkcellPasajAppDbContext.Products.Where(p => p.CategoryId == categoryId).ToList().AsEnumerable();
+            var productsByCategory =_turkcellPasajAppDbContext.Products
+                                    .Where(p => p.CategoryId == categoryId)
+                                    .Include(p => p.Category) // Kategori tablosunu dahil ediyoruz
+                                    .Include(p => p.Seller)   // Satıcı tablosunu dahil ediyoruz
+                                    .ToList();
+
             return productsByCategory;
+
         }
 
         public async Task<IEnumerable<Product>> GetAllByCategoryIdAsync(int categoryId)
         {
-            var productsByCategory = await _turkcellPasajAppDbContext.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+            var productsByCategory =await _turkcellPasajAppDbContext.Products
+                                   .Where(p => p.CategoryId == categoryId)
+                                   .Include(p => p.Category) // Kategori tablosunu dahil ediyoruz
+                                   .Include(p => p.Seller)   // Satıcı tablosunu dahil ediyoruz
+                                   .ToListAsync();
+
             return productsByCategory;
         }
 
@@ -96,6 +107,18 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             _turkcellPasajAppDbContext.Products.Update(entity);
             await _turkcellPasajAppDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Product> GetAllBySellerId(int sellerId)
+        {
+            var productsBySeller = _turkcellPasajAppDbContext.Products.Where(p => p.SellerId == sellerId).ToList();
+            return productsBySeller;
+        }
+
+        public async Task<IEnumerable<Product>> GetAllBySellerIdAsync(int sellerId)
+        {
+            var productsBySeller = await _turkcellPasajAppDbContext.Products.Where(p => p.SellerId == sellerId).ToListAsync();
+            return productsBySeller;
         }
     }
 }

@@ -1,0 +1,76 @@
+﻿@model TurkcellPasajApp.Entities.Basket
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Sepetim";
+}
+
+<h1>Sepetim</h1>
+
+@if (Model.BasketProducts != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fotoğraf</th>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.BasketProducts)
+            {
+                <tr>
+                    <td><img src="/ProductPhotos/@product.Product.PhotoUrl" alt="@product.Product.Name" width="100" height="100" /></td>
+                    <td>@product.Product.Name</td>
+                    <td>@product.Product.Price.ToString("C2")</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="removeFromBasket(@product.Product.Id)">Kaldır</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @* Sepet toplamı hesaplanır *@
+    decimal totalPrice = 0;
+    foreach (var product in Model.BasketProducts)
+    {
+        totalPrice += product.Product.Price;
+    }
+
+    <div class="text-end">
+        <h4>Toplam Tutar: @totalPrice.ToString("C2")</h4>
+    </div>
+
+    <form asp-controller="Order" asp-action="Index" method="get">
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary">Sepeti Onayla</button>
+        </div>
+    </form>
+
+}
+else
+{
+    <p>Sepetinizde ürün bulunmamaktadır.</p>
+}
+
+<!-- jQuery kütüphanesini ekleyin -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function removeFromBasket(productId) {
+        // Ajax isteği yapalım
+        $.ajax({
+            type: "POST",
+            url: "/Customer/RemoveToBasket",
+            data: { productId: productId },
+            success: function (data) {
+                alert("Ürün sepetten kaldırıldı.");
+                location.reload();
+            },
+            error: function () {
+                alert("Bir hata oluştu.");
+            }
+        });
+    }
+</script>

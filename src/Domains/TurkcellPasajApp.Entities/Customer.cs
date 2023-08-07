@@ -18,7 +18,8 @@ namespace TurkcellPasajApp.Entities
         public string Address { get; set; }
         [Required]
         public bool IsActive { get; set; }
-       
+
+        public Basket Basket { get; set; }
 
         public ICollection<Favourite>? Favourites { get; set; }
         public ICollection<Comment>? Comments { get; set; }

@@ -3,22 +3,50 @@
     Layout = "_Layout";
     ViewData["Title"] = "Anasayfa";
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        .card {
+            height: 400px; /* Kartların yüksekliğini buradan belirleyebilirsiniz */
+        }
+
+        .card-img-top {
+            height: 200px; /* Resim yüksekliğini buradan belirleyebilirsiniz */
+            object-fit: cover;
+        }
+        .row
+        {
+            padding:15px;
+        }
+    </style>
+</head>
 <body>
     <div class="container">
         <div class="row">
-            @foreach (var item in Model)
+            @foreach (var product in Model)
             {
                 <div class="col-md-3 mb-4">
                     <div class="card">
+                        <div class="card-img-container">
+                            <img src="/ProductPhotos/@product.PhotoUrl" class="card-img-top" alt="@product.Name Photo">
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">@item.Name</h5>
-                            <p class="card-text">@item.Description</p>
-                            <p class="card-text font-weight-bold">$@item.Price</p>
-                            <a href="#" class="btn btn-primary">Detaylar</a>
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text font-weight-bold">₺@product.Price</p>
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+</html>

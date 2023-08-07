@@ -11,5 +11,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         Task<IEnumerable<Order>>? GetAllByCustomerIdAsync(int customerId);
         IEnumerable<Order>? GetAllBySellerId(int sellerId);
         Task<IEnumerable<Order>>? GetAllBySellerIdAsync(int sellerId);
+        Task<int> CreateOrderAndReturnIdAsync(Order order);
+        int CreateOrderAndReturnId(Order order);
     }
 }

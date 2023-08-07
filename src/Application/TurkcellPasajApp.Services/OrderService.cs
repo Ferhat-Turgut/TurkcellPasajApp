@@ -17,16 +17,18 @@ namespace TurkcellPasajApp.Services
             _mapper = mapper;
         }
 
-        public void CreateOrder(CreateNewOrderRequestDto createNewOrderRequestDto)
+        public int CreateOrderAndReturnId(CreateNewOrderRequestDto createNewOrderRequestDto)
         {
             var order=_mapper.Map<Order>(createNewOrderRequestDto);
-            _orderRepository.Create(order);
+            var orderId=_orderRepository.CreateOrderAndReturnId(order);
+            return orderId;
         }
 
-        public async Task CreateOrderAsync(CreateNewOrderRequestDto createNewOrderRequestDto)
+        public async Task<int> CreateOrderAndReturnIdAsync(CreateNewOrderRequestDto createNewOrderRequestDto)
         {
             var order = _mapper.Map<Order>(createNewOrderRequestDto);
-            await _orderRepository.CreateAsync(order);
+            var orderId =await _orderRepository.CreateOrderAndReturnIdAsync(order);
+            return orderId;
         }
 
         public void DeleteOrder(int id)

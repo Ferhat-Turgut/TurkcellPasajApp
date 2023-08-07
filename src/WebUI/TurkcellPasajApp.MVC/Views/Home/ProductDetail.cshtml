@@ -1,0 +1,78 @@
+﻿@model TurkcellPasajApp.Entities.Product
+@{
+    Layout = "_Layout";
+    //ViewData["Title"] = "UrunDetayi";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ürün Detayı</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Burada sayfa başlığı olarak ürün adını gösteriyoruz -->
+        <h1 class="mb-4">@Model.Name</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Ürün resmi (eğer varsa) -->
+                @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+                {
+                    <img src="/ProductPhotos/@Model.PhotoUrl" alt="@Model.Name" class="img-fluid rounded" />
+                }
+            </div>
+            <div class="col-md-8">
+                <!-- Ürün açıklaması -->
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <p class="lead">@Model.Description</p>
+                }
+
+                <!-- Ürün fiyatı -->
+                <p>Fiyat: <strong>@Model.Price TL</strong></p>
+
+                <!-- Ürün stok miktarı -->
+                <p>Stok Miktarı: <strong>@Model.StockQuantity adet</strong></p>
+
+               
+            </div>
+            <div>
+                <!-- Sepet butonu -->
+                <button class="btn btn-primary shadow-0 me-1" onclick="addToBasket(@Model.Id)">Sepete Ekle</button>
+                <!-- Sepet butonu -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS dosyası ve jQuery kütüphanesi -->
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        // Ürünleri sepete ekleyen  fonksiyon
+        function addToBasket(productId) {
+            $.ajax({
+                type: "POST",
+                url: "/Customer/AddToBasket",
+                data: { productId: productId },
+                success: function (data) {
+                    if (data.success) {
+                        // Başarılı ekleme pop-up mesajı göster
+                        showPopup("Ürün başarıyla sepete eklendi.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    showPopup("Ürün sepete daha önce eklenmiştir.");
+                    console.error(error);
+                }
+            });
+        }
+        // showPopup fonksiyonunu tanımla
+        function showPopup(message) {
+            alert(message);
+            setTimeout(function () {
+            }, 3000); // 3000 milisaniye (3 saniye) sonra kapatılacak
+        }
+    </script>
+</body>
+</html>

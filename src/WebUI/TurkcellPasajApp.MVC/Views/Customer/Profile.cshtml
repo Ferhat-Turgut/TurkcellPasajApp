@@ -1,0 +1,88 @@
+﻿@model TurkcellPasajApp.DataTransferObjects.Responses.CustomerDisplayResponseDto
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Profil";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Profil</h1>
+
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <h2>Temel Bilgiler</h2>
+            <div class="row mb-3">
+                <div class="col-md-4">Kullanıcı Adı:</div>
+                <div class="col-md-8">@Model.Username</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">Ad:</div>
+                <div class="col-md-8">@Model.Name</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">Soyad:</div>
+                <div class="col-md-8">@Model.Surname</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">Doğum Tarihi:</div>
+                <div class="col-md-8">@Model.BirthDate</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">Cinsiyet:</div>
+                <div class="col-md-8">@Model.Gender</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>İletişim Bilgileri</h2>
+            <div class="row mb-3">
+                <div class="col-md-4">Email:</div>
+                <div class="col-md-8">@Model.Email</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">Telefon:</div>
+                <div class="col-md-8">@Model.PhoneNumber</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">Adres:</div>
+                <div class="col-md-8">@Model.Address</div>
+            </div>
+            <div class="col-md-6">
+                <h2>Ödeme Bilgileri</h2>
+                @foreach (var cards in Model.creditCards)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-4">Kart Numarası:</div>
+                        <div class="col-md-8">@cards.CardNumber</div>
+                        <div class="col-md-4">Kart Bakiyesi:</div>
+                        <div class="col-md-8">@cards.AvaibleBalance</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Profili düzenleme veya diğer işlemler için düğmeler -->
+    <div class="mb-4">
+        <a href="/Customer/EditProfile" class="btn btn-primary">Profili Düzenle</a>
+        <button class="btn btn-danger" onclick="deleteProfile()">Profili Sil</button>
+    </div>
+</div>
+
+<!-- JavaScript kodu profil silme işlemi için -->
+<script>
+    function showConfirmation() {
+        document.getElementById("confirmationPopup").style.display = "block";
+    }
+
+    function hideConfirmation() {
+        document.getElementById("confirmationPopup").style.display = "none";
+    }
+
+    function deleteProfile() {
+        if (confirm("Profilinizi silmek istediğinize emin misiniz?")) {
+            // Silme işlemini gerçekleştirecek Controller'a yönlendirme
+            window.location.href = "/Customer/DeleteCustomer";
+        }
+    }
+
+</script>

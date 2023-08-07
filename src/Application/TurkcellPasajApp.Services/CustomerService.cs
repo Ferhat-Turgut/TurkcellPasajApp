@@ -39,16 +39,28 @@ namespace TurkcellPasajApp.Services
             await _customerRepository.DeleteAsync(id);
         }
 
-        public CustomerDisplayResponseDto GetCustomerById(int customerId)
+        public CustomerDisplayResponseDto GetCustomerById(int id)
         {
-            var customer = _customerRepository.Get(customerId);
+            var customer = _customerRepository.Get(id);
             return _mapper.Map<CustomerDisplayResponseDto>(customer);
         }
 
-        public async Task<CustomerDisplayResponseDto> GetCustomerByIdAsync(int customerId)
+        public async Task<CustomerDisplayResponseDto> GetCustomerByIdAsync(int id)
         {
-            var customer =await _customerRepository.GetAsync(customerId);
+            var customer =await _customerRepository.GetAsync(id);
             return _mapper.Map<CustomerDisplayResponseDto>(customer);
+        }
+
+        public Customer? GetCustomerByUsername(string username)
+        {
+            var customer=_customerRepository.GetCustomerByUsername(username);
+            return customer;
+        }
+
+        public async Task<Customer>? GetCustomerByUsernameAsync(string username)
+        {
+            var customer =await _customerRepository.GetCustomerByUsernameAsync(username);
+            return customer;
         }
 
         public void UpdateCustomer(UpdateCustomerRequestDto updateCustomerRequestDto)

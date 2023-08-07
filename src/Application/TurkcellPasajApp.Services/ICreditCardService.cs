@@ -13,6 +13,9 @@ namespace TurkcellPasajApp.Services
         void DeleteCreditCard(int creditCardId);
         Task<CreditCardDisplayResponseDto> GetCreditCardByIdAsync(int creditCardId);
         CreditCardDisplayResponseDto GetCreditCardById(int creditCardId);
+        Task UpdateCreditCardAsync(UpdateCreditCardRequestDto updateCreditCardRequest);
+        void UpdateCreditCard(UpdateCreditCardRequestDto updateCreditCardRequest);
+
     }
 }
 

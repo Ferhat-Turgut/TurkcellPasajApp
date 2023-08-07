@@ -6,5 +6,9 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
     {
         IEnumerable<Customer> GetAllCustomers();
         Task<IEnumerable<Customer>> GetAllCustomersAsync();
+        Customer? GetCustomerByUsername(string username);
+        Task<Customer>? GetCustomerByUsernameAsync(string username);
+        
+
     }
 }

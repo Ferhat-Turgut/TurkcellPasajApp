@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TurkcellPasajApp.DataTransferObjects.Responses.CategoryDisplayResponseDto>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Kategoriler";
+}
+<head>
+    <style>
+        body {
+            background-color: #eee
+        }
+
+        .mt-100 {
+            margin-top: 100px;
+        }
+
+        .card {
+            border-radius: 7px !important;
+            border-color: #e1e7ec;
+        }
+
+        .mb-30 {
+            margin-bottom: 30px !important;
+        }
+        a {
+            color: #0da9ef;
+            text-decoration: none !important;
+        }
+
+        .btn-group-sm > .btn, .btn-sm {
+            padding: .45rem .5rem !important;
+            font-size: .875rem;
+            line-height: 1.5;
+            border-radius: .2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-100">
+        <div class="row">
+            @foreach (var category in Model)
+            {
+                <div class="col-md-4 col-sm-6">
+                    <div class="card mb-30">
+                        <div class="card-body text-center">
+                            <h4 class="card-title">@category.Name</h4>
+                            <p class="text-muted">@category.Description</p>
+                            <a class="btn btn-outline-primary btn-sm" href="/Home/ProductByCategory/@category.Id" data-abc="true">Ürünleri İncele</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>

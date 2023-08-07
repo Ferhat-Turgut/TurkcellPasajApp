@@ -42,12 +42,18 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
 
         public Customer? Get(int id)
         {
-            var customer = _turkcellPasajAppDbContext.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _turkcellPasajAppDbContext.Customers
+                        .Include(c => c.CreditCards) 
+                        .SingleOrDefault(c => c.Id == id);
+
             return customer;
         }
         public async Task<Customer?> GetAsync(int id)
         {
-            var customer = await _turkcellPasajAppDbContext.Customers.SingleOrDefaultAsync(c => c.Id == id);
+            var customer =await _turkcellPasajAppDbContext.Customers
+                       .Include(c => c.CreditCards)
+                       .SingleOrDefaultAsync(c => c.Id == id);
+
             return customer;
         }
 
@@ -75,5 +81,19 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             _turkcellPasajAppDbContext.Customers.Update(entity);
             await _turkcellPasajAppDbContext.SaveChangesAsync();
         }
+
+        public Customer? GetCustomerByUsername(string username)
+        {
+            var customer=_turkcellPasajAppDbContext.Customers.FirstOrDefault(c=>c.UserName==username);
+            return customer;
+        }
+
+        public async Task<Customer>? GetCustomerByUsernameAsync(string username)
+        {
+            var customer =await _turkcellPasajAppDbContext.Customers.FirstOrDefaultAsync(c => c.UserName == username);
+            return customer;
+        }
+
+       
     }
 }

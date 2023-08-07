@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using TurkcellPasajApp.DataTransferObjects.Requests;
 using TurkcellPasajApp.DataTransferObjects.Responses;
 using TurkcellPasajApp.Entities;
@@ -14,7 +15,8 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<Favourite, FavouriteDisplayResponseDto>().ReverseMap();
             CreateMap<Message, MessageDisplayResponseDto>().ReverseMap();
             CreateMap<Order, OrderDisplayResponseDto>().ReverseMap();
-            CreateMap<Product, ProductDisplayResponseDto>();
+            CreateMap<Product, ProductDisplayResponseDto>().ReverseMap();
+            CreateMap<Customer, CustomerDisplayResponseDto>().ReverseMap();
             CreateMap<Seller, SellerDisplayResponseDto>();
 
             CreateMap<CreateNewCategoryRequestDto, Category>().ReverseMap();
@@ -32,6 +34,12 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<UpdateCategoryRequestDto, Category>().ReverseMap();
             CreateMap<UpdateCustomerRequestDto, Customer>().ReverseMap();
             CreateMap<UpdateSellerRequestDto, Seller>().ReverseMap();
+            CreateMap<UpdateCreditCardRequestDto, CreditCard>().ReverseMap();
+
+            CreateMap<UpdateCustomerRequestDto, CustomerDisplayResponseDto>().ReverseMap();
+
+
+            CreateMap<CreateNewCustomerRequestDto,IdentityUser>().ReverseMap();
 
         }
     }

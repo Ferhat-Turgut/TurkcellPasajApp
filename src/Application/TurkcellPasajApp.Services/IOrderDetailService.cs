@@ -1,4 +1,5 @@
-﻿using TurkcellPasajApp.Entities;
+﻿using TurkcellPasajApp.DataTransferObjects.Requests;
+using TurkcellPasajApp.Entities;
 
 namespace TurkcellPasajApp.Services
 {
@@ -6,5 +7,7 @@ namespace TurkcellPasajApp.Services
     {
         Task<OrderDetail>? GetOrderDetailByIdAsync(int orderDetailId);
         OrderDetail? GetOrderDetailById(int orderDetailId);
+        void CreateNewOrderDetail(CreateNewOrderDetailRequestDto createNewOrderDetailRequest);
+        Task CreateNewOrderDetailAsync(CreateNewOrderDetailRequestDto createNewOrderDetailRequest);
     }
 }

@@ -9,6 +9,7 @@ namespace TurkcellPasajApp.Entities
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+        public string? PhotoUrl { get; set; }
 
         public string? Description { get; set; }
 
@@ -29,5 +30,6 @@ namespace TurkcellPasajApp.Entities
 
         public ICollection<OrderDetail>? OrderDetails { get; set; }
         public ICollection<Comment>? Comments { get; set; }
+        public List<Basket> Baskets { get; set; }
     }
 }

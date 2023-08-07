@@ -4,7 +4,7 @@ using TurkcellPasajApp.Entities;
 
 namespace TurkcellPasajApp.Infrastructure.Data
 {
-    public class TurkcellPasajAppDbContext:IdentityDbContext
+    public class TurkcellPasajAppDbContext : IdentityDbContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -16,6 +16,8 @@ namespace TurkcellPasajApp.Infrastructure.Data
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Seller> Sellers { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketProduct> BasketProducts { get; set; }
 
 
         public TurkcellPasajAppDbContext(DbContextOptions<TurkcellPasajAppDbContext> options) : base(options)
@@ -27,20 +29,40 @@ namespace TurkcellPasajApp.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Product>()
-           .Property(p => p.Price)
-           .HasColumnType("decimal(10, 2)");
+                .Property(p => p.Price)
+                .HasColumnType("decimal(10, 2)");
 
             modelBuilder.Entity<CreditCard>()
-            .Property(c => c.AvaibleBalance)
-            .HasColumnType("decimal(18,2)");
+                .Property(c => c.AvaibleBalance)
+                .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<OrderDetail>()
-            .HasOne(od => od.OrderProduct)
-            .WithMany()
-            .HasForeignKey(od => od.OrderProductId)
-            .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(od => od.OrderProduct)
+                .WithMany()
+                .HasForeignKey(od => od.OrderProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Customer>()
+                .HasOne(c => c.Basket)
+                .WithOne(b => b.Customer)
+                .HasForeignKey<Basket>(b => b.CustomerId);
+
+            modelBuilder.Entity<BasketProduct>()
+                .HasKey(bp => new { bp.BasketId, bp.ProductId });
+
+            modelBuilder.Entity<BasketProduct>()
+                .HasOne(bp => bp.Basket)
+                .WithMany(b => b.BasketProducts)
+                .HasForeignKey(bp => bp.BasketId);
+
+            modelBuilder.Entity<BasketProduct>()
+                .HasOne(bp => bp.Product)
+                .WithMany() 
+                .HasForeignKey(bp => bp.ProductId);
+
+           
 
         }
+
     }
 }

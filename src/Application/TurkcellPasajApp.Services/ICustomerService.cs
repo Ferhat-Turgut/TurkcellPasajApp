@@ -1,5 +1,6 @@
 ﻿using TurkcellPasajApp.DataTransferObjects.Requests;
 using TurkcellPasajApp.DataTransferObjects.Responses;
+using TurkcellPasajApp.Entities;
 
 namespace TurkcellPasajApp.Services
 {
@@ -13,5 +14,7 @@ namespace TurkcellPasajApp.Services
         void UpdateCustomer(UpdateCustomerRequestDto updateCustomerRequestDto);
         CustomerDisplayResponseDto GetCustomerById(int customerId);
         Task<CustomerDisplayResponseDto> GetCustomerByIdAsync(int customerId);
+        Customer? GetCustomerByUsername(string username);
+        Task<Customer>? GetCustomerByUsernameAsync(string username);
     }
 }

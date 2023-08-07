@@ -9,6 +9,8 @@ namespace TurkcellPasajApp.Services
         IEnumerable<ProductDisplayResponseDto>? GetAllProductsDisplayResponses();
         Task<IEnumerable<ProductDisplayResponseDto>>? GetAllProductsByCategoryIdAsync(int categoryId);
         IEnumerable<ProductDisplayResponseDto>? GetAllProductsByCategoryId(int categoryId);
+        Task<IEnumerable<ProductDisplayResponseDto>>? GetAllProductsBySelleryIdAsync(int sellerId);
+        IEnumerable<ProductDisplayResponseDto>? GetAllProductsBySelleryId(int sellerId);
         Task CreateProductAsync(CreateNewProductRequestDto createNewProductRequestDto);
         void CreateProduct(CreateNewProductRequestDto createNewProductRequestDto);
         Task DeleteProductAsync(int id);

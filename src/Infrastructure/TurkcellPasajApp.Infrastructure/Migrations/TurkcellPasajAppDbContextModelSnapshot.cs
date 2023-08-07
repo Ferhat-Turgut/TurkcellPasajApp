@@ -220,6 +220,45 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TurkcellPasajApp.Entities.Basket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Baskets");
+                });
+
+            modelBuilder.Entity("TurkcellPasajApp.Entities.BasketProduct", b =>
+                {
+                    b.Property<int>("BasketId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BasketId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BasketProducts");
+                });
+
             modelBuilder.Entity("TurkcellPasajApp.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -483,7 +522,10 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SellerId")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SellerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -548,6 +590,9 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 2)");
@@ -685,6 +730,40 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TurkcellPasajApp.Entities.Basket", b =>
+                {
+                    b.HasOne("TurkcellPasajApp.Entities.Customer", "Customer")
+                        .WithOne("Basket")
+                        .HasForeignKey("TurkcellPasajApp.Entities.Basket", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TurkcellPasajApp.Entities.Product", null)
+                        .WithMany("Baskets")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("TurkcellPasajApp.Entities.BasketProduct", b =>
+                {
+                    b.HasOne("TurkcellPasajApp.Entities.Basket", "Basket")
+                        .WithMany("BasketProducts")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TurkcellPasajApp.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("TurkcellPasajApp.Entities.Comment", b =>
                 {
                     b.HasOne("TurkcellPasajApp.Entities.Product", "CommentProduct")
@@ -749,15 +828,11 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TurkcellPasajApp.Entities.Seller", "Seller")
+                    b.HasOne("TurkcellPasajApp.Entities.Seller", null)
                         .WithMany("Orders")
-                        .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SellerId");
 
                     b.Navigation("Customer");
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.OrderDetail", b =>
@@ -802,6 +877,11 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                     b.Navigation("Seller");
                 });
 
+            modelBuilder.Entity("TurkcellPasajApp.Entities.Basket", b =>
+                {
+                    b.Navigation("BasketProducts");
+                });
+
             modelBuilder.Entity("TurkcellPasajApp.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -809,6 +889,9 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Customer", b =>
                 {
+                    b.Navigation("Basket")
+                        .IsRequired();
+
                     b.Navigation("Comments");
 
                     b.Navigation("CreditCards");
@@ -825,6 +908,8 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Product", b =>
                 {
+                    b.Navigation("Baskets");
+
                     b.Navigation("Comments");
 
                     b.Navigation("OrderDetails");

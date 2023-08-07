@@ -9,6 +9,8 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
 
         IEnumerable<Product> GetAllByCategoryId(int categoryId);
         Task<IEnumerable<Product>> GetAllByCategoryIdAsync(int categoryId);
+        IEnumerable<Product> GetAllBySellerId(int sellerId);
+        Task<IEnumerable<Product>> GetAllBySellerIdAsync(int sellerId);
 
         bool IsInStock(int productId);
         Task<bool> IsInStockAsync(int productId);

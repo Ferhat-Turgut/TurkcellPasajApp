@@ -62,5 +62,17 @@ namespace TurkcellPasajApp.Services
             var usersCreditCards =await _creditCardRepository.GetCreditCardsByCustomerIdAsync(customerId);
             return _mapper.Map<IEnumerable<CreditCardDisplayResponseDto>>(usersCreditCards);
         }
+
+        public void UpdateCreditCard(UpdateCreditCardRequestDto updateCreditCardRequest)
+        {
+            var creditCard = _mapper.Map<CreditCard>(updateCreditCardRequest);
+            _creditCardRepository.Update(creditCard);
+        }
+
+        public async Task UpdateCreditCardAsync(UpdateCreditCardRequestDto updateCreditCardRequest)
+        {
+            var creditCard = _mapper.Map<CreditCard>(updateCreditCardRequest);
+            await _creditCardRepository.UpdateAsync(creditCard);
+        }
     }
 }

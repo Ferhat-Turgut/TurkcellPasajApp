@@ -16,7 +16,7 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         [MaxLength(300)]
         public string Address { get; set; }
         [Required]
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
         [Required]
         public string Email { get; set; }
         [Required]

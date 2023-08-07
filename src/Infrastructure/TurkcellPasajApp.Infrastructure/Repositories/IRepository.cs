@@ -1,4 +1,6 @@
-﻿namespace TurkcellPasajApp.Infrastructure.Repositories
+﻿using TurkcellPasajApp.Entities;
+
+namespace TurkcellPasajApp.Infrastructure.Repositories
 {
     public interface IRepository<T> where T : class, new()
     {
@@ -12,6 +14,6 @@
         Task UpdateAsync(T entity);
 
         T? Get(int id);
-        Task<T?> GetAsync(int id);
+        Task<T>? GetAsync(int id);
     }
 }

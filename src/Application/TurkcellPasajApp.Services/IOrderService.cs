@@ -9,8 +9,8 @@ namespace TurkcellPasajApp.Services
         IEnumerable<OrderDisplayResponseDto>? GetAllOrdersByCustomerId(int customerId);
         Task<IEnumerable<OrderDisplayResponseDto>>? GetAllOrdersBySellerIdAsync(int sellerId);
         IEnumerable<OrderDisplayResponseDto>? GetAllOrdersBySellerId(int sellerId);
-        Task CreateOrderAsync(CreateNewOrderRequestDto createNewOrderRequestDto);
-        void CreateOrder(CreateNewOrderRequestDto createNewOrderRequestDto);
+        Task<int> CreateOrderAndReturnIdAsync(CreateNewOrderRequestDto createNewOrderRequestDto);
+        int CreateOrderAndReturnId(CreateNewOrderRequestDto createNewOrderRequestDto);
         Task DeleteOrderAsync(int id);
         void DeleteOrder(int id);
         Task<OrderDisplayResponseDto?> GetOrderByIdAsync(int orderId);

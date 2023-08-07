@@ -60,9 +60,6 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             var categories = await _turkcellPasajAppDbContext.Categories.ToListAsync();
             return categories;
         }
-
-
-
         public void Update(Category entity)
         {
             _turkcellPasajAppDbContext.Categories.Update(entity);

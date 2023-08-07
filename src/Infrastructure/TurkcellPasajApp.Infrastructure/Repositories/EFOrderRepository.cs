@@ -74,17 +74,17 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             return customerOrders;
         }
 
-        public IEnumerable<Order>? GetAllBySellerId(int sellerId)
-        {
-            var sellerOrders = _turkcellPasajAppDbContext.Orders.Where(o => o.SellerId == sellerId).ToList().AsEnumerable();
-            return sellerOrders;
-        }
+        //public IEnumerable<Order>? GetAllBySellerId(int sellerId)
+        //{
+        //    var sellerOrders = _turkcellPasajAppDbContext.Orders.Where(o => o.OrderDetails == sellerId).ToList().AsEnumerable();
+        //    return sellerOrders;
+        //}
 
-        public async Task<IEnumerable<Order>>? GetAllBySellerIdAsync(int sellerId)
-        {
-            var sellerOrders = await _turkcellPasajAppDbContext.Orders.Where(o => o.SellerId == sellerId).ToListAsync();
-            return sellerOrders;
-        }
+        //public async Task<IEnumerable<Order>>? GetAllBySellerIdAsync(int sellerId)
+        //{
+        //    var sellerOrders = await _turkcellPasajAppDbContext.Orders.Where(o => o.SellerId == sellerId).ToListAsync();
+        //    return sellerOrders;
+        //}
 
 
 
@@ -98,6 +98,30 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             _turkcellPasajAppDbContext.Orders.Update(entity);
             await _turkcellPasajAppDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Order>? GetAllBySellerId(int sellerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Order>>? GetAllBySellerIdAsync(int sellerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> CreateOrderAndReturnIdAsync(Order order)
+        {
+            await _turkcellPasajAppDbContext.Orders.AddAsync(order);
+            await _turkcellPasajAppDbContext.SaveChangesAsync();
+            return order.Id;
+        }
+
+        public int CreateOrderAndReturnId(Order order)
+        {
+             _turkcellPasajAppDbContext.Orders.Add(order);
+             _turkcellPasajAppDbContext.SaveChanges();
+            return order.Id;
         }
     }
 }
