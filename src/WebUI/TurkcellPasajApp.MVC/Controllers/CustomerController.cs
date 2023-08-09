@@ -164,7 +164,7 @@ namespace TurkcellPasajApp.MVC.Controllers
         public async Task<IActionResult> Profile()
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
-            var customer=_customerService.GetCustomerById((int)customerId);
+            var customer=await _customerService.GetCustomerByIdAsync((int)customerId);
             return View(customer);
             
         }
@@ -208,15 +208,7 @@ namespace TurkcellPasajApp.MVC.Controllers
             await _customerService.UpdateCustomerAsync(updateCustomerRequestDto);
             return RedirectToAction("Profile");
         }
-        [HttpPost]
-        [Authorize(Roles = "customer")]
-        public async Task<IActionResult> DeleteCustomer()
-        {
-            var customerId = HttpContext.Session.GetInt32("CustomerId");
-            await _customerService.DeleteCustomerAsync((int)customerId);
-            return RedirectToAction("Index", "Home");
-        }
-       
+     
     }
 }
    

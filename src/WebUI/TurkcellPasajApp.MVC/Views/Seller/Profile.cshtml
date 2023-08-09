@@ -1,4 +1,4 @@
-﻿@model TurkcellPasajApp.DataTransferObjects.Responses.CustomerDisplayResponseDto
+﻿@model TurkcellPasajApp.DataTransferObjects.Responses.SellerDisplayResponseDto
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Profil";
@@ -18,18 +18,6 @@
                 <div class="col-md-4">Ad:</div>
                 <div class="col-md-8">@Model.Name</div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Soyad:</div>
-                <div class="col-md-8">@Model.Surname</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Doğum Tarihi:</div>
-                <div class="col-md-8">@Model.BirthDate</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Cinsiyet:</div>
-                <div class="col-md-8">@Model.Gender</div>
-            </div>
         </div>
         <div class="col-md-6">
             <h2>İletişim Bilgileri</h2>
@@ -45,25 +33,13 @@
                 <div class="col-md-4">Adres:</div>
                 <div class="col-md-8">@Model.Address</div>
             </div>
-            <div class="col-md-6">
-                <h2>Ödeme Bilgileri</h2>
-                @foreach (var cards in Model.creditCards)
-                {
-                    <div class="row mb-3">
-                        <div class="col-md-4">Kart Numarası:</div>
-                        <div class="col-md-8">@cards.CardNumber</div>
-                        <div class="col-md-4">Kart Bakiyesi:</div>
-                        <div class="col-md-8">@cards.AvaibleBalance</div>
-                    </div>
-                }
-            </div>
         </div>
     </div>
 
 
     <!-- Profili düzenleme veya diğer işlemler için düğmeler -->
     <div class="mb-4">
-        <a href="/Customer/EditProfile" class="btn btn-primary">Profili Düzenle</a>
+        <a href="/Seller/EditProfile" class="btn btn-primary">Profili Düzenle</a>
     </div>
 </div>
 

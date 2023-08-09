@@ -67,5 +67,13 @@ namespace TurkcellPasajApp.MVC.Controllers
             // Kayıt işlemi başarısız oldu, formu tekrar gösterin.
             return RedirectToAction("Register", "Home", createNewSellerRequestDto);
         }
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var sellerId = HttpContext.Session.GetInt32("SellerId");
+            var seller =await _sellerService.GetSellerByIdAsync((int)sellerId);
+            return View(seller);
+           
+        }
     }
 }

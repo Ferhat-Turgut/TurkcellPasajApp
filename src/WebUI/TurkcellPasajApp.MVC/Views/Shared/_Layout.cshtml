@@ -53,7 +53,7 @@
                     <!-- Orta kısım -->
                     <div class="order-lg-last col-lg-5 col-sm-8 col-8">
                         <div class="d-flex justify-content-between align-items-center flex-fill">
-                            @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated&&User.IsInRole("customer"))
                             {
                                 <!-- Sepet simgesini içeren div -->
                                 <div class="position-relative">
@@ -62,8 +62,21 @@
                                         <p class="d-none d-md-block mb-0">Sepetim</p>
                                     </a>
                                 </div>
-                                <!-- Profil ve Çıkış Yap linkleri -->
+                                <!--Customer Profil ve Çıkış Yap linkleri -->
                                 <a href="/Customer/Profile" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                    <i class="fas fa-user m-1 me-md-2"></i>
+                                    <p class="d-none d-md-block mb-0">Profilim</p>
+                                </a>
+                                <a href="/Home/Logout" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                    <i class="fas fa-sign-out-alt m-1 me-md-2"></i>
+                                    <p class="d-none d-md-block mb-0">Çıkış Yap</p>
+                                </a>
+                            }
+                            else if (User.Identity.IsAuthenticated && User.IsInRole("seller"))
+                            {
+                               
+                                <!--Seller Profil ve Çıkış Yap linkleri -->
+                                <a href="/Seller/Profile" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
                                     <i class="fas fa-user m-1 me-md-2"></i>
                                     <p class="d-none d-md-block mb-0">Profilim</p>
                                 </a>
