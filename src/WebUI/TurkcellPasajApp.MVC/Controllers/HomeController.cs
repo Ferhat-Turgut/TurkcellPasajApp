@@ -92,7 +92,8 @@ namespace TurkcellPasajApp.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> Categories()

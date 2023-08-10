@@ -10,8 +10,8 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         void RemoveProductToBasketProduct(BasketProduct basketProduct);
         Task RemoveProductToBasketProductAsync(BasketProduct basketProduct);
 
-        int  GetCustomerBasketId(int customerId);
-        Task<int> GetCustomerBasketIdAsync(int customerId);
+        int?  GetCustomerBasketId(int customerId);
+        Task<int>? GetCustomerBasketIdAsync(int customerId);
 
         bool IsCustomerHaveBasket(int customerId);
         Task<bool> IsCustomerHaveBasketAsync(int customerId);

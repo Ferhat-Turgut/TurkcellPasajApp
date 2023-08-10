@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TurkcellPasajApp.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TurkcellPasajApp.Infrastructure.Data;
 namespace TurkcellPasajApp.Infrastructure.Migrations
 {
     [DbContext(typeof(TurkcellPasajAppDbContext))]
-    partial class TurkcellPasajAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230810202503_fixSellerTable")]
+    partial class fixSellerTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,10 +234,15 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId")
                         .IsUnique();
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Baskets");
                 });
@@ -733,6 +741,10 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TurkcellPasajApp.Entities.Product", null)
+                        .WithMany("Baskets")
+                        .HasForeignKey("ProductId");
+
                     b.Navigation("Customer");
                 });
 
@@ -899,6 +911,8 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Product", b =>
                 {
+                    b.Navigation("Baskets");
+
                     b.Navigation("Comments");
 
                     b.Navigation("OrderDetails");

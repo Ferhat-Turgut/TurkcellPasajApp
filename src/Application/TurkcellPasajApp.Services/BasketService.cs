@@ -42,25 +42,25 @@ namespace TurkcellPasajApp.Services
              await _basketRepository.DeleteAsync(id);
         }
 
-        public Basket GetBasket(int customerId)
+        public Basket? GetBasket(int customerId)
         {
             var basket=_basketRepository.Get(customerId);
             return basket;
         }
 
-        public async Task<Basket> GetBasketAsync(int customerId)
+        public async Task<Basket>? GetBasketAsync(int customerId)
         {
             var basket =await _basketRepository.GetAsync(customerId);
             return basket;
         }
 
-        public int GetCustomerBasketId(int customerId)
+        public int? GetCustomerBasketId(int customerId)
         {
             var customersBasketId=_basketRepository.GetCustomerBasketId(customerId);
             return customersBasketId;
         }
 
-        public async Task<int> GetCustomerBasketIdAsync(int customerId)
+        public async Task<int>? GetCustomerBasketIdAsync(int customerId)
         {
             var customersBasketId =await _basketRepository.GetCustomerBasketIdAsync(customerId);
             return customersBasketId;

@@ -18,6 +18,6 @@ namespace TurkcellPasajApp.Entities
         public List<Product> Products { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<Message>? Messages { get; set; }
-        public List<Order>? Orders { get; set; }
+        public List<OrderDetail>? OrderDetails { get; set; }
     }
 }

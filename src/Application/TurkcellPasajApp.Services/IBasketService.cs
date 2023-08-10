@@ -10,13 +10,13 @@ namespace TurkcellPasajApp.Services
         void RemoveProductToBasketProduct(BasketProduct basketProduct);
         Task RemoveProductToBasketProductAsync(BasketProduct basketProduct);
 
-        int GetCustomerBasketId(int customerId);
-        Task<int> GetCustomerBasketIdAsync(int customerId);
+        int? GetCustomerBasketId(int customerId);
+        Task<int>? GetCustomerBasketIdAsync(int customerId);
 
         bool IsCustomerHaveBasket(int customerId);
         Task<bool> IsCustomerHaveBasketAsync(int customerId);
-        Basket GetBasket(int customerId);
-        Task<Basket> GetBasketAsync(int customerId);
+        Basket? GetBasket(int customerId);
+        Task<Basket>? GetBasketAsync(int customerId);
 
         Task CreateBasketAsync(Basket basket);
         void CreateBasket(Basket basket);

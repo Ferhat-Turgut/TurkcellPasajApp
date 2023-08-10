@@ -147,7 +147,7 @@ namespace TurkcellPasajApp.MVC.Controllers
             var customerId = HttpContext.Session.GetInt32("CustomerId");
             BasketProduct basketProduct = new BasketProduct
             {
-                BasketId = _basketService.GetCustomerBasketId((int)customerId),
+                BasketId =await _basketService.GetCustomerBasketIdAsync((int)customerId),
                 ProductId=productId
             };
             await _basketService.RemoveProductToBasketProductAsync(basketProduct);
