@@ -35,7 +35,7 @@ namespace TurkcellPasajApp.MVC.Controllers
         [Authorize(Roles = "customer")]
         public async Task<IActionResult> Index(int id)
         {
-            var customerIndexViewModel = new CustomerIndexPageViewModel
+            var customerIndexViewModel = new ShowProductsViewModel
             {
                 Products = await _productService.GetAllProductsDisplayResponsesAsync(),
                 Favourites = await _favouriteService.GetCustomersAllFavouritesAsync(id),

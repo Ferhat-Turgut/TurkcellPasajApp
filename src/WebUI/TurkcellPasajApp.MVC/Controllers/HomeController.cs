@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TurkcellPasajApp.Entities;
 using TurkcellPasajApp.MVC.Models;
+using TurkcellPasajApp.MVC.ViewModels;
 using TurkcellPasajApp.Services;
 
 namespace TurkcellPasajApp.MVC.Controllers
@@ -17,18 +18,19 @@ namespace TurkcellPasajApp.MVC.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ICustomerService _customerService;
+        private readonly IFavouriteService _favouriteService;
         private readonly ISellerService _sellerService;
         private readonly IMapper _mapper;
         private readonly ICategoryService _categoryService;
-       
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ICustomerService customerService, ISellerService sellerService, IMapper mapper, ICategoryService categoryService)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ICustomerService customerService, IFavouriteService favouriteService, ISellerService sellerService, IMapper mapper, ICategoryService categoryService)
         {
             _logger = logger;
             _productService = productService;
             _signInManager = signInManager;
             _userManager = userManager;
             _customerService = customerService;
+            _favouriteService = favouriteService;
             _sellerService = sellerService;
             _mapper = mapper;
             _categoryService = categoryService;
@@ -36,8 +38,18 @@ namespace TurkcellPasajApp.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products=await _productService.GetAllProductsDisplayResponsesAsync();
-            return View(products);
+            var products = await _productService.GetAllProductsDisplayResponsesAsync();
+            ShowProductsViewModel showProductsViewModel = new ShowProductsViewModel
+            {
+                Products = products
+            };
+            if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
+            {
+                var userId= HttpContext.Session.GetInt32("CustomerId");
+                showProductsViewModel.Favourites = await _favouriteService.GetCustomersAllFavouritesAsync((int)userId);
+            }
+           
+            return View(showProductsViewModel);
         }
         [HttpGet]
         public IActionResult Login()
@@ -83,9 +95,9 @@ namespace TurkcellPasajApp.MVC.Controllers
         }
        
         [HttpGet]
-        public  IActionResult ProductDetail(int productId)
+        public  IActionResult ProductDetail(int id)
         {
-            var product=_productService.GetProductById(productId);
+            var product=_productService.GetProductById(id);
             
             return View(_mapper.Map<Product>(product));
         }
@@ -105,6 +117,21 @@ namespace TurkcellPasajApp.MVC.Controllers
         {
             var products = await _productService.GetAllProductsByCategoryIdAsync(Id);
             return View(products);
+        }
+        [HttpGet]
+        public async Task<IActionResult> SearchProduct(string searchText)
+        {
+            ShowProductsViewModel showProductsViewModel = new ShowProductsViewModel
+            {
+                Products= await _productService.GetProductsForSearchAsync(searchText)
+            };
+            if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
+            {
+                var userId = HttpContext.Session.GetInt32("CustomerId");
+                showProductsViewModel.Favourites = await _favouriteService.GetCustomersAllFavouritesAsync((int)userId);
+            }
+
+            return View(showProductsViewModel);
         }
         [HttpPost]
         public IActionResult Privacy()

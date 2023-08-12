@@ -87,6 +87,18 @@ namespace TurkcellPasajApp.Services
             return _mapper.Map<ProductDisplayResponseDto>(product);
         }
 
+        public IEnumerable<ProductDisplayResponseDto>? GetProductsForSearch(string searchText)
+        {
+            var products=_productRepository.GetProductsForSearch(searchText);
+            return _mapper.Map<IEnumerable<ProductDisplayResponseDto>>(products);
+        }
+
+        public async Task<IEnumerable<ProductDisplayResponseDto>>? GetProductsForSearchAsync(string searchText)
+        {
+            var products =await _productRepository.GetProductsForSearchAsync(searchText);
+            return _mapper.Map<IEnumerable<ProductDisplayResponseDto>>(products);
+        }
+
         public bool IsInStock(int productId)
         {
             return _productRepository.IsInStock(productId);

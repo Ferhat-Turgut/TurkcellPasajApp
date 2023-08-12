@@ -5,6 +5,7 @@ using TurkcellPasajApp.Infrastructure.Data;
 namespace TurkcellPasajApp.Infrastructure.Repositories
 {
     public class EFProductRepository : IProductRepository
+
     {
         private readonly TurkcellPasajAppDbContext _turkcellPasajAppDbContext;
 
@@ -119,6 +120,18 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             var productsBySeller = await _turkcellPasajAppDbContext.Products.Where(p => p.SellerId == sellerId).ToListAsync();
             return productsBySeller;
+        }
+
+        public IEnumerable<Product>? GetProductsForSearch(string searchText)
+        {
+            var products = _turkcellPasajAppDbContext.Products.Where(p=>p.Name.Contains(searchText)).ToList().AsEnumerable();
+            return products;
+        }
+
+        public async Task<IEnumerable<Product>>? GetProductsForSearchAsync(string searchText)
+        {
+            var products =await _turkcellPasajAppDbContext.Products.Where(p => p.Name.Contains(searchText)).ToListAsync();
+            return products;
         }
     }
 }

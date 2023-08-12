@@ -1,13 +1,14 @@
 ﻿@model TurkcellPasajApp.MVC.ViewModels.ShowProductsViewModel
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Anasayfa";
+    ViewData["Title"] = "Arama Sonuçları";
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>@ViewData["Title"]</title>
+   
 </head>
 <body>
     @Html.Partial("_ShowProductsPartialView",Model)

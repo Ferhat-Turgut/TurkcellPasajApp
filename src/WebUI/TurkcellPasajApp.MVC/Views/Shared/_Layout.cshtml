@@ -100,25 +100,27 @@
 
                     </div>
                     <!-- Orta kısım -->
-                    <!-- Sağ kısım -->
+                    <!-- Ürün arama yapma kısmı -->
                     <div class="col-lg-5 col-md-12 col-12">
-                        <div class="input-group float-center">
-                            <div class="form-outline">
-                                <input type="search" id="form1" class="form-control" style="width: 400px;" placeholder="Ara">
-                            </div>
-                            <button type="button" class="btn btn-primary shadow-0" style="margin-left: -40px;">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </div>
+                        <form id="searchForm" asp-controller="Home" asp-action="SearchProduct" method="get">
+                                <div class="input-group float-center">
+                                    <div class="form-outline">
+                                        <input type="search" id="searchInput" class="form-control" style="width: 400px;" placeholder="Ürün ara" name="searchText">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary shadow-0" style="margin-left: -40px;">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </div>
+                        </form>
+
                     </div>
-                    <!-- Sağ kısım -->
+                    <!-- Ürün arama yapma kısmı -->
 
                 </div>
             </div>
         </div>
     </header>
-    <!-- Header içeriği buraya gelecek -->
-    <!-- Header içeriği buraya gelecek -->
+   
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <!-- Container wrapper -->
