@@ -45,10 +45,10 @@ namespace TurkcellPasajApp.MVC.Controllers
             };
             if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
             {
-                var userId= HttpContext.Session.GetInt32("CustomerId");
+                var userId = HttpContext.Session.GetInt32("CustomerId");
                 showProductsViewModel.Favourites = await _favouriteService.GetCustomersAllFavouritesAsync((int)userId);
             }
-           
+
             return View(showProductsViewModel);
         }
         [HttpGet]
@@ -80,7 +80,7 @@ namespace TurkcellPasajApp.MVC.Controllers
                     }
                     else if (roles.Contains("seller"))
                     {
-                        var seller =await _sellerService.GetSellerByUsernameAsync(user.UserName);
+                        var seller = await _sellerService.GetSellerByUsernameAsync(user.UserName);
                         if (seller != null)
                         {
                             HttpContext.Session.SetInt32("SellerId", seller.Id);
@@ -93,12 +93,12 @@ namespace TurkcellPasajApp.MVC.Controllers
 
             return RedirectToAction("Login");
         }
-       
+
         [HttpGet]
-        public  IActionResult ProductDetail(int id)
+        public IActionResult ProductDetail(int id)
         {
-            var product=_productService.GetProductById(id);
-            
+            var product = _productService.GetProductById(id);
+
             return View(_mapper.Map<Product>(product));
         }
         [HttpGet]
@@ -110,20 +110,28 @@ namespace TurkcellPasajApp.MVC.Controllers
         }
         public async Task<IActionResult> Categories()
         {
-            var categories=await _categoryService.GetAllCategoryDisplayResponsesAsync();
+            var categories = await _categoryService.GetAllCategoryDisplayResponsesAsync();
             return View(categories);
         }
         public async Task<IActionResult> ProductByCategory(int Id)
         {
-            var products = await _productService.GetAllProductsByCategoryIdAsync(Id);
-            return View(products);
+            ShowProductsViewModel showProductsViewModel = new ShowProductsViewModel
+            {
+                Products = await _productService.GetAllProductsByCategoryIdAsync(Id)
+            };
+            if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
+            {
+                var userId = HttpContext.Session.GetInt32("CustomerId");
+                showProductsViewModel.Favourites = await _favouriteService.GetCustomersAllFavouritesAsync((int)userId);
+            }
+            return View(showProductsViewModel);
         }
         [HttpGet]
         public async Task<IActionResult> SearchProduct(string searchText)
         {
             ShowProductsViewModel showProductsViewModel = new ShowProductsViewModel
             {
-                Products= await _productService.GetProductsForSearchAsync(searchText)
+                Products = await _productService.GetProductsForSearchAsync(searchText)
             };
             if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
             {

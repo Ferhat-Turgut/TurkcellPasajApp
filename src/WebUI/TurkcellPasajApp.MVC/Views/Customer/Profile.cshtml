@@ -4,67 +4,119 @@
     ViewData["Title"] = "Profil";
 }
 
-<div class="container mt-5">
-    <h1 class="mb-4">Profil</h1>
+<head>
+    <style>
+        .profile-section {
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
 
-    <div class="row mb-5">
-        <div class="col-md-6">
-            <h2>Temel Bilgiler</h2>
-            <div class="row mb-3">
-                <div class="col-md-4">Kullanıcı Adı:</div>
-                <div class="col-md-8">@Model.Username</div>
+        .edit-profile-button {
+            background-color: white;
+            color: black;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+            .edit-profile-button:hover {
+                background-color: #ffc900 !important;
+                color: black !important;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Profil</h1>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a href="#temelBilgiler" class="list-group-item list-group-item-action">Temel Bilgiler</a>
+                    <a href="#iletisimBilgileri" class="list-group-item list-group-item-action">İletişim Bilgileri</a>
+                    <a href="#odemeBilgileri" class="list-group-item list-group-item-action">Ödeme Bilgileri</a>
+                </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Ad:</div>
-                <div class="col-md-8">@Model.Name</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Soyad:</div>
-                <div class="col-md-8">@Model.Surname</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Doğum Tarihi:</div>
-                <div class="col-md-8">@Model.BirthDate.Value.ToString("dd-MM-yyyy")</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Cinsiyet:</div>
-                <div class="col-md-8">@Model.Gender</div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <h2>İletişim Bilgileri</h2>
-            <div class="row mb-3">
-                <div class="col-md-4">Email:</div>
-                <div class="col-md-8">@Model.Email</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Telefon:</div>
-                <div class="col-md-8">@Model.PhoneNumber</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">Adres:</div>
-                <div class="col-md-8">@Model.Address</div>
-            </div>
-            <div class="col-md-6">
-                <h2>Ödeme Bilgileri</h2>
-                @foreach (var cards in Model.creditCards)
-                {
+            <div class="col-md-9">
+                <div id="temelBilgiler" class="profile-section">
+                    <h2>Temel Bilgiler</h2>
                     <div class="row mb-3">
-                        <div class="col-md-4">Kart Numarası:</div>
-                        <div class="col-md-8">@cards.CardNumber</div>
-                        <div class="col-md-4">Kart Bakiyesi:</div>
-                        <div class="col-md-8">@cards.AvaibleBalance</div>
+                        <div class="col-md-4">Kullanıcı Adı:</div>
+                        <div class="col-md-8">@Model.Username</div>
                     </div>
-                }
+                    <div class="row mb-3">
+                        <div class="col-md-4">Ad:</div>
+                        <div class="col-md-8">@Model.Name</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">Soyad:</div>
+                        <div class="col-md-8">@Model.Surname</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">Doğum Tarihi:</div>
+                        <div class="col-md-8">@Model.BirthDate.Value.ToString("dd-MM-yyyy")</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">Cinsiyet:</div>
+                        <div class="col-md-8">@Model.Gender</div>
+                    </div>
+                </div>
+
+                <div id="iletisimBilgileri" class="profile-section">
+                    <h2>İletişim Bilgileri</h2>
+                    <div class="row mb-3">
+                        <div class="col-md-4">Email:</div>
+                        <div class="col-md-8">@Model.Email</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">Telefon:</div>
+                        <div class="col-md-8">@Model.PhoneNumber</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">Adres:</div>
+                        <div class="col-md-8">@Model.Address</div>
+                    </div>
+                </div>
+
+                <div id="odemeBilgileri" class="profile-section">
+                    <h2>Ödeme Bilgileri</h2>
+                    @foreach (var card in Model.creditCards)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-4">Kart Numarası:</div>
+                            <div class="col-md-8">@card.CardNumber</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">Kart Bakiyesi:</div>
+                            <div class="col-md-8">@card.AvaibleBalance</div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <!-- Profili düzenleme veya diğer işlemler için düğmeler -->
-    <div class="mb-4">
-        <a href="/Customer/EditProfile" class="btn btn-primary">Profili Düzenle</a>
+        <div class="mt-4">
+            <a href="/Customer/EditProfile" class="btn btn-primary shadow-0 me-1 align-items-center edit-profile-button">Profili Düzenle</a>
+        </div>
     </div>
-</div>
+           
+</body>
+<script>
+    // Seçeneklere tıklandığında ilgili bölümü görünür hale getir
+    document.querySelectorAll('.list-group-item-action').forEach(item => {
+        item.addEventListener('click', event => {
+            const targetSectionId = event.currentTarget.getAttribute('href');
+            const targetSection = document.querySelector(targetSectionId);
+            if (targetSection) {
+                document.querySelectorAll('.profile-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                targetSection.style.display = 'block';
+            }
+        });
+    });
+</script>
+
 
 

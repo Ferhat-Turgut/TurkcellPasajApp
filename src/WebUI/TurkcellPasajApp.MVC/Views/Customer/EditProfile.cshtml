@@ -4,63 +4,80 @@
     Layout = "_Layout";
     ViewData["Title"] = "Profil Güncelle";
 }
+<head>
+    <style>
+        .edit-profile-button {
+            background-color: white !important;
+            color: black;
+            transition: background-color 0.3s; /* Geçiş efekti ekleniyor */
+        }
 
-<div class="container mt-5">
-    <h1>Profil Güncelle</h1>
+            .edit-profile-button:hover {
+                background-color: #ffbb00 !important; /* Hover durumunda farklı bir renk */
+            }
+    </style>
 
-    <form asp-controller="Customer" asp-action="EditProfile" method="post">
-        <div class="form-group">
-            <label for="Username">Kullanıcı Adı:</label>
-            <input type="text" id="Username" name="Username" class="form-control" value="@User.Identity.Name" readonly>
-        </div>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Profil Güncelle</h1>
 
-        <div class="form-group">
-            <label for="Name">Ad:</label>
-            <input type="text" id="Name" name="Name" class="form-control" value="@Model.Name" required>
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
+        <form asp-controller="Customer" asp-action="EditProfile" method="post">
+            <div class="form-group">
+                <label for="Username">Kullanıcı Adı:</label>
+                <input type="text" id="Username" name="Username" class="form-control" value="@User.Identity.Name" readonly>
+            </div>
 
-        <div class="form-group">
-            <label for="Surname">Soyad:</label>
-            <input type="text" id="Surname" name="Surname" class="form-control" value="@Model.Surname" required>
-            <span asp-validation-for="Surname" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label for="Name">Ad:</label>
+                <input type="text" id="Name" name="Name" class="form-control" value="@Model.Name" required>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label for="BirthDate">Doğum Tarihi:</label>
-            <input type="date" id="BirthDate" name="BirthDate" class="form-control" value="@Model.BirthDate?.ToString("yyyy-MM-dd")">
-            <span asp-validation-for="BirthDate" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label for="Surname">Soyad:</label>
+                <input type="text" id="Surname" name="Surname" class="form-control" value="@Model.Surname" required>
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label for="Gender">Cinsiyet:</label>
-            <select id="Gender" name="Gender" class="form-control">
-                <option value="">Seçiniz</option>
-                <option value="Erkek" selected="@Model.Gender == " Erkek"">Erkek</option>
-                <option value="Kadın" selected="@Model.Gender == " Kadın"">Kadın</option>
-            </select>
-            <span asp-validation-for="Gender" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label for="BirthDate">Doğum Tarihi:</label>
+                <input type="date" id="BirthDate" name="BirthDate" class="form-control" value="@Model.BirthDate?.ToString("yyyy-MM-dd")">
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
 
-        
+            <div class="form-group">
+                <label for="Gender">Cinsiyet:</label>
+                <select id="Gender" name="Gender" class="form-control">
+                    <option value="">Seçiniz</option>
+                    <option value="Erkek" selected="@Model.Gender == " Erkek"">Erkek</option>
+                    <option value="Kadın" selected="@Model.Gender == " Kadın"">Kadın</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label for="Address">Adres:</label>
-            <textarea id="Address" name="Address" class="form-control" required>@Model.Address</textarea>
-            <span asp-validation-for="Address" class="text-danger"></span>
-        </div>
 
-        <div class="form-group">
-            <label for="PhoneNumber">Telefon:</label>
-            <input type="tel" id="PhoneNumber" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber">
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="Email">Email:</label>
-            <input type="email" id="Email" name="Email" class="form-control" value="@Model.Email">
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
 
-        <button type="submit" class="btn btn-primary">Güncelle</button>
-    </form>
-</div>
+            <div class="form-group">
+                <label for="Address">Adres:</label>
+                <textarea id="Address" name="Address" class="form-control" required>@Model.Address</textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="PhoneNumber">Telefon:</label>
+                <input type="tel" id="PhoneNumber" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber">
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" class="form-control" value="@Model.Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary edit-profile-button">Güncelle</button>
+        </form>
+    </div>
+
+</body>

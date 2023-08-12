@@ -14,68 +14,103 @@
         margin: 0 auto;
         width: 70%;
     }
-</style>
-<body>
-    <h3 style="text-align: center;">Sepetim</h3>
 
+    .custom-button {
+        background-color: white !important;
+        color: black;
+        transition: background-color 0.3s; /* Geçiş efekti ekleniyor */
+    }
 
-    @if (Model != null)
-    {
-        <table class="table table-bordered table-hover">
-            <thead class="text-center">
-                <tr>
-                    <th>Fotoğraf</th>
-                    <th>Ürün Adı</th>
-                    <th>Fiyat</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var product in Model.BasketProducts)
-                {
-                    <tr>
-                        <td class="align-middle text-center">
-                            <img src="/ProductPhotos/@product.Product.PhotoUrl" alt="@product.Product.Name" width="100" height="100" />
-                        </td>
-                        <td class="align-middle text-center">@product.Product.Name</td>
-                        <td class="align-middle text-center">@product.Product.Price.ToString("C2")</td>
-                        <td class="align-middle text-center">
-                            <button class="btn btn-danger" onclick="removeFromBasket(@product.Product.Id)">Kaldır</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @* Sepet toplamı hesaplanır *@
-        decimal totalPrice = 0;
-        foreach (var product in Model.BasketProducts)
-        {
-            totalPrice += product.Product.Price;
+        .custom-button:hover {
+            background-color: #ffbb00 !important; /* Hover durumunda farklı bir renk */
         }
 
-        <div class="text-end">
-            <h4>Toplam Tutar: @totalPrice.ToString("C2")</h4>
-        </div>
+</style>
+<body>
+    <div class="container">
+        <h3 class="text-center">Sepetim</h3>
 
-        <form asp-controller="Order" asp-action="Index" method="get">
-            <div class="text-end mt-4">
-                <button type="submit" class="btn btn-primary">Sepeti Onayla</button>
+        @if (Model!=null&&Model.BasketProducts.Count() != 0)
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="text-center">
+                    <tr>
+                        <th>Fotoğraf</th>
+                        <th>Ürün Adı</th>
+                        <th>Fiyat</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var product in Model.BasketProducts)
+                    {
+                        <tr>
+                            <td class="align-middle text-center">
+                                <img src="/ProductPhotos/@product.Product.PhotoUrl" alt="@product.Product.Name" width="100" height="100" />
+                            </td>
+                            <td class="align-middle text-center">@product.Product.Name</td>
+                            <td class="align-middle text-center">@product.Product.Price.ToString("C2")</td>
+                            <td class="align-middle text-center">
+                                <button class="btn btn-danger" onclick="removeFromBasket(@product.Product.Id)">Kaldır</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @* Sepet toplamı hesaplanır *@
+            decimal totalPrice = 0;
+            foreach (var product in Model.BasketProducts)
+            {
+                totalPrice += product.Product.Price;
+            }
+
+            <div class="text-end">
+                <h4>Toplam Tutar: @totalPrice.ToString("C2")</h4>
             </div>
-        </form>
 
-    }
-    else
-    {
-        <div class="empty-basket">
-            <p>Sepetinizde ürün bulunmamaktadır.</p>
+            <form asp-controller="Order" asp-action="Index" method="get">
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-primary custom-button">
+                        Sepeti Onayla
+                    </button>
+                </div>
+            </form>
+
+        }
+        else
+        {
+            <div class="empty-basket text-center">
+                <p>Sepetinizde ürün bulunmamaktadır.</p>
+            </div>
+        }
+        <!--ToastModal-->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToastBasket" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Sepet Bilgisi</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body"> </div>
+            </div>
         </div>
-    }
+        <!--ToastModal-->
+    </div>
 </body>
+
+
 
 <!-- jQuery kütüphanesini ekleyin -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    // Tost bildirimi gösteren fonksiyon
+    function showToast(message) {
+        var toastBody = document.querySelector("#liveToastBasket .toast-body");
+        toastBody.textContent = message;
+        var toast = new bootstrap.Toast(document.getElementById('liveToastBasket'));
+        toast.show();
+    }
     function removeFromBasket(productId) {
         // Ajax isteği yapalım
         $.ajax({
@@ -83,8 +118,10 @@
             url: "/Customer/RemoveToBasket",
             data: { productId: productId },
             success: function (data) {
-                alert("Ürün sepetten kaldırıldı.");
+
+                showToast("Ürün sepetten çıkarıldı.");
                 location.reload();
+
             },
             error: function () {
                 alert("Bir hata oluştu.");

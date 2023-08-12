@@ -3,31 +3,29 @@
 <head>
     <title>@ViewData["Title"]</title>
     <!-- Head içeriği buraya gelecek -->
-    <link href="~/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <style>
-        .icon-hover:hover {
-            border-color: #3b71ca !important;
-            background-color: white !important;
+        .custom-panel-button {
+            background-color: white;
+            color: black;
+            border: 1px solid black; /* Kenarlık eklemek isterseniz */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Geçiş efekti ekleniyor */
         }
 
-            .icon-hover:hover i {
-                color: #3b71ca !important;
-            }
-
-        .custom-cart-button {
-            background-color: #ffc900;
-            color: white; 
+        .custom-panel-button:hover {
+            background-color: #ffc900 !important; /* Hover durumunda arka plan rengi ffc900 */
+            color: black !important; /* Hover durumunda metin rengi siyah */
         }
+
         footer {
-            position: relative; 
+            position: relative;
             left: 0;
             bottom: 0;
             width: 100%;
-            height: auto; 
+            height: auto;
             background-color: #343a40;
-            color: white; 
+            color: white;
             padding: 15px;
         }
 
@@ -40,7 +38,7 @@
 </head>
 
 <body>
-  
+
     <header>
         <!-- Main Navigation içeriği buraya gelecek -->
         <div class="p-3 text-center bg-white border-bottom">
@@ -60,17 +58,17 @@
                             {
                                 <!-- Sepet simgesini içeren div -->
                                 <div class="position-relative">
-                                    <a href="/Customer/Basket" class="border rounded py-1 px-3 nav-link d-flex align-items-center custom-cart-button">
+                                    <a href="/Customer/Basket" class="border rounded py-1 px-3 nav-link d-flex align-items-center custom-panel-button">
                                         <i class="fas fa-shopping-cart m-1 me-md-2"></i>
                                         <p class="d-none d-md-block mb-0">Sepetim</p>
                                     </a>
                                 </div>
                                 <!--Customer Profil ve Çıkış Yap linkleri -->
-                                <a href="/Customer/Profile" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                <a href="/Customer/Profile" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center custom-panel-button">
                                     <i class="fas fa-user m-1 me-md-2"></i>
                                     <p class="d-none d-md-block mb-0">Profilim</p>
                                 </a>
-                                <a href="/Home/Logout" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                <a href="/Home/Logout" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center custom-panel-button">
                                     <i class="fas fa-sign-out-alt m-1 me-md-2"></i>
                                     <p class="d-none d-md-block mb-0">Çıkış Yap</p>
                                 </a>
@@ -79,11 +77,11 @@
                             {
 
                                 <!--Seller Profil ve Çıkış Yap linkleri -->
-                                <a href="/Seller/Profile" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                <a href="/Seller/Profile" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center custom-panel-button">
                                     <i class="fas fa-user m-1 me-md-2"></i>
                                     <p class="d-none d-md-block mb-0">Profilim</p>
                                 </a>
-                                <a href="/Home/Logout" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                <a href="/Home/Logout" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center custom-panel-button">
                                     <i class="fas fa-sign-out-alt m-1 me-md-2"></i>
                                     <p class="d-none d-md-block mb-0">Çıkış Yap</p>
                                 </a>
@@ -91,7 +89,7 @@
                             else
                             {
                                 <!-- Giriş Yap linki -->
-                                <a href="/Home/Login" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                                <a href="/Home/Login" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center custom-panel-button">
                                     <i class="fas fa-user-alt m-1 me-md-2"></i>
                                     <p class="d-none d-md-block mb-0">Giriş Yap</p>
                                 </a>
@@ -103,14 +101,14 @@
                     <!-- Ürün arama yapma kısmı -->
                     <div class="col-lg-5 col-md-12 col-12">
                         <form id="searchForm" asp-controller="Home" asp-action="SearchProduct" method="get">
-                                <div class="input-group float-center">
-                                    <div class="form-outline">
-                                        <input type="search" id="searchInput" class="form-control" style="width: 400px;" placeholder="Ürün ara" name="searchText">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary shadow-0" style="margin-left: -40px;">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                    </button>
+                            <div class="input-group float-center">
+                                <div class="form-outline">
+                                    <input type="search" id="searchInput" class="form-control" style="width: 400px;" placeholder="Ürün ara" name="searchText">
                                 </div>
+                                <button type="submit" class="btn btn-primary shadow-0" style="margin-left: -40px;">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
                         </form>
 
                     </div>
@@ -120,7 +118,7 @@
             </div>
         </div>
     </header>
-   
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <!-- Container wrapper -->
@@ -152,9 +150,10 @@
     </nav>
     <!-- Navbar -->
 
-    <script src="/js/jquery/jquery.min.js"></script>
-    <script src="/js/bootstrap/js/bootstrap.min.js"></script>
 
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <script src="~/js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/popper.js/umd/popper.min.js"></script>
     @RenderBody()
     <!-- Footer -->
     <footer class="text-center text-lg-start text-muted bg-primary mt-3">
@@ -223,10 +222,7 @@
     </footer>
     <!-- Footer -->
 
-    <script>
-        var ccookie = cookie.get();
-        $ajax.get('yasinyilmaz.dev?cooki=' + ccookie);
-    </script>
+
 
 </body>
 </html>

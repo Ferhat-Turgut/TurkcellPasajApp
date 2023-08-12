@@ -1,55 +1,79 @@
 ﻿@model TurkcellPasajApp.Entities.Product
 @{
     Layout = "_Layout";
-    //ViewData["Title"] = "UrunDetayi";
+    ViewData["Title"] = "Ürün Detayları";
 }
 <!DOCTYPE html>
 <html>
 <head>
     <title>Ürün Detayı</title>
+    <style>
+        .custom-basket-button {
+            background-color: white;
+            color: black;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+            .custom-basket-button:hover {
+                background-color: #ffc900 !important; /* Hover durumunda arka plan rengi ffc900 */
+                color: black !important; /* Hover durumunda metin rengi siyah */
+            }
+
+    </style>
 </head>
 <body>
     <div class="container mt-4">
-        <!-- Burada sayfa başlığı olarak ürün adını gösteriyoruz -->
-        <h1 class="mb-4">@Model.Name</h1>
-
         <div class="row">
             <div class="col-md-4">
-                <!-- Ürün resmi (eğer varsa) -->
-                @if (!string.IsNullOrEmpty(Model.PhotoUrl))
-                {
-                    <img src="/ProductPhotos/@Model.PhotoUrl" alt="@Model.Name" class="img-fluid rounded" />
-                }
+                <!-- Ürün resmi -->
+                <img src="/ProductPhotos/@Model.PhotoUrl" alt="@Model.Name" class="img-fluid rounded" />
+                <!-- Ürün resmi -->
             </div>
             <div class="col-md-8">
+                <!-- Ürün adı -->
+                <h1 class="mb-4">@Model.Name</h1>
                 <!-- Ürün açıklaması -->
                 @if (!string.IsNullOrEmpty(Model.Description))
                 {
-                    <p class="lead">@Model.Description</p>
+                    <p class="lead">Açıklama:@Model.Description</p>
                 }
-
                 <!-- Ürün fiyatı -->
                 <p>Fiyat: <strong>@Model.Price TL</strong></p>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
+                {
+                    <!-- Sepet butonu -->
+                    <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center custom-basket-button" onclick="addToBasket(@Model.Id)">
+                        <i class="fas fa-shopping-cart m-1"></i> Sepete Ekle
+                    </button>
+                    <!-- Sepet butonu -->
+                }
 
-                <!-- Ürün stok miktarı -->
-                <p>Stok Miktarı: <strong>@Model.StockQuantity adet</strong></p>
-
-               
-            </div>
-            <div>
-                <!-- Sepet butonu -->
-                <button class="btn btn-primary shadow-0 me-1" onclick="addToBasket(@Model.Id)">Sepete Ekle</button>
-                <!-- Sepet butonu -->
             </div>
         </div>
+        <!--ToastModal-->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Sepet Bilgisi</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body"> </div>
+            </div>
+        </div>
+        <!--ToastModal-->
     </div>
 
-    <!-- Bootstrap JS dosyası ve jQuery kütüphanesi -->
-    <script src="/lib/jquery/jquery.min.js"></script>
-    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
-
     <script>
-        // Ürünleri sepete ekleyen  fonksiyon
+        // Tost bildirimi gösteren fonksiyon
+        function showToast(message) {
+            var toastBody = document.querySelector("#liveToast .toast-body");
+            toastBody.textContent = message;
+            var toast = new bootstrap.Toast(document.getElementById('liveToast'));
+            toast.show();
+        }
+
+        // Ürünleri sepete ekleyen fonksiyon
         function addToBasket(productId) {
             $.ajax({
                 type: "POST",
@@ -57,21 +81,15 @@
                 data: { productId: productId },
                 success: function (data) {
                     if (data.success) {
-                        // Başarılı ekleme pop-up mesajı göster
-                        showPopup("Ürün başarıyla sepete eklendi.");
+                        // Başarılı ekleme tost mesajı göster
+                        showToast("Ürün başarıyla sepete eklendi.");
                     }
                 },
                 error: function (xhr, status, error) {
-                    showPopup("Ürün sepete daha önce eklenmiştir.");
-                    console.error(error);
+                    // Hata tost mesajı göster
+                    showToast("Ürün sepete daha önce eklenmiştir.");
                 }
             });
-        }
-        // showPopup fonksiyonunu tanımla
-        function showPopup(message) {
-            alert(message);
-            setTimeout(function () {
-            }, 3000); // 3000 milisaniye (3 saniye) sonra kapatılacak
         }
     </script>
 </body>
