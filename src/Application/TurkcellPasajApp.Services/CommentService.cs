@@ -53,15 +53,14 @@ namespace TurkcellPasajApp.Services
 
         public IEnumerable<CommentDisplayResponseDto>? GetCommentsByCustomerId(int customerId)
         {
-            var customersComments = _commentRepository.GetCommentsByUserId(customerId,"customer");
-            return _mapper.Map<IEnumerable<CommentDisplayResponseDto>>(customersComments);
-        
+            var customerComments = _commentRepository.GetCommentsByCustomerId(customerId);
+            return _mapper.Map<IEnumerable<CommentDisplayResponseDto>>(customerComments);
         }
 
         public async Task<IEnumerable<CommentDisplayResponseDto>>? GetCommentsByCustomerIdAsync(int customerId)
         {
-            var customersComments =await _commentRepository.GetCommentsByUserIdAsync(customerId, "customer");
-            return _mapper.Map<IEnumerable<CommentDisplayResponseDto>>(customersComments);
+            var customerComments = await _commentRepository.GetCommentsByCustomerIdAsync(customerId);
+            return _mapper.Map<IEnumerable<CommentDisplayResponseDto>>(customerComments);
         }
 
         public IEnumerable<CommentDisplayResponseDto>? GetCommentsByProductId(int productId)
@@ -74,6 +73,18 @@ namespace TurkcellPasajApp.Services
         {
             var productComments =await _commentRepository.GetCommentsByProductIdAsync(productId);
             return _mapper.Map<IEnumerable<CommentDisplayResponseDto>>(productComments);
+        }
+
+        public IEnumerable<CommentDisplayResponseDto>? GetSellersByCustomerId(int sellerId)
+        {
+            var sellerComments=_commentRepository.GetCommentsBySellerId(sellerId);
+            return _mapper.Map<IEnumerable<CommentDisplayResponseDto>>(sellerComments);
+        }
+
+        public async Task<IEnumerable<CommentDisplayResponseDto>>? GetSellersByCustomerIdAsync(int sellerId)
+        {
+            var sellerComments =await _commentRepository.GetCommentsBySellerIdAsync(sellerId);
+            return _mapper.Map<IEnumerable<CommentDisplayResponseDto>>(sellerComments);
         }
     }
 }

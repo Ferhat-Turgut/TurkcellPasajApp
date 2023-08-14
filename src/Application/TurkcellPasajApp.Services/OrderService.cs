@@ -41,16 +41,16 @@ namespace TurkcellPasajApp.Services
            await _orderRepository.DeleteAsync(id);
         }
 
-        public IEnumerable<OrderDisplayResponseDto>? GetAllOrdersByCustomerId(int customerId)
+        public IEnumerable<Order>? GetAllOrdersByCustomerId(int customerId)
         {
             var customersOrders=_orderRepository.GetAllByCustomerId(customerId);
-            return _mapper.Map<IEnumerable<OrderDisplayResponseDto>>(customersOrders);
+            return customersOrders;
         }
 
-        public async Task<IEnumerable<OrderDisplayResponseDto>>? GetAllOrdersByCustomerIdAsync(int customerId)
+        public async Task<IEnumerable<Order>>? GetAllOrdersByCustomerIdAsync(int customerId)
         {
             var customersOrders =await _orderRepository.GetAllByCustomerIdAsync(customerId);
-            return _mapper.Map<IEnumerable<OrderDisplayResponseDto>>(customersOrders);
+            return customersOrders;
         }
 
         public IEnumerable<OrderDisplayResponseDto>? GetAllOrdersBySellerId(int sellerId)

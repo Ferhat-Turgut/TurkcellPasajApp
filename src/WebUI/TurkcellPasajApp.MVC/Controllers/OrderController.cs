@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TurkcellPasajApp.DataTransferObjects.Requests;
 using TurkcellPasajApp.MVC.ViewModels;
@@ -25,8 +26,8 @@ namespace TurkcellPasajApp.MVC.Controllers
             _creditCardService = creditCardService;
             _mapper = mapper;
         }
-
         [HttpGet]
+        [Authorize(Roles = "customer")]
         public async Task<IActionResult> Index()
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
@@ -40,6 +41,7 @@ namespace TurkcellPasajApp.MVC.Controllers
             return View(orderViewModel);
         }
         [HttpPost]
+        [Authorize(Roles = "customer")]
         public async Task<IActionResult> CreateNewOrder()
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
@@ -69,6 +71,7 @@ namespace TurkcellPasajApp.MVC.Controllers
 
            
         }
+ 
 
     }
 }

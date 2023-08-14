@@ -50,15 +50,15 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             return comment;
         }
 
-        public IEnumerable<Comment> GetCommentsByUserId(int userId, string Role)
+        public IEnumerable<Comment> GetCommentsByCustomerId(int customerId)
         {
-            var customerComments = _turkcellPasajAppDbContext.Comments.Where(c => c.UserId == userId && c.Role==Role).ToList().AsEnumerable();
+            var customerComments = _turkcellPasajAppDbContext.Comments.Where(c => c.Customer.Id == customerId).ToList().AsEnumerable();
             return customerComments;
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(int userId, string Role)
+        public async Task<IEnumerable<Comment>> GetCommentsByCustomerIdAsync(int customerId)
         {
-            var customerComments = await _turkcellPasajAppDbContext.Comments.Where(c => c.UserId == userId && c.Role == Role).ToListAsync();
+            var customerComments = await _turkcellPasajAppDbContext.Comments.Where(c => c.Customer.Id == customerId).ToListAsync();
             return customerComments;
         }
 
@@ -72,6 +72,18 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             var productComments = await _turkcellPasajAppDbContext.Comments.Where(c => c.CommentProductId == productId).ToListAsync();
             return productComments;
+        }
+
+        public IEnumerable<Comment> GetCommentsBySellerId(int sellerId)
+        {
+            var sellerComments= _turkcellPasajAppDbContext.Comments.Where(c => c.Seller.Id == sellerId).ToList().AsEnumerable();
+            return sellerComments;
+        }
+
+        public async Task<IEnumerable<Comment>> GetCommentsBySellerIdAsync(int sellerId)
+        {
+            var sellerComments =await _turkcellPasajAppDbContext.Comments.Where(c => c.Seller.Id == sellerId).ToListAsync();
+            return sellerComments;
         }
 
         public void Update(Comment entity)

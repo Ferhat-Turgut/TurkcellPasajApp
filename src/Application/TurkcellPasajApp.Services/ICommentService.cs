@@ -7,6 +7,8 @@ namespace TurkcellPasajApp.Services
     {
         Task<IEnumerable<CommentDisplayResponseDto>>? GetCommentsByCustomerIdAsync(int customerId);
         IEnumerable<CommentDisplayResponseDto>? GetCommentsByCustomerId(int customerId);
+        Task<IEnumerable<CommentDisplayResponseDto>>? GetSellersByCustomerIdAsync(int sellerId);
+        IEnumerable<CommentDisplayResponseDto>? GetSellersByCustomerId(int sellerId);
         Task<IEnumerable<CommentDisplayResponseDto>>? GetCommentsByProductIdAsync(int productId);
         IEnumerable<CommentDisplayResponseDto>? GetCommentsByProductId(int productId);
         Task CreateCommentAsync(CreateNewCommetRequestDto createNewCommetRequestDto);

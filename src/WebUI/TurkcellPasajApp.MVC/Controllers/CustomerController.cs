@@ -12,20 +12,23 @@ namespace TurkcellPasajApp.MVC.Controllers
 {
     public class CustomerController : Controller
     {
+
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
         private readonly IFavouriteService _favouriteService;
         private readonly IBasketService _basketService;
         private readonly IMapper _mapper;
 
-        public CustomerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ICustomerService customerService, IProductService productService, IFavouriteService favouriteService, IBasketService basketService, IMapper mapper)
+        public CustomerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ICustomerService customerService, IProductService productService, IOrderService orderService, IFavouriteService favouriteService, IBasketService basketService, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _customerService = customerService;
             _productService = productService;
+            _orderService = orderService;
             _favouriteService = favouriteService;
             _basketService = basketService;
             _mapper = mapper;
@@ -164,8 +167,25 @@ namespace TurkcellPasajApp.MVC.Controllers
         public async Task<IActionResult> Profile()
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
-            var customer=await _customerService.GetCustomerByIdAsync((int)customerId);
-            return View(customer);
+            var customer = await _customerService.GetCustomerByIdAsync((int)customerId);
+            var customerFavourites =await _favouriteService.GetCustomersAllFavouritesAsync((int)customerId);
+            var customerOrders =await _orderService.GetAllOrdersByCustomerIdAsync((int)customerId);
+            var allProducts =await _productService.GetAllProductsDisplayResponsesAsync();
+
+
+            CustomerProfileViewModel customerProfileViewModel = new CustomerProfileViewModel
+            {
+                CustomerDisplayResponseDto= customer,
+                Orders=customerOrders,
+                showProductsViewModel = new ShowProductsViewModel
+                {
+                    Favourites = customerFavourites,
+                    Products = allProducts
+                }
+            };
+           
+
+            return View(customerProfileViewModel);
             
         }
         [HttpGet]
@@ -208,6 +228,7 @@ namespace TurkcellPasajApp.MVC.Controllers
             await _customerService.UpdateCustomerAsync(updateCustomerRequestDto);
             return RedirectToAction("Profile");
         }
+    
      
     }
 }

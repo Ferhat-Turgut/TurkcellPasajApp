@@ -15,6 +15,7 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<Favourite, FavouriteDisplayResponseDto>().ReverseMap();
             CreateMap<Message, MessageDisplayResponseDto>().ReverseMap();
             CreateMap<Order, OrderDisplayResponseDto>().ReverseMap();
+            CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>().ReverseMap();
             CreateMap<Product, ProductDisplayResponseDto>().ReverseMap();
             CreateMap<Customer, CustomerDisplayResponseDto>().ReverseMap();
             CreateMap<Seller, SellerDisplayResponseDto>();

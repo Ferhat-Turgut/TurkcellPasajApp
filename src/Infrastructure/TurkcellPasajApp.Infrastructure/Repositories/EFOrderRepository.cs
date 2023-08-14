@@ -64,29 +64,25 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
 
         public IEnumerable<Order>? GetAllByCustomerId(int customerId)
         {
-            var customerOrders = _turkcellPasajAppDbContext.Orders.Where(o => o.CustomerId == customerId).ToList().AsEnumerable();
+            var customerOrders = _turkcellPasajAppDbContext.Orders
+                         .Where(o => o.CustomerId == customerId)
+                         .Include(o => o.OrderDetails) // OrderDetails tablosunu dahil et
+                         .ThenInclude(od => od.OrderProduct) // Product tablosunu dahil et
+                         .ToList().AsEnumerable();
+
             return customerOrders;
         }
 
         public async Task<IEnumerable<Order>>? GetAllByCustomerIdAsync(int customerId)
         {
-            var customerOrders = await _turkcellPasajAppDbContext.Orders.Where(o => o.CustomerId == customerId).ToListAsync();
+            var customerOrders =await _turkcellPasajAppDbContext.Orders
+                        .Where(o => o.CustomerId == customerId)
+                        .Include(o => o.OrderDetails) // OrderDetails tablosunu dahil et
+                        .ThenInclude(od => od.OrderProduct) // Product tablosunu dahil et
+                        .ToListAsync();
+
             return customerOrders;
         }
-
-        //public IEnumerable<Order>? GetAllBySellerId(int sellerId)
-        //{
-        //    var sellerOrders = _turkcellPasajAppDbContext.Orders.Where(o => o.OrderDetails == sellerId).ToList().AsEnumerable();
-        //    return sellerOrders;
-        //}
-
-        //public async Task<IEnumerable<Order>>? GetAllBySellerIdAsync(int sellerId)
-        //{
-        //    var sellerOrders = await _turkcellPasajAppDbContext.Orders.Where(o => o.SellerId == sellerId).ToListAsync();
-        //    return sellerOrders;
-        //}
-
-
 
         public void Update(Order entity)
         {

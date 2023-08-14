@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TurkcellPasajApp.DataTransferObjects.Requests;
+using TurkcellPasajApp.DataTransferObjects.Responses;
 using TurkcellPasajApp.Entities;
 using TurkcellPasajApp.Infrastructure.Repositories;
 
@@ -38,6 +39,18 @@ namespace TurkcellPasajApp.Services
         {
             var orderDetail =await _orderDetailRepository.GetAsync(orderDetailId);
             return orderDetail;
+        }
+
+        public IEnumerable<OrderDetail>? GetOrderDetailByOrderId(int orderId)
+        {
+            var orderDetails=_orderDetailRepository.GetAllByOrderId(orderId);
+            return orderDetails;
+        }
+
+        public async Task<IEnumerable<OrderDetail>>? GetOrderDetailByOrderIdAsync(int orderId)
+        {
+            var orderDetails = await _orderDetailRepository.GetAllByOrderIdAsync(orderId);
+            return orderDetails;
         }
     }
 }

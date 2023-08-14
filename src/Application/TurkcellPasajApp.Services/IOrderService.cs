@@ -1,12 +1,13 @@
 ﻿using TurkcellPasajApp.DataTransferObjects.Requests;
 using TurkcellPasajApp.DataTransferObjects.Responses;
+using TurkcellPasajApp.Entities;
 
 namespace TurkcellPasajApp.Services
 {
     public interface IOrderService
     {
-        Task<IEnumerable<OrderDisplayResponseDto>>? GetAllOrdersByCustomerIdAsync(int customerId);
-        IEnumerable<OrderDisplayResponseDto>? GetAllOrdersByCustomerId(int customerId);
+        Task<IEnumerable<Order>>? GetAllOrdersByCustomerIdAsync(int customerId);
+        IEnumerable<Order>? GetAllOrdersByCustomerId(int customerId);
         Task<IEnumerable<OrderDisplayResponseDto>>? GetAllOrdersBySellerIdAsync(int sellerId);
         IEnumerable<OrderDisplayResponseDto>? GetAllOrdersBySellerId(int sellerId);
         Task<int> CreateOrderAndReturnIdAsync(CreateNewOrderRequestDto createNewOrderRequestDto);

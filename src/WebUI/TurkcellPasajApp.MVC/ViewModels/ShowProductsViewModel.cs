@@ -1,5 +1,4 @@
 ﻿using TurkcellPasajApp.DataTransferObjects.Responses;
-using TurkcellPasajApp.Entities;
 
 namespace TurkcellPasajApp.MVC.ViewModels
 {

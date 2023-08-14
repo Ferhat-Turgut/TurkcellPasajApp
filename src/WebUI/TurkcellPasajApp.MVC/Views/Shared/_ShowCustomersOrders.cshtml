@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TurkcellPasajApp.Entities.Order>
+
+<body>
+    @foreach (var order in Model)
+    {
+        <div class="order-card">
+            <h3>Sipariş Bilgileri</h3>
+            <div class="order-details">
+                <div class="order-info">
+                    <span class="label">Sipariş Numarası:</span>
+                    <span class="value">@order.Id</span>
+                </div>
+                <div class="order-info">
+                    <span class="label">Sipariş Durumu:</span>
+                    <span class="value">@order.Status</span>
+                </div>
+                <div class="order-info">
+                    <span class="label">Tarih:</span>
+                    <span class="value">@order.Date.ToString("dd-MM-yyyy")</span>
+                </div>
+                <div class="order-details-button">
+                    <button class="btn btn-primary" onclick="showOrderDetails('@order.Id')">Detayları Göster</button>
+                </div>
+                <div id="order-details-@order.Id" style="display: none;">
+                    @foreach (var orderDetail in order.OrderDetails)
+                    {
+                        <div class="order-detail">
+                            <div class="order-detail-info">
+                                <a href="@Url.Action("ProductDetail", "Home", new { id = orderDetail.OrderProduct.Id})">
+                                    <img src="/ProductPhotos/@orderDetail.OrderProduct.PhotoUrl" class="card-img-top" style="aspect-ratio: 1 / 1" />
+                                </a>
+                            </div>
+                            <div class="order-detail-info">
+                                <span class="label">Ürün adı:</span>
+                                <span class="value">@orderDetail.OrderProduct.Name</span>
+                            </div>
+                            <div class="order-detail-info">
+                                <span class="label">Ürün adı:</span>
+                                <span class="value">@orderDetail.Quantity</span>
+                            </div>
+                            <div class="order-detail-info">
+                                <span class="label">Sipariş Durumu:</span>
+                                <span class="value">@orderDetail.OrderProduct.Price</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</body>
+
+<script>
+    function showOrderDetails(orderId) {
+        var orderDetailsDiv = document.getElementById('order-details-' + orderId);
+        if (orderDetailsDiv.style.display === 'none') {
+            orderDetailsDiv.style.display = 'block';
+        } else {
+            orderDetailsDiv.style.display = 'none';
+        }
+    }
+</script>
+
+
