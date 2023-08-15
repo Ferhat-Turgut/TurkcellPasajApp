@@ -76,6 +76,7 @@ namespace TurkcellPasajApp.MVC.Controllers
                     // Kayıt başarılı, Customer tablosuna kayıt yap.
                     await _customerService.CreateCustomerAsync(createNewCustomerRequestDto);
                     // Kayıt başarılı, giriş sayfasına yönlendir.
+                    TempData["SuccessRegisterMessage"] = "Kayıt başarılı.Lütfen giriş yapınız.";
                     return RedirectToAction("Login", "Home");
                 }
 

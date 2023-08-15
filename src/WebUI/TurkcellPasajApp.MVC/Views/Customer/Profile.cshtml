@@ -66,7 +66,7 @@
                     </div>
                 </div>
 
-                <div id="iletisimBilgileri" class="profile-section">
+                <div id="iletisimBilgileri" class="profile-section" style="display: none;">
                     <h2>İletişim Bilgileri</h2>
                     <div class="row mb-3">
                         <div class="col-md-4">Email:</div>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
 
-                <div id="odemeBilgileri" class="profile-section">
+                <div id="odemeBilgileri" class="profile-section" style="display: none;">
                     <h2>Ödeme Bilgileri</h2>
                     @foreach (var card in Model.CustomerDisplayResponseDto.creditCards)
                     {
@@ -96,15 +96,14 @@
                         </div>
                     }
                 </div>
-                <div id="favorilerim" class="profile-section">
+                <div id="favorilerim" class="profile-section" style="display: none;">
                     <h2>Favorilerim</h2>
                     @Html.Partial("_ShowCustomersFavourites",Model.showProductsViewModel)
                 </div>
-                <div id="siparislerim" class="profile-section">
-                    <h2>Favorilerim</h2>
+                <div id="siparislerim" class="profile-section" style="display: none;">
+                    <h2>Siparişlerim</h2>
                     @Html.Partial("_ShowCustomersOrders",Model.Orders)
                 </div>
-
             </div>
         </div>
 
@@ -118,6 +117,7 @@
     // Seçeneklere tıklandığında ilgili bölümü görünür hale getir
     document.querySelectorAll('.list-group-item-action').forEach(item => {
         item.addEventListener('click', event => {
+            event.preventDefault();
             const targetSectionId = event.currentTarget.getAttribute('href');
             const targetSection = document.querySelector(targetSectionId);
             if (targetSection) {

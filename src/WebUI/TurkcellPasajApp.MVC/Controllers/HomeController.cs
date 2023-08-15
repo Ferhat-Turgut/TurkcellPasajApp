@@ -59,6 +59,7 @@ namespace TurkcellPasajApp.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
+
             var result = await _signInManager.PasswordSignInAsync(username, password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
@@ -88,7 +89,15 @@ namespace TurkcellPasajApp.MVC.Controllers
                             return RedirectToAction("Index", "Seller", new { id = seller.Id });
                         }
                     }
+                    else
+                    {
+                        _logger.LogInformation("");
+                    }
                 }
+            }
+            else
+            {
+                TempData["LoginErrorMessage"] = "Giriş işlemi başarısız.Lütfen bilgileri kontrol ederek tekrar giriniz.";
             }
 
             return RedirectToAction("Login");

@@ -1,51 +1,165 @@
 ﻿@model IEnumerable<TurkcellPasajApp.Entities.Order>
 
+<style>
+    .order-details-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        border-bottom: 2px solid #000;
+        border-top: 2px solid #000;
+    }
+
+    .product-detail-entry{
+        display: flex;
+        align-items: center;
+    }
+    .order-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .order-info-entry {
+        display: flex;
+        align-items: center;
+    }
+
+    .label {
+        margin-right: 5px;
+    }
+
+    .value {
+        margin-right: 10px;
+    }
+
+    .order-detail {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }
+
+    .order-detail-info {
+        margin-right: 15px;
+    }
+
+        .order-detail-info:last-child {
+            margin-right: 0;
+        }
+
+    .order-detail-button {
+        background-color: white;
+        color: black;
+        border: 1px solid #ccc;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .order-detail-button:hover {
+            background-color: #ffc900 !important;
+            color: black !important;
+        }
+
+    .product-image {
+        max-width: 100px;
+        height: auto;
+</style>
+
 <body>
+    <div class="order-card">
+        <div class="order-details">
+            <div class="order-grid">
+                <div class="order-info-entry">
+                    <span class="label">Sipariş Numarası</span>
+                </div>
+                <div class="order-info-entry">
+                    <span class="label">Tarih</span>
+                </div>
+                <div class="order-info-entry">
+                    <span class="label">Sipariş Durumu</span>
+                </div>
+                <div class="order-info-entry">
+                    <span class="label">Detaylar</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @foreach (var order in Model)
     {
         <div class="order-card">
-            <h3>Sipariş Bilgileri</h3>
             <div class="order-details">
-                <div class="order-info">
-                    <span class="label">Sipariş Numarası:</span>
-                    <span class="value">@order.Id</span>
-                </div>
-                <div class="order-info">
-                    <span class="label">Sipariş Durumu:</span>
-                    <span class="value">@order.Status</span>
-                </div>
-                <div class="order-info">
-                    <span class="label">Tarih:</span>
-                    <span class="value">@order.Date.ToString("dd-MM-yyyy")</span>
-                </div>
-                <div class="order-details-button">
-                    <button class="btn btn-primary" onclick="showOrderDetails('@order.Id')">Detayları Göster</button>
-                </div>
-                <div id="order-details-@order.Id" style="display: none;">
-                    @foreach (var orderDetail in order.OrderDetails)
-                    {
-                        <div class="order-detail">
-                            <div class="order-detail-info">
-                                <a href="@Url.Action("ProductDetail", "Home", new { id = orderDetail.OrderProduct.Id})">
-                                    <img src="/ProductPhotos/@orderDetail.OrderProduct.PhotoUrl" class="card-img-top" style="aspect-ratio: 1 / 1" />
-                                </a>
-                            </div>
-                            <div class="order-detail-info">
-                                <span class="label">Ürün adı:</span>
-                                <span class="value">@orderDetail.OrderProduct.Name</span>
-                            </div>
-                            <div class="order-detail-info">
-                                <span class="label">Ürün adı:</span>
-                                <span class="value">@orderDetail.Quantity</span>
-                            </div>
-                            <div class="order-detail-info">
-                                <span class="label">Sipariş Durumu:</span>
-                                <span class="value">@orderDetail.OrderProduct.Price</span>
-                            </div>
-                        </div>
-                    }
+                <div class="order-grid">
+                    <div class="order-info-entry">
+                        <span class="value">@order.Id</span>
+                    </div>
+                    <div class="order-info-entry">
+                        <span class="value">@order.Date.ToString("dd-MM-yyyy")</span>
+                    </div>
+                    <div class="order-info-entry">
+                        @if (order.Status == "created")
+                        {
+                            <span class="value">Oluşturuldu.</span>
+                        }
+                        @if (order.Status == "gettingReady")
+                        {
+                            <span class="value">Hazırlanıyor.</span>
+                        }
+                        @if (order.Status == "inTransport")
+                        {
+                            <span class="value">Kargoda.</span>
+                        }
+                        @if (order.Status == "wasDelivered")
+                        {
+                            <span class="value">Teslim edildi.</span>
+                        }
+                    </div>
+                    <div class="order-details-button">
+                        <button class="btn btn-primary order-detail-button" onclick="showOrderDetails('@order.Id')">Detayları Göster</button>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div id="order-details-@order.Id" style="display: none;">
+            <div class="order-details-grid">
+                <div class="product-detail-entry">
+                    <span class="product-label">Fotoğraf</span>
+                </div>
+                <div class="product-detail-entry">
+                    <span class="product-label">Ürün Adı</span>
+                </div>
+                <div class="product-detail-entry">
+                    <span class="product-label">Miktar</span>
+                </div>
+                <div class="product-detail-entry">
+                    <span class="product-label">Fiyat</span>
+                </div>
+                @foreach (var orderDetail in order.OrderDetails)
+                {
+                    <div class="product-detail-entry">
+                        <span>
+                            <a href="@Url.Action("ProductDetail", "Home", new { id = orderDetail.OrderProduct.Id})">
+                                <img src="/ProductPhotos/@orderDetail.OrderProduct.PhotoUrl" class="product-image" />
+                            </a>
+                        </span>
+                    </div>
+                    <div class="product-detail-entry">
+                        <span class="product-value">@orderDetail.OrderProduct.Name</span>
+                    </div>
+                    <div class="product-detail-entry">
+                        <span class="product-value">@orderDetail.Quantity</span>
+                    </div>
+                    <div class="product-detail-entry">
+                        <span class="product-value">@orderDetail.OrderProduct.Price</span>
+                    </div>
+
+                }
+            </div>
+            <div class="order-detail-separator"></div>
         </div>
     }
 </body>
@@ -60,5 +174,3 @@
         }
     }
 </script>
-
-

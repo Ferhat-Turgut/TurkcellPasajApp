@@ -58,6 +58,7 @@ namespace TurkcellPasajApp.MVC.Controllers
                     // Kayıt başarılı, Seller tablosuna kayıt yap.
                     await _sellerService.CreateSellerAsync(createNewSellerRequestDto);
                     // Kayıt başarılı, giriş sayfasına yönlendir.
+                    TempData["SuccessRegisterMessage"] = "Kayıt başarılı.Lütfen giriş yapınız.";
                     return RedirectToAction("Login", "Home");
                 }
 
