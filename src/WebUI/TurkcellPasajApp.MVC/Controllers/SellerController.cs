@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TurkcellPasajApp.DataTransferObjects.Requests;
+using TurkcellPasajApp.MVC.ViewModels;
 using TurkcellPasajApp.Services;
 
 namespace TurkcellPasajApp.MVC.Controllers
@@ -12,14 +13,16 @@ namespace TurkcellPasajApp.MVC.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IProductService _productService;
         private readonly ISellerService _sellerService;
+        private readonly IOrderDetailService _orderDetailService;
         private readonly IMapper _mapper;
 
-        public SellerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IProductService productService, ISellerService sellerService, IMapper mapper)
+        public SellerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IProductService productService, ISellerService sellerService, IOrderDetailService orderDetailService, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _productService = productService;
             _sellerService = sellerService;
+            _orderDetailService = orderDetailService;
             _mapper = mapper;
         }
 
@@ -43,7 +46,7 @@ namespace TurkcellPasajApp.MVC.Controllers
                 {
                     UserName = createNewSellerRequestDto.Username,
                     Email = createNewSellerRequestDto.Email,
-                    PhoneNumber = createNewSellerRequestDto.Phone
+                    PhoneNumber= createNewSellerRequestDto.PhoneNumber
                 };
 
                 var result = await _userManager.CreateAsync(user, createNewSellerRequestDto.Password);
@@ -66,15 +69,30 @@ namespace TurkcellPasajApp.MVC.Controllers
             }
 
             // Kayıt işlemi başarısız oldu, formu tekrar gösterin.
-            return RedirectToAction("Register", "Home", createNewSellerRequestDto);
+            return RedirectToAction("Register", "Seller", createNewSellerRequestDto);
         }
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
             var sellerId = HttpContext.Session.GetInt32("SellerId");
             var seller =await _sellerService.GetSellerByIdAsync((int)sellerId);
+            var sellersProducts =await _productService.GetAllProductsBySelleryIdAsync((int)sellerId);
+            //var sellersOrders=_orderDetailService.
+
+            SellerProfileViewModel sellerProfileViewModel = new SellerProfileViewModel
+            {
+                SellerDisplayResponseDto= seller,
+                ProductDisplayResponseDto=sellersProducts
+                //orderDetailsDisplayResponseDtos=
+            };
             return View(seller);
            
+        }
+        [HttpGet]
+        public async Task<IActionResult> ShowStores()
+        {
+           
+            return View();
         }
     }
 }

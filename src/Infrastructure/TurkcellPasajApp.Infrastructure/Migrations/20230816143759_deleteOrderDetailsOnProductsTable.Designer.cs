@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TurkcellPasajApp.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TurkcellPasajApp.Infrastructure.Data;
 namespace TurkcellPasajApp.Infrastructure.Migrations
 {
     [DbContext(typeof(TurkcellPasajAppDbContext))]
-    partial class TurkcellPasajAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230816143759_deleteOrderDetailsOnProductsTable")]
+    partial class deleteOrderDetailsOnProductsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -532,9 +535,6 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderDetailsSellerId")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
@@ -545,8 +545,6 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderDetailsSellerId");
 
                     b.HasIndex("OrderId");
 
@@ -816,12 +814,6 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.OrderDetail", b =>
                 {
-                    b.HasOne("TurkcellPasajApp.Entities.Seller", "OrderDetailsSeller")
-                        .WithMany("SellersOrderDetails")
-                        .HasForeignKey("OrderDetailsSellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TurkcellPasajApp.Entities.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
@@ -836,8 +828,6 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("OrderDetailsSeller");
-
                     b.Navigation("OrderProduct");
                 });
 
@@ -850,7 +840,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("TurkcellPasajApp.Entities.Seller", "Seller")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -899,10 +889,6 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Messages");
-
-                    b.Navigation("Products");
-
-                    b.Navigation("SellersOrderDetails");
                 });
 #pragma warning restore 612, 618
         }

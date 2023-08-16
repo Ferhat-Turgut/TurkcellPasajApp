@@ -12,12 +12,11 @@ namespace TurkcellPasajApp.Entities
         public bool IsActive { get; set; }
         [Required]
         public string Address { get; set; }
-       
 
-        // Products navigasyonunu ekleyin ve SellerId'yi foreign key olarak belirtin
-        public List<Product> Products { get; set; }
+
+        public List<Product>? Products { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<Message>? Messages { get; set; }
-        public List<OrderDetail>? OrderDetails { get; set; }
+        public List<OrderDetail>? SellersOrderDetails { get; set; }
     }
 }

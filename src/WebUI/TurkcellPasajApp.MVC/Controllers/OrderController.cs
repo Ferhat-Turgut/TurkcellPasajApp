@@ -51,7 +51,8 @@ namespace TurkcellPasajApp.MVC.Controllers
                 CreateNewOrderRequestDto createNewOrder = new CreateNewOrderRequestDto
                 {
                     CustomerId = (int)customerId,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    Status="created"
                 };
                 int orderId = await _orderService.CreateOrderAndReturnIdAsync(createNewOrder);
 
@@ -61,7 +62,8 @@ namespace TurkcellPasajApp.MVC.Controllers
                     {
                         Quantity = 1,
                         OrderId = orderId,
-                        OrderProductId = product.ProductId
+                        OrderProductId = product.ProductId,
+                        OrderDetailsSellerId = product.Product.SellerId
                     };
                     await _orderDetailService.CreateNewOrderDetailAsync(createNewOrderDetailRequest);
                 }

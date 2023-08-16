@@ -65,6 +65,16 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             return orderDetails;
         }
 
+        //public IEnumerable<OrderDetail> GetAllBySellerId(int sellerId)
+        //{
+        //    var orderDetails = _turkcellPasajAppDbContext.OrderDetails.Where(od=>od.);
+        //}
+
+        //public Task<IEnumerable<OrderDetail>> GetAllBySellerIdAsync(int sellerId)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
         public async Task<OrderDetail?> GetAsync(int id)
         {
             var orderDetail = await _turkcellPasajAppDbContext.OrderDetails.SingleOrDefaultAsync(o => o.Id == id);

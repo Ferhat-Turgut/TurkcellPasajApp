@@ -22,26 +22,46 @@
         .row {
             padding: 15px;
         }
+
+        .empty-productList {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0 auto;
+            width: 70%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row">
-            @foreach (var product in Model)
+            @if (Model.Count() !=0)
             {
-                <div class="col-md-3 mb-4">
-                    <div class="card">
-                        <div class="card-img-container">
-                            <img src="/ProductPhotos/@product.PhotoUrl" class="card-img-top" alt="@product.Name Photo">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">@product.Description</p>
-                            <p class="card-text font-weight-bold">₺@product.Price</p>
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-3 mb-4">
+                        <div class="card">
+                            <div class="card-img-container">
+                                <img src="/ProductPhotos/@product.PhotoUrl" class="card-img-top" alt="@product.Name Photo">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text">@product.Description</p>
+                                <p class="card-text font-weight-bold">₺@product.Price</p>
+                            </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="empty-productList">
+                    <p>Henüz ürününüz bulunmamaktadır.</p>
                 </div>
             }
+
         </div>
     </div>
 
