@@ -13,5 +13,8 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         Task<IEnumerable<Seller>> GetAllSellersAsync();
         Seller? GetSellerByUsername(string username);
         Task<Seller>? GetSellerByUsernameAsync(string username);
+        Seller GetSellerForProfile(int sellerId);
+        Task<Seller> GetSellerForProfileAsync(int sellerId);
+
     }
 }

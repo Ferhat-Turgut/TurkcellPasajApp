@@ -15,5 +15,8 @@ namespace TurkcellPasajApp.Services
         Task<SellerDisplayResponseDto> GetSellerByIdAsync(int sellerId);
         SellerDisplayResponseDto? GetSellerByUsername(string username);
         Task<SellerDisplayResponseDto>? GetSellerByUsernameAsync(string username);
+        SellerProfileDisplayResponseDto? GetSellerForProfile(int sellerId);
+        Task<SellerProfileDisplayResponseDto>? GetSellerForProfileAsync(int sellerId);
+
     }
 }

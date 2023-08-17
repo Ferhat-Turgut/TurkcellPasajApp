@@ -50,7 +50,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             var seller = await _turkcellPasajAppDbContext.Sellers.SingleOrDefaultAsync(c => c.Id == id);
             return seller;
         }
-        public  IEnumerable<Seller> GetAllSellers()
+        public IEnumerable<Seller> GetAllSellers()
         {
             var sellers = _turkcellPasajAppDbContext.Sellers.ToList().AsEnumerable();
             return sellers;
@@ -62,7 +62,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             return sellers;
         }
 
-     
+
 
         public void Update(Seller entity)
         {
@@ -84,8 +84,29 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
 
         public async Task<Seller>? GetSellerByUsernameAsync(string username)
         {
-            var seller =await _turkcellPasajAppDbContext.Sellers.FirstOrDefaultAsync(c => c.UserName == username);
+            var seller = await _turkcellPasajAppDbContext.Sellers.FirstOrDefaultAsync(c => c.UserName == username);
             return seller;
+        }
+
+        public Seller GetSellerForProfile(int sellerId)
+        {
+            var sellerProfile = _turkcellPasajAppDbContext.Sellers
+                                .Include(s => s.Products) // Ürünleri dahil et
+                                .ThenInclude(p => p.OrderDetails) // Ürünlerin sipariş detaylarını dahil et
+                                .FirstOrDefault(s => s.Id == sellerId);
+
+            return sellerProfile;
+
+
+        }
+
+        public async Task<Seller> GetSellerForProfileAsync(int sellerId)
+        {
+            var sellerProfile = await _turkcellPasajAppDbContext.Sellers
+                           .Include(s => s.Products) // Ürünleri dahil et
+                                                     // .ThenInclude(p => p.OrderDetails) // Ürünlerin sipariş detaylarını dahil et
+                           .FirstOrDefaultAsync(s => s.Id == sellerId);
+            return sellerProfile;
         }
     }
 }

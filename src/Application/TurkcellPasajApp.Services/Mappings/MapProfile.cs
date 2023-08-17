@@ -16,9 +16,15 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<Message, MessageDisplayResponseDto>().ReverseMap();
             CreateMap<Order, OrderDisplayResponseDto>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>().ReverseMap();
-            CreateMap<Product, ProductDisplayResponseDto>().ReverseMap();
             CreateMap<Customer, CustomerDisplayResponseDto>().ReverseMap();
-            CreateMap<Seller, SellerDisplayResponseDto>();
+            CreateMap<Seller, SellerDisplayResponseDto>().ReverseMap();
+
+            CreateMap<Product, ProductDisplayResponseDto>().ReverseMap();
+
+            CreateMap<Seller, SellerProfileDisplayResponseDto>()
+                .ForMember(dest => dest.Products, opt => opt.Ignore()) // Ignore OrderDetails during mapping
+                .ReverseMap();
+
 
             CreateMap<CreateNewCategoryRequestDto, Category>().ReverseMap();
             CreateMap<CreateNewCommetRequestDto, Comment>().ReverseMap();

@@ -62,7 +62,18 @@ namespace TurkcellPasajApp.Services
             var seller =await _sellerRepository.GetSellerByUsernameAsync(username);
             return _mapper.Map<SellerDisplayResponseDto>(seller);
         }
-    
+
+        public SellerProfileDisplayResponseDto? GetSellerForProfile(int sellerId)
+        {
+            var sellerProfile = _sellerRepository.GetSellerForProfile(sellerId);
+            return _mapper.Map<SellerProfileDisplayResponseDto>(sellerProfile);
+        }
+
+        public async Task<SellerProfileDisplayResponseDto>? GetSellerForProfileAsync(int sellerId)
+        {
+            var sellerProfile =await _sellerRepository.GetSellerForProfileAsync(sellerId);
+            return _mapper.Map<SellerProfileDisplayResponseDto>(sellerProfile);
+        }
 
         public void UpdateSeller(UpdateSellerRequestDto updateSellerRequestDto)
         {

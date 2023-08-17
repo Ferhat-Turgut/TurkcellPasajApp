@@ -75,17 +75,14 @@ namespace TurkcellPasajApp.MVC.Controllers
         public async Task<IActionResult> Profile()
         {
             var sellerId = HttpContext.Session.GetInt32("SellerId");
-            var seller =await _sellerService.GetSellerByIdAsync((int)sellerId);
-            var sellersProducts =await _productService.GetAllProductsBySelleryIdAsync((int)sellerId);
-            //var sellersOrders=_orderDetailService.
+            var sellersProfile =await _sellerService.GetSellerForProfileAsync((int)sellerId);
 
             SellerProfileViewModel sellerProfileViewModel = new SellerProfileViewModel
             {
-                SellerDisplayResponseDto= seller,
-                ProductDisplayResponseDto=sellersProducts
-                //orderDetailsDisplayResponseDtos=
+                SellerDisplayResponseDto= sellersProfile.Seller,
+                ProductDisplayResponseDto=sellersProfile.Products
             };
-            return View(seller);
+            return View(sellerProfileViewModel);
            
         }
         [HttpGet]
