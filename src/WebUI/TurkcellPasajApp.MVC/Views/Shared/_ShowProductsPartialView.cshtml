@@ -59,7 +59,9 @@
 
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">₺@product.Price</p>
+                            <p class="card-text"><strong>Fiyat:</strong>@product.Price ₺</p>
+                            <p class="card-text"><strong>Kategori:</strong>@product.Category.Name.ToUpper()</p>
+                            <p class="card-text"><strong>Satıcı:</strong>@product.Seller.Name.ToUpper()</p>
                             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
                                 {

@@ -42,24 +42,41 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
 
         public Product? Get(int id)
         {
-            var product = _turkcellPasajAppDbContext.Products.SingleOrDefault(p => p.Id == id);
+            var product = _turkcellPasajAppDbContext.Products
+                                                    .Include(p => p.Category) // Category nesnesini dahil ediyoruz
+                                                    .Include(p => p.Seller)   // Seller nesnesini dahil ediyoruz
+                                                    .SingleOrDefault(p => p.Id == id);
+
             return product;
+
         }
 
         public async Task<Product?> GetAsync(int id)
         {
-            var product = await _turkcellPasajAppDbContext.Products.SingleOrDefaultAsync(p => p.Id == id);
+            var product =await _turkcellPasajAppDbContext.Products
+                                                    .Include(p => p.Category) // Category nesnesini dahil ediyoruz
+                                                    .Include(p => p.Seller)   // Seller nesnesini dahil ediyoruz
+                                                    .SingleOrDefaultAsync(p => p.Id == id);
+
             return product;
         }
         public IEnumerable<Product> GetAll()
         {
-            var products = _turkcellPasajAppDbContext.Products.ToList().AsEnumerable();
+            var products = _turkcellPasajAppDbContext.Products
+                                                    .Include(p => p.Category) // Category nesnesini dahil ediyoruz
+                                                    .Include(p => p.Seller)   // Seller nesnesini dahil ediyoruz
+                                                    .ToList().AsEnumerable();
+
             return products;
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            var products = await _turkcellPasajAppDbContext.Products.ToListAsync();
+            var products = await _turkcellPasajAppDbContext.Products
+                                                    .Include(p => p.Category) // Category nesnesini dahil ediyoruz
+                                                    .Include(p => p.Seller)   // Seller nesnesini dahil ediyoruz
+                                                    .ToListAsync();
+
             return products;
         }
 
