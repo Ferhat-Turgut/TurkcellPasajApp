@@ -104,9 +104,10 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             var sellerProfile = await _turkcellPasajAppDbContext.Sellers
                            .Include(s => s.Products) // Ürünleri dahil et
-                                                     // .ThenInclude(p => p.OrderDetails) // Ürünlerin sipariş detaylarını dahil et
+                           .Include(s => s.SellersOrderDetails.Select(p => p.OrderDetailsSellerId==sellerId)) // Ürünlerin sipariş detaylarını dahil et
                            .FirstOrDefaultAsync(s => s.Id == sellerId);
             return sellerProfile;
+
         }
     }
 }

@@ -21,14 +21,27 @@ namespace TurkcellPasajApp.Services.Mappings
 
 
             CreateMap<Product, ProductDisplayResponseDto>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
               .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
               .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src.Seller))
               .ReverseMap();
 
 
             CreateMap<Seller, SellerProfileDisplayResponseDto>()
-                .ForMember(dest => dest.Products, opt => opt.Ignore()) // Ignore OrderDetails during mapping
-                .ReverseMap();
+                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products)) // Ürünleri map et
+                .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => new SellerDisplayResponseDto
+                {
+                    Id = src.Id,
+                    Name = src.Name,
+                    IsActive = src.IsActive,
+                    Address = src.Address,
+                    Username = src.UserName, // IdentityUser'dan gelen özellik
+                    Email = src.Email, // IdentityUser'dan gelen özellik
+                    PhoneNumber = src.PhoneNumber // IdentityUser'dan gelen özellik
+                }));
+
+
+
 
 
             CreateMap<CreateNewCategoryRequestDto, Category>().ReverseMap();
@@ -51,7 +64,7 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<UpdateCustomerRequestDto, CustomerDisplayResponseDto>().ReverseMap();
 
 
-            CreateMap<CreateNewCustomerRequestDto,IdentityUser>().ReverseMap();
+            CreateMap<CreateNewCustomerRequestDto, IdentityUser>().ReverseMap();
 
         }
     }

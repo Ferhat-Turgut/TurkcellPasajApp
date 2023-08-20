@@ -80,7 +80,8 @@ namespace TurkcellPasajApp.MVC.Controllers
             SellerProfileViewModel sellerProfileViewModel = new SellerProfileViewModel
             {
                 SellerDisplayResponseDto= sellersProfile.Seller,
-                ProductDisplayResponseDto=sellersProfile.Products
+                ProductDisplayResponseDto=sellersProfile.Products,
+                orderDetailsDisplayResponseDtos=sellersProfile.OrderDetails
             };
             return View(sellerProfileViewModel);
            
