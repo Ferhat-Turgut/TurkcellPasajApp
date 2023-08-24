@@ -120,19 +120,19 @@
 
                 <div class="product-detail-entry">
                     <span>
-                        <a href="@Url.Action("ProductDetail", "Home", new { id = order.OrderProduct.Id})">
-                            <img src="/ProductPhotos/@order.OrderProduct.PhotoUrl" class="product-image" />
+                        <a href="@Url.Action("ProductDetail", "Home", new { id = order.OrderDetailsProduct.Id})">
+                            <img src="/ProductPhotos/@order.OrderDetailsProduct.PhotoUrl" class="product-image" />
                         </a>
                     </span>
                 </div>
                 <div class="product-detail-entry">
-                    <span class="product-value">@order.OrderProduct.Name</span>
+                    <span class="product-value">@order.OrderDetailsProduct.Name</span>
                 </div>
                 <div class="product-detail-entry">
                     <span class="product-value">@order.Quantity</span>
                 </div>
                 <div class="product-detail-entry">
-                    <span class="product-value">@order.OrderProduct.Price</span>
+                    <span class="product-value">@order.OrderDetailsProduct.Price</span>
                 </div>
 
 
