@@ -7,7 +7,7 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         [Required]
         public int OrderId { get; set; }
         [Required]
-        public int OrderProductId { get; set; }
+        public int OrderDetailsProductId { get; set; }
         [Required]
         public int Quantity { get; set; }
         public int OrderDetailsSellerId { get; set; }

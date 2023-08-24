@@ -40,6 +40,25 @@ namespace TurkcellPasajApp.Services.Mappings
                     PhoneNumber = src.PhoneNumber // IdentityUser'dan gelen özellik
                 }));
 
+            CreateMap<Customer, CustomerDisplayResponseDto>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                    .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
+                    .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.UserName))
+                    .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
+                    .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
+                    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                    .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                    .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
+                    .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive))
+                    .ForMember(dest => dest.creditCards, opt => opt.MapFrom(src => src.CreditCards));
+
+            CreateMap<Customer, CustomerProfileDisplayResponseDto>()
+                .ForMember(dest => dest.Customer, opt => opt.MapFrom(src => src))
+                .ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src.Orders))
+                .ForMember(dest => dest.FavouriteProducts, opt => opt.MapFrom(src => src.Favourites.Where(f => f.IsFavourite).Select(f => f.FavouriteProduct)));
+
+
 
 
 

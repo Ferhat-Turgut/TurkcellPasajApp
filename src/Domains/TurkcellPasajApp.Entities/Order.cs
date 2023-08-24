@@ -13,7 +13,6 @@ namespace TurkcellPasajApp.Entities
 
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
-       
         [Required]
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }

@@ -14,6 +14,8 @@ namespace TurkcellPasajApp.Services
         void UpdateCustomer(UpdateCustomerRequestDto updateCustomerRequestDto);
         CustomerDisplayResponseDto GetCustomerById(int customerId);
         Task<CustomerDisplayResponseDto> GetCustomerByIdAsync(int customerId);
+        CustomerProfileDisplayResponseDto GetCustomerProfileById(int customerId);
+        Task<CustomerProfileDisplayResponseDto> GetCustomerProfileByIdAsync(int customerId);
         Customer? GetCustomerByUsername(string username);
         Task<Customer>? GetCustomerByUsernameAsync(string username);
     }

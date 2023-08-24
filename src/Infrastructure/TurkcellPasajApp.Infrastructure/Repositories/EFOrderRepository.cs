@@ -67,7 +67,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             var customerOrders = _turkcellPasajAppDbContext.Orders
                          .Where(o => o.CustomerId == customerId)
                          .Include(o => o.OrderDetails) // OrderDetails tablosunu dahil et
-                         .ThenInclude(od => od.OrderProduct) // Product tablosunu dahil et
+                         .ThenInclude(od => od.OrderDetailsProduct) // Product tablosunu dahil et
                          .ToList().AsEnumerable();
 
             return customerOrders;
@@ -78,7 +78,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             var customerOrders =await _turkcellPasajAppDbContext.Orders
                         .Where(o => o.CustomerId == customerId)
                         .Include(o => o.OrderDetails) // OrderDetails tablosunu dahil et
-                        .ThenInclude(od => od.OrderProduct) // Product tablosunu dahil et
+                        .ThenInclude(od => od.OrderDetailsProduct) // Product tablosunu dahil et
                         .ToListAsync();
 
             return customerOrders;

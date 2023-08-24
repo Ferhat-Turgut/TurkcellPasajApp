@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TurkcellPasajApp.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using TurkcellPasajApp.DataTransferObjects.Responses;
 
 namespace TurkcellPasajApp.DataTransferObjects.Requests
 {
@@ -13,7 +8,7 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         public int Id { get; set; }
         [Required]
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public CustomerDisplayResponseDto Customer { get; set; }
         [Required]
         [MaxLength(50)]
         public string CardHolder { get; set; }

@@ -1,4 +1,4 @@
-﻿@model TurkcellPasajApp.MVC.ViewModels.ShowProductsViewModel
+﻿@model IEnumerable<TurkcellPasajApp.DataTransferObjects.Responses.ProductDisplayResponseDto>
 
 <!DOCTYPE html>
 <html>
@@ -48,39 +48,41 @@
 <body>
     <div class="container">
         <div class="row">
-            @foreach (var product in Model.Products)
+            @if (Model != null)
             {
-                if (Model.Favourites != null && Model.Favourites.Any(f => f.FavouriteProductId == product.Id && f.IsFavourite == true) && User.Identity.IsAuthenticated && User.IsInRole("customer"))
+                @foreach (var favouriteProduct in Model)
                 {
-                    <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-                        <div class="card w-100 my-2 shadow-2-strong">
-                            <a href="@Url.Action("ProductDetail", "Home", new { id = product.Id })">
-                                <img src="/ProductPhotos/@product.PhotoUrl" class="card-img-top" style="aspect-ratio: 1 / 1" />
-                            </a>
+                    if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
+                    {
+                        <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+                            <div class="card w-100 my-2 shadow-2-strong">
+                                <a href="@Url.Action("ProductDetail", "Home", new { id = favouriteProduct.Id })">
+                                    <img src="/ProductPhotos/@favouriteProduct.PhotoUrl" class="card-img-top" style="aspect-ratio: 1 / 1" />
+                                </a>
 
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">@product.Name</h5>
-                                <p class="card-text">₺@product.Price</p>
-                                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">@favouriteProduct.Name</h5>
+                                    <p class="card-text">₺@favouriteProduct.Price</p>
+                                    <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
 
-                                    <!-- Sepet butonu -->
-                                    <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center custom-basket-button" onclick="addToBasket(@product.Id)">
-                                        <i class="fas fa-shopping-cart m-1"></i> Sepete Ekle
-                                    </button>
-                                    <!-- Sepet butonu -->
-                                    <!-- Favori butonu -->
-                                    <div class="ml-auto">
-                                        <button class="btn btn-secondary favorite-button active px-1" data-productid="@product.Id" onclick="addToFavorites(@product.Id)">
-                                            <i class="fas fa-heart fa-lg text-white"></i>
+                                        <!-- Sepet butonu -->
+                                        <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center custom-basket-button" onclick="addToBasket(@favouriteProduct.Id)">
+                                            <i class="fas fa-shopping-cart m-1"></i> Sepete Ekle
                                         </button>
+                                        <!-- Sepet butonu -->
+                                        <!-- Favori butonu -->
+                                        <div class="ml-auto">
+                                            <button class="btn btn-secondary favorite-button active px-1" data-productid="@favouriteProduct.Id" onclick="addToFavorites(@favouriteProduct.Id)">
+                                                <i class="fas fa-heart fa-lg text-white"></i>
+                                            </button>
+                                        </div>
+                                        <!-- Favori butonu -->
                                     </div>
-                                    <!-- Favori butonu -->
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
-
             }
         </div>
         <!--ToastModal-->

@@ -62,7 +62,7 @@ namespace TurkcellPasajApp.MVC.Controllers
                     {
                         Quantity = 1,
                         OrderId = orderId,
-                        OrderProductId = product.ProductId,
+                        OrderDetailsProductId = product.ProductId,
                         OrderDetailsSellerId = product.Product.SellerId
                     };
                     await _orderDetailService.CreateNewOrderDetailAsync(createNewOrderDetailRequest);

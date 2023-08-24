@@ -1,6 +1,4 @@
-﻿using TurkcellPasajApp.Entities;
-
-namespace TurkcellPasajApp.DataTransferObjects.Responses
+﻿namespace TurkcellPasajApp.DataTransferObjects.Responses
 {
     public class ProductDisplayResponseDto
     {

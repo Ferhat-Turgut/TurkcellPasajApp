@@ -63,6 +63,18 @@ namespace TurkcellPasajApp.Services
             return customer;
         }
 
+        public CustomerProfileDisplayResponseDto GetCustomerProfileById(int customerId)
+        {
+            var customer = _customerRepository.GetCustomerProfileById(customerId);
+            return _mapper.Map<CustomerProfileDisplayResponseDto>(customer);
+        }
+
+        public async Task<CustomerProfileDisplayResponseDto> GetCustomerProfileByIdAsync(int customerId)
+        {
+            var customer =await _customerRepository.GetCustomerProfileByIdAsync(customerId);
+            return _mapper.Map<CustomerProfileDisplayResponseDto>(customer);
+        }
+
         public void UpdateCustomer(UpdateCustomerRequestDto updateCustomerRequestDto)
         {
             var updateCustomer=_mapper.Map<Customer>(updateCustomerRequestDto);

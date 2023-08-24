@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TurkcellPasajApp.Entities.Order>
+﻿@model IEnumerable<TurkcellPasajApp.DataTransferObjects.Responses.OrderDisplayResponseDto>
 
 <style>
     .order-details-grid {
@@ -142,7 +142,7 @@
                 {
                     <div class="product-detail-entry">
                         <span>
-                            <a href="@Url.Action("ProductDetail", "Home", new { id = orderDetail.OrderProduct.Id})">
+                            <a href="@Url.Action("ProductDetail", "Home", new { id = orderDetail.Id})">
                                 <img src="/ProductPhotos/@orderDetail.OrderProduct.PhotoUrl" class="product-image" />
                             </a>
                         </span>

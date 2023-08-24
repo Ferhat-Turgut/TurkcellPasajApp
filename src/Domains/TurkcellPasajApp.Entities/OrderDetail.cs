@@ -10,8 +10,8 @@ namespace TurkcellPasajApp.Entities
         public int OrderId { get; set; }
 
         [Required]
-        public int OrderProductId { get; set; }
-        public Product OrderProduct { get; set; }
+        public int OrderDetailsProductId { get; set; }
+        public Product OrderDetailsProduct { get; set; }
 
         public int OrderDetailsSellerId { get; set; }
         public Seller OrderDetailsSeller { get; set; } // Navigasyon özelliği

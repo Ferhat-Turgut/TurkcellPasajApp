@@ -49,7 +49,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             var orderDetails = _turkcellPasajAppDbContext.OrderDetails
                                 .Where(od => od.OrderId == orderId)
-                                .Include(od => od.OrderProduct) 
+                                .Include(od => od.OrderDetailsProduct) 
                                 .ToList();
 
             return orderDetails;
@@ -59,7 +59,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             var orderDetails =await _turkcellPasajAppDbContext.OrderDetails
                                .Where(od => od.OrderId == orderId)
-                               .Include(od => od.OrderProduct)
+                               .Include(od => od.OrderDetailsProduct)
                                .ToListAsync();
 
             return orderDetails;

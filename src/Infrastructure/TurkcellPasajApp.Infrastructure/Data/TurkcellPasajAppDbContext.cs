@@ -36,11 +36,20 @@ namespace TurkcellPasajApp.Infrastructure.Data
                 .Property(c => c.AvaibleBalance)
                 .HasColumnType("decimal(18,2)");
 
+            //modelBuilder.Entity<OrderDetail>()
+            //    .HasOne(od => od.OrderDetailsProduct)
+            //    .WithMany()
+            //    .HasForeignKey(od => od.OrderDetailsProductId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<OrderDetail>()
-                .HasOne(od => od.OrderProduct)
-                .WithMany()
-                .HasForeignKey(od => od.OrderProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                 .HasOne(od => od.OrderDetailsProduct)
+                 .WithMany(p => p.OrderDetails) // Product ilişkisi ile dolduruldu
+                 .HasForeignKey(od => od.OrderDetailsProductId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+     
+
 
             modelBuilder.Entity<Customer>()
                 .HasOne(c => c.Basket)

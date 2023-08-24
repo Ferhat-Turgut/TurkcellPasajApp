@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TurkcellPasajApp.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TurkcellPasajApp.Infrastructure.Data;
 namespace TurkcellPasajApp.Infrastructure.Migrations
 {
     [DbContext(typeof(TurkcellPasajAppDbContext))]
-    partial class TurkcellPasajAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230822111216_deleteProductIdFromOrderDetails")]
+    partial class deleteProductIdFromOrderDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,7 +239,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
                     b.HasIndex("CustomerId")
                         .IsUnique();
 
-                    b.ToTable("Baskets", (string)null);
+                    b.ToTable("Baskets");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.BasketProduct", b =>
@@ -251,7 +254,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("BasketProducts", (string)null);
+                    b.ToTable("BasketProducts");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Category", b =>
@@ -272,7 +275,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Comment", b =>
@@ -305,7 +308,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.CreditCard", b =>
@@ -344,7 +347,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("CreditCards", (string)null);
+                    b.ToTable("CreditCards");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Customer", b =>
@@ -423,7 +426,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Favourite", b =>
@@ -449,7 +452,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("FavouriteProductId");
 
-                    b.ToTable("Favourites", (string)null);
+                    b.ToTable("Favourites");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Message", b =>
@@ -496,7 +499,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Order", b =>
@@ -521,7 +524,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.OrderDetail", b =>
@@ -557,7 +560,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Product", b =>
@@ -597,7 +600,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("TurkcellPasajApp.Entities.Seller", b =>
@@ -664,7 +667,7 @@ namespace TurkcellPasajApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sellers", (string)null);
+                    b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

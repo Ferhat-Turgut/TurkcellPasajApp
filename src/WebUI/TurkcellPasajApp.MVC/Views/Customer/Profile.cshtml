@@ -50,23 +50,23 @@
                     <h2>Temel Bilgiler</h2>
                     <div class="row mb-3">
                         <div class="col-md-4">Kullanıcı Adı:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.Username</div>
+                        <div class="col-md-8">@Model.Customer.Username</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">Ad:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.Name</div>
+                        <div class="col-md-8">@Model.Customer.Name</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">Soyad:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.Surname</div>
+                        <div class="col-md-8">@Model.Customer.Surname</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">Doğum Tarihi:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.BirthDate.Value.ToString("dd-MM-yyyy")</div>
+                        <div class="col-md-8">@Model.Customer.BirthDate.Value.ToString("dd-MM-yyyy")</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">Cinsiyet:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.Gender</div>
+                        <div class="col-md-8">@Model.Customer.Gender</div>
                     </div>
                 </div>
 
@@ -74,21 +74,21 @@
                     <h2>İletişim Bilgileri</h2>
                     <div class="row mb-3">
                         <div class="col-md-4">Email:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.Email</div>
+                        <div class="col-md-8">@Model.Customer.Email</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">Telefon:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.PhoneNumber</div>
+                        <div class="col-md-8">@Model.Customer.PhoneNumber</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">Adres:</div>
-                        <div class="col-md-8">@Model.CustomerDisplayResponseDto.Address</div>
+                        <div class="col-md-8">@Model.Customer.Address</div>
                     </div>
                 </div>
 
                 <div id="odemeBilgileri" class="profile-section" style="display: none;">
                     <h2>Ödeme Bilgileri</h2>
-                    @foreach (var card in Model.CustomerDisplayResponseDto.creditCards)
+                    @foreach (var card in Model.Customer.creditCards)
                     {
                         <div class="row mb-3">
                             <div class="col-md-4">Kart Numarası:</div>
@@ -102,7 +102,7 @@
                 </div>
                 <div id="favorilerim" class="profile-section" style="display: none;">
                     <h2>Favorilerim</h2>
-                    @Html.Partial("_ShowCustomersFavourites",Model.showProductsViewModel)
+                    @Html.Partial("_ShowCustomersFavourites",Model.FavouriteProducts)
                 </div>
                 <div id="siparislerim" class="profile-section" style="display: none;">
                     <h2>Siparişlerim</h2>

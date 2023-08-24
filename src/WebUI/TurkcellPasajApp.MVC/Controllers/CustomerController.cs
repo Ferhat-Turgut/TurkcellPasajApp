@@ -168,21 +168,14 @@ namespace TurkcellPasajApp.MVC.Controllers
         public async Task<IActionResult> Profile()
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
-            var customer = await _customerService.GetCustomerByIdAsync((int)customerId);
-            var customerFavourites =await _favouriteService.GetCustomersAllFavouritesAsync((int)customerId);
-            var customerOrders =await _orderService.GetAllOrdersByCustomerIdAsync((int)customerId);
-            var allProducts =await _productService.GetAllProductsDisplayResponsesAsync();
+            var customer =await _customerService.GetCustomerProfileByIdAsync((int)customerId);
 
-
+            
             CustomerProfileViewModel customerProfileViewModel = new CustomerProfileViewModel
             {
-                CustomerDisplayResponseDto= customer,
-                Orders=customerOrders,
-                showProductsViewModel = new ShowProductsViewModel
-                {
-                    Favourites = customerFavourites,
-                    Products = allProducts
-                }
+                Customer = customer.Customer,
+                Orders= customer.Orders,
+                FavouriteProducts=customer.FavouriteProducts
             };
            
 
