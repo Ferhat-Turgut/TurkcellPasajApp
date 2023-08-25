@@ -15,30 +15,48 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<Favourite, FavouriteDisplayResponseDto>().ReverseMap();
             CreateMap<Message, MessageDisplayResponseDto>().ReverseMap();
             CreateMap<Order, OrderDisplayResponseDto>().ReverseMap();
-            CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>().ReverseMap();
+            //CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>().ReverseMap();
             CreateMap<Customer, CustomerDisplayResponseDto>().ReverseMap();
             CreateMap<Seller, SellerDisplayResponseDto>().ReverseMap();
 
 
             CreateMap<Product, ProductDisplayResponseDto>()
-               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-              .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
-              .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src.Seller))
-              .ReverseMap();
+                   .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                  .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                  .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src.Seller))
+                  .ReverseMap();
+
+
+
+
+            //CreateMap<Seller, SellerProfileDisplayResponseDto>()
+            // .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src))
+            // .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products))
+            // .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.SellersOrderDetails))
+            // .ReverseMap();
+           
+
+            CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
+                .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src.Order))
+                .ForMember(dest => dest.OrderDetailsProductId, opt => opt.MapFrom(src => src.OrderDetailsProductId))
+                .ForMember(dest => dest.OrderDetailsProduct, opt => opt.MapFrom(src => src.OrderDetailsProduct))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                .ReverseMap();
 
 
             CreateMap<Seller, SellerProfileDisplayResponseDto>()
-                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products)) // Ürünleri map et
-                .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => new SellerDisplayResponseDto
-                {
-                    Id = src.Id,
-                    Name = src.Name,
-                    IsActive = src.IsActive,
-                    Address = src.Address,
-                    Username = src.UserName, // IdentityUser'dan gelen özellik
-                    Email = src.Email, // IdentityUser'dan gelen özellik
-                    PhoneNumber = src.PhoneNumber // IdentityUser'dan gelen özellik
-                }));
+   .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src))
+   .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products))
+   .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.SellersOrderDetails))
+   .ReverseMap();
+
+
+
+
+
+
 
             CreateMap<Customer, CustomerDisplayResponseDto>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

@@ -13,17 +13,13 @@ namespace TurkcellPasajApp.MVC.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IProductService _productService;
         private readonly ISellerService _sellerService;
-        private readonly IOrderDetailService _orderDetailService;
-        private readonly IMapper _mapper;
 
-        public SellerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IProductService productService, ISellerService sellerService, IOrderDetailService orderDetailService, IMapper mapper)
+        public SellerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IProductService productService, ISellerService sellerService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _productService = productService;
             _sellerService = sellerService;
-            _orderDetailService = orderDetailService;
-            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index(int Id)

@@ -91,9 +91,10 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         public Seller GetSellerForProfile(int sellerId)
         {
             var sellerProfile = _turkcellPasajAppDbContext.Sellers
-                                .Include(s => s.Products) // Ürünleri dahil et
-                                .ThenInclude(p => p.OrderDetails) // Ürünlerin sipariş detaylarını dahil et
-                                .FirstOrDefault(s => s.Id == sellerId);
+                                  .Include(s => s.Products) // Satıcının ürünlerini dahil et
+                                  .Include(s => s.SellersOrderDetails)
+                                      .ThenInclude(od => od.OrderDetailsProduct) // Satıcının sipariş detaylarını dahil et
+                                      .FirstOrDefault(s => s.Id == sellerId);
 
             return sellerProfile;
 
@@ -103,11 +104,15 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         public async Task<Seller> GetSellerForProfileAsync(int sellerId)
         {
             var sellerProfile = await _turkcellPasajAppDbContext.Sellers
-                           .Include(s => s.Products) // Ürünleri dahil et
-                           .Include(s => s.SellersOrderDetails.Select(p => p.OrderDetailsSellerId==sellerId)) // Ürünlerin sipariş detaylarını dahil et
-                           .FirstOrDefaultAsync(s => s.Id == sellerId);
-            return sellerProfile;
+                .Include(s => s.Products)
+                .Include(s => s.SellersOrderDetails)
+                    .ThenInclude(od => od.OrderDetailsProduct)
+                    .ThenInclude(odp => odp.OrderDetails) // OrderDetailsProduct içindeki her bir öğeyle ilişkili olan OrderDetails'ı dahil et
+                    .ThenInclude(od => od.Order) // Her bir OrderDetails'ın ilişkili olduğu Order'ı dahil et
+                .FirstOrDefaultAsync(s => s.Id == sellerId);
 
+            return sellerProfile;
         }
+
     }
 }

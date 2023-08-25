@@ -14,9 +14,9 @@ namespace TurkcellPasajApp.Entities
         public string Address { get; set; }
 
 
-        public List<Product>? Products { get; set; }
+        public IEnumerable<Product>? Products { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<Message>? Messages { get; set; }
-        public List<OrderDetail>? SellersOrderDetails { get; set; }
+        public IEnumerable<OrderDetail>? SellersOrderDetails { get; set; }
     }
 }

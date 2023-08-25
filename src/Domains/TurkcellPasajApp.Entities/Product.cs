@@ -28,7 +28,7 @@ namespace TurkcellPasajApp.Entities
 
         public Seller Seller { get; set; }
 
-        public ICollection<OrderDetail>? OrderDetails { get; set; }
+        public IEnumerable<OrderDetail>? OrderDetails { get; set; }
         public ICollection<Comment>? Comments { get; set; }
     }
 }
