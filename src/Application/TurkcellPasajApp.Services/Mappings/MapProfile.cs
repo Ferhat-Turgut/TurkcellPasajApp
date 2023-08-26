@@ -15,7 +15,6 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<Favourite, FavouriteDisplayResponseDto>().ReverseMap();
             CreateMap<Message, MessageDisplayResponseDto>().ReverseMap();
             CreateMap<Order, OrderDisplayResponseDto>().ReverseMap();
-            //CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>().ReverseMap();
             CreateMap<Customer, CustomerDisplayResponseDto>().ReverseMap();
             CreateMap<Seller, SellerDisplayResponseDto>().ReverseMap();
 
@@ -26,14 +25,6 @@ namespace TurkcellPasajApp.Services.Mappings
                   .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src.Seller))
                   .ReverseMap();
 
-
-
-
-            //CreateMap<Seller, SellerProfileDisplayResponseDto>()
-            // .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src))
-            // .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products))
-            // .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.SellersOrderDetails))
-            // .ReverseMap();
            
 
             CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>()
@@ -47,14 +38,10 @@ namespace TurkcellPasajApp.Services.Mappings
 
 
             CreateMap<Seller, SellerProfileDisplayResponseDto>()
-   .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src))
-   .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products))
-   .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.SellersOrderDetails))
-   .ReverseMap();
-
-
-
-
+               .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src))
+               .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products))
+               .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.SellersOrderDetails))
+               .ReverseMap();
 
 
 

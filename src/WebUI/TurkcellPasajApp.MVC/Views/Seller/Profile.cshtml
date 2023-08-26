@@ -78,6 +78,10 @@
                     <h2>Gelen Siparişlerim</h2>
                     @Html.Partial("_ShowSellersOrders",Model.orderDetailsDisplayResponseDtos)
                 </div>
+                <div id="satistakiUrunler" class="profile-section" style="display: none;">
+                    <h2>Ürünlerim</h2>
+                    @Html.Partial("_ShowProductsPartialView",Model.ProductDisplayResponseDto)
+                </div>
             </div>
         </div>
 

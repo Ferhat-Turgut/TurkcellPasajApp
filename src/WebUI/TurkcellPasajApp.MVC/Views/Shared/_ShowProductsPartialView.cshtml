@@ -31,9 +31,9 @@
         }
 
         .custom-basket-button {
-            background-color: white; 
-            color: black; 
-            border: 1px solid #ccc; 
+            background-color: white;
+            color: black;
+            border: 1px solid #ccc;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -41,8 +41,6 @@
                 background-color: #ffc900 !important; /* Hover durumunda arka plan rengi ffc900 */
                 color: black !important; /* Hover durumunda metin rengi siyah */
             }
-
-
     </style>
 
 </head>
@@ -60,8 +58,12 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@product.Name</h5>
                             <p class="card-text"><strong>Fiyat:</strong>@product.Price ₺</p>
-                            <p class="card-text"><strong>Kategori:</strong>@product.Category.Name.ToUpper()</p>
+                            @*  <p class="card-text"><strong>Kategori:</strong>@product.Category.Name.ToUpper()</p>*@
                             <p class="card-text"><strong>Satıcı:</strong>@product.Seller.Name.ToUpper()</p>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("seller") && product.Seller.Id == ViewContext.HttpContext.Session.GetInt32("SellerId"))
+                            {
+                                <p class="card-text"><strong>Stok:</strong>@product.StockQuantity Adet</p>
+                            }
                             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
                                 {
@@ -69,7 +71,6 @@
                                     <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center custom-basket-button" onclick="addToBasket(@product.Id)">
                                         <i class="fas fa-shopping-cart m-1"></i> Sepete Ekle
                                     </button>
-
                                     <!-- Sepet butonu -->
                                     <!-- Favori butonu -->
                                     <div class="ml-auto">
@@ -88,11 +89,15 @@
                                                 </button>
                                             }
                                         }
-
                                     </div>
                                     <!-- Favori butonu -->
                                 }
-
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("seller") && product.Seller.Id == ViewContext.HttpContext.Session.GetInt32("SellerId"))
+                                {
+                                    <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center">
+                                        <i class="fas fa-shopping-cart m-1"></i>Düzenle
+                                    </button>
+                                }
                             </div>
                         </div>
                     </div>
