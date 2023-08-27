@@ -1,0 +1,64 @@
+﻿@model TurkcellPasajApp.DataTransferObjects.Responses.ProductDisplayResponseDto
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Ürün Düzenle";
+}
+
+<style>
+    .edit-product-button {
+        background-color: white;
+        color: black;
+        border: none;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .edit-product-button:hover {
+            background-color: #ffa000;
+            color: black;
+        }
+
+    .form-label {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Ürün Düzenle</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" asp-controller="Product" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">Ürün Adı</label>
+                            <input type="text" class="form-control" id="Name" name="Name" asp-for="Name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">Açıklama</label>
+                            <textarea class="form-control" id="Description" name="Description" asp-for="Description"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Price" class="form-label">Fiyat</label>
+                            <input type="number" class="form-control" id="Price" name="Price" asp-for="Price" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="StockQuantity" class="form-label">Stok Miktarı</label>
+                            <input type="number" class="form-control" id="StockQuantity" name="StockQuantity" asp-for="StockQuantity" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary edit-product-button">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

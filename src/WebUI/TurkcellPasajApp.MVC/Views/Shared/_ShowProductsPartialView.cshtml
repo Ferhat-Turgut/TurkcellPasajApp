@@ -30,14 +30,16 @@
             padding: 3px;
         }
 
-        .custom-basket-button {
+        .custom-basket-button,
+        .edit-product-button {
             background-color: white;
             color: black;
             border: 1px solid #ccc;
             transition: background-color 0.3s, color 0.3s;
         }
 
-            .custom-basket-button:hover {
+            .custom-basket-button:hover,
+            .edit-product-button:hover {
                 background-color: #ffc900 !important; /* Hover durumunda arka plan rengi ffc900 */
                 color: black !important; /* Hover durumunda metin rengi siyah */
             }
@@ -64,7 +66,7 @@
                             {
                                 <p class="card-text"><strong>Stok:</strong>@product.StockQuantity Adet</p>
                             }
-                            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
+                            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto justify-content-center">
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
                                 {
                                     <!-- Sepet butonu -->
@@ -94,9 +96,10 @@
                                 }
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("seller") && product.Seller.Id == ViewContext.HttpContext.Session.GetInt32("SellerId"))
                                 {
-                                    <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center">
-                                        <i class="fas fa-shopping-cart m-1"></i>Düzenle
+                                    <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center edit-product-button" data-product-id="@product.Id" onclick="redirectToEdit(this)">
+                                        <i class="fas fa-pencil-alt m-1"></i>Düzenle
                                     </button>
+
                                 }
                             </div>
                         </div>
@@ -120,6 +123,12 @@
     <script src="/js/bootstrap/js/bootstrap.min.js"></script>
 
     <script>
+
+        function redirectToEdit(button) {
+            var productId = button.getAttribute("data-product-id");
+            window.location.href = "/Product/EditProduct?id=" + productId;
+        }
+
 
         //Favorilere ekleme yada çıkarma işlemleri
         function addToFavorites(productId) {
