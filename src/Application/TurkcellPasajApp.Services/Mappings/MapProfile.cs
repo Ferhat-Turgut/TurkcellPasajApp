@@ -79,7 +79,10 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<CreateNewProductRequestDto, Product>().ReverseMap();
             CreateMap<CreateNewSellerRequestDto, Seller>().ReverseMap();
 
-            CreateMap<UpdateProductRequestDto, Product>().ReverseMap();
+            CreateMap<UpdateProductRequestDto, Product>()
+                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
+                 .ReverseMap();
+
             CreateMap<UpdateCategoryRequestDto, Category>().ReverseMap();
             CreateMap<UpdateCustomerRequestDto, Customer>().ReverseMap();
             CreateMap<UpdateSellerRequestDto, Seller>().ReverseMap();

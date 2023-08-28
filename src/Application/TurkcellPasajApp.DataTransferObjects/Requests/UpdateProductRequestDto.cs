@@ -11,6 +11,7 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         public string Name { get; set; }
 
         public string? Description { get; set; }
+        public string? PhotoUrl { get; set; }
 
         [Required]
         public decimal Price { get; set; }

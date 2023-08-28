@@ -112,12 +112,14 @@ namespace TurkcellPasajApp.Services
         public void UpdateProduct(UpdateProductRequestDto updateProductRequestDto)
         {
             var product = _mapper.Map<Product>(updateProductRequestDto);
+            product.CategoryId = updateProductRequestDto.CategoryId;
             _productRepository.Update(product);
         }
 
         public async Task UpdateProductAsync(UpdateProductRequestDto updateProductRequestDto)
         {
             var product = _mapper.Map<Product>(updateProductRequestDto);
+            product.CategoryId=updateProductRequestDto.CategoryId;
             await _productRepository.UpdateAsync(product);
         }
     }

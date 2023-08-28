@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TurkcellPasajApp.DataTransferObjects.Requests;
@@ -21,7 +22,8 @@ namespace TurkcellPasajApp.MVC.Controllers
             _productService = productService;
             _sellerService = sellerService;
         }
-
+        [HttpGet]
+        [Authorize(Roles = "seller")]
         public async Task<IActionResult> Index(int Id)
         {
             var products =await _productService.GetAllProductsBySelleryIdAsync(Id);
@@ -68,6 +70,7 @@ namespace TurkcellPasajApp.MVC.Controllers
             return RedirectToAction("Register", "Seller", createNewSellerRequestDto);
         }
         [HttpGet]
+        [Authorize(Roles = "seller")]
         public async Task<IActionResult> Profile()
         {
             var sellerId = HttpContext.Session.GetInt32("SellerId");
@@ -86,6 +89,7 @@ namespace TurkcellPasajApp.MVC.Controllers
            
         }
         [HttpGet]
+        [Authorize(Roles = "seller")]
         public async Task<IActionResult> ShowStores()
         {
            

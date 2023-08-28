@@ -24,11 +24,36 @@
                 background-color: #ffc900 !important;
                 color: black !important;
             }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
     </style>
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Profil</h1>
+        @if (!string.IsNullOrEmpty(TempData["EditProductSuccessMessage"] as string))
+        {
+            <div class="alert alert-success">
+                @TempData["EditProductSuccessMessage"]
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(TempData["EditProductErrorMessage"] as string))
+        {
+            <div class="alert alert-danger">
+                @TempData["EditProductErrorMessage"]
+            </div>
+        }
 
         <div class="row">
             <div class="col-md-3">
@@ -43,7 +68,7 @@
                     <a href="/Seller/EditProfile" class="btn btn-primary shadow-0 me-1 align-items-center edit-profile-button">Profili Düzenle</a>
                 </div>
             </div>
-            
+
             <div class="col-md-9">
                 <div id="temelBilgiler" class="profile-section">
                     <h2>Temel Bilgiler</h2>
@@ -73,7 +98,7 @@
                     </div>
                 </div>
 
-           
+
                 <div id="gelenSiparisler" class="profile-section" style="display: none;">
                     <h2>Gelen Siparişlerim</h2>
                     @Html.Partial("_ShowSellersOrders",Model.orderDetailsDisplayResponseDtos)
