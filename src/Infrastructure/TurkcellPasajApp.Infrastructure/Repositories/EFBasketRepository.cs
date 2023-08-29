@@ -39,7 +39,7 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
 
         public void Delete(int id)
         {
-            var basket =  _turkcellPasajAppDbContext.Baskets
+            var basket = _turkcellPasajAppDbContext.Baskets
                  .Include(b => b.BasketProducts) // İlişkili ürünleri de getir
                  .FirstOrDefault(b => b.Id == id);
 
@@ -94,45 +94,62 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
             var basket = await _turkcellPasajAppDbContext.Baskets
                 .Include(b => b.BasketProducts) // BasketProduct tablosunu dahil ediyoruz
                 .ThenInclude(bp => bp.Product) // Product tablosunu da dahil ediyoruz
+                    .ThenInclude(p => p.Seller) // Seller bilgisini dahil ediyoruz
                 .SingleOrDefaultAsync(b => b.CustomerId == id);
 
             return basket;
         }
 
+
+        public BasketProduct? GetBasketProduct(int basketId, int productId)
+        {
+            var basketProduct = _turkcellPasajAppDbContext.BasketProducts
+                .SingleOrDefault(bp => bp.BasketId == basketId && bp.ProductId == productId);
+            return basketProduct;
+        }
+
+        public async Task<BasketProduct?> GetBasketProductAsync(int basketId, int productId)
+        {
+            var basketProduct = await _turkcellPasajAppDbContext.BasketProducts
+                .SingleOrDefaultAsync(bp => bp.BasketId == basketId && bp.ProductId == productId);
+
+            return basketProduct;
+        }
+
         public int? GetCustomerBasketId(int customerId)
         {
-            var customersBasket = _turkcellPasajAppDbContext.Baskets.SingleOrDefault(b=>b.CustomerId==customerId);
+            var customersBasket = _turkcellPasajAppDbContext.Baskets.SingleOrDefault(b => b.CustomerId == customerId);
             return customersBasket.Id;
         }
 
         public async Task<int>? GetCustomerBasketIdAsync(int customerId)
         {
-            var customersBasket =await _turkcellPasajAppDbContext.Baskets.SingleOrDefaultAsync(b => b.CustomerId == customerId);
+            var customersBasket = await _turkcellPasajAppDbContext.Baskets.SingleOrDefaultAsync(b => b.CustomerId == customerId);
             return customersBasket.Id;
         }
 
         public bool IsCustomerHaveBasket(int customerId)
         {
-            var isHaveBasket = _turkcellPasajAppDbContext.Baskets.Any(b=>b.CustomerId==customerId);
+            var isHaveBasket = _turkcellPasajAppDbContext.Baskets.Any(b => b.CustomerId == customerId);
             return isHaveBasket;
         }
 
         public async Task<bool> IsCustomerHaveBasketAsync(int customerId)
         {
-            var isHaveBasket =await _turkcellPasajAppDbContext.Baskets.AnyAsync(b => b.CustomerId == customerId);
+            var isHaveBasket = await _turkcellPasajAppDbContext.Baskets.AnyAsync(b => b.CustomerId == customerId);
             return isHaveBasket;
         }
 
         public void RemoveProductToBasketProduct(BasketProduct basketProduct)
         {
-            var product = _turkcellPasajAppDbContext.BasketProducts.SingleOrDefault(bp=>bp.BasketId==basketProduct.BasketId&&bp.ProductId==basketProduct.ProductId);
+            var product = _turkcellPasajAppDbContext.BasketProducts.SingleOrDefault(bp => bp.BasketId == basketProduct.BasketId && bp.ProductId == basketProduct.ProductId);
             _turkcellPasajAppDbContext.BasketProducts.Remove(product);
             _turkcellPasajAppDbContext.SaveChanges();
         }
 
         public async Task RemoveProductToBasketProductAsync(BasketProduct basketProduct)
         {
-            var product =await _turkcellPasajAppDbContext.BasketProducts.SingleOrDefaultAsync(bp => bp.BasketId == basketProduct.BasketId && bp.ProductId == basketProduct.ProductId);
+            var product = await _turkcellPasajAppDbContext.BasketProducts.SingleOrDefaultAsync(bp => bp.BasketId == basketProduct.BasketId && bp.ProductId == basketProduct.ProductId);
             _turkcellPasajAppDbContext.BasketProducts.Remove(product);
             _turkcellPasajAppDbContext.SaveChanges();
         }
@@ -147,6 +164,26 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         {
             _turkcellPasajAppDbContext.Baskets.Update(entity);
             await _turkcellPasajAppDbContext.SaveChangesAsync();
+        }
+
+        public void UpdateBasketProduct(BasketProduct basketProduct)
+        {
+            _turkcellPasajAppDbContext.BasketProducts.Update(basketProduct);
+            _turkcellPasajAppDbContext.SaveChanges();
+        }
+
+        public async Task UpdateBasketProductAsync(BasketProduct basketProduct)
+        {
+            var existingBasketProduct = await _turkcellPasajAppDbContext.BasketProducts
+        .SingleOrDefaultAsync(bp => bp.BasketId == basketProduct.BasketId && bp.ProductId == basketProduct.ProductId);
+
+            if (existingBasketProduct != null)
+            {
+                existingBasketProduct.Quantity = basketProduct.Quantity;
+
+                _turkcellPasajAppDbContext.BasketProducts.Update(existingBasketProduct);
+                await _turkcellPasajAppDbContext.SaveChangesAsync();
+            }
         }
     }
 }

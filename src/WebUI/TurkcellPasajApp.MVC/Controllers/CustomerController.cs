@@ -110,60 +110,7 @@ namespace TurkcellPasajApp.MVC.Controllers
             return Json(new { success = true });
         }
 
-        [HttpPost]
-        [Authorize(Roles = "customer")]
-        public async Task<IActionResult> AddToBasket(int productId)
-        {
-            var customerId= HttpContext.Session.GetInt32("CustomerId");
-            if (await _basketService.IsCustomerHaveBasketAsync((int)customerId))
-            {
-                var basketId = await _basketService.GetCustomerBasketIdAsync((int)customerId);
-                BasketProduct basketProduct = new BasketProduct
-                {
-                    BasketId= basketId,
-                    ProductId= productId
-                };
-                
-                await _basketService.AddProductToBasketAsync(basketProduct);
-            }
-            else
-            {
-                var newBasket = new Basket
-                {
-                    CustomerId = (int)customerId
-                };
-                await _basketService.CreateBasketAsync(newBasket);
-
-                BasketProduct basketProduct = new BasketProduct
-                {
-                    BasketId = newBasket.Id,
-                    ProductId = productId
-                };
-
-                await _basketService.AddProductToBasketAsync(basketProduct);
-            }
-            return Json(new { success = true });
-        }
-        [HttpPost]
-        [Authorize(Roles = "customer")]
-        public async Task<IActionResult> RemoveToBasket(int productId)
-        {
-            var customerId = HttpContext.Session.GetInt32("CustomerId");
-            BasketProduct basketProduct = new BasketProduct
-            {
-                BasketId =await _basketService.GetCustomerBasketIdAsync((int)customerId),
-                ProductId=productId
-            };
-            await _basketService.RemoveProductToBasketProductAsync(basketProduct);
-            return Json(new { success = true });
-        }
-        [Authorize(Roles = "customer")]
-        public async Task<IActionResult> Basket()
-        {
-            var userId = HttpContext.Session.GetInt32("CustomerId");
-            var basket=await _basketService.GetBasketAsync((int)userId);
-            return View(basket);
-        }
+       
         [Authorize(Roles = "customer")]
         public async Task<IActionResult> Profile()
         {

@@ -1,4 +1,7 @@
-﻿using TurkcellPasajApp.Entities;
+﻿using AutoMapper;
+using TurkcellPasajApp.DataTransferObjects.Requests;
+using TurkcellPasajApp.DataTransferObjects.Responses;
+using TurkcellPasajApp.Entities;
 using TurkcellPasajApp.Infrastructure.Repositories;
 
 namespace TurkcellPasajApp.Services
@@ -6,63 +9,81 @@ namespace TurkcellPasajApp.Services
     public class BasketService : IBasketService
     {
         private readonly IBasketRepository _basketRepository;
+        private readonly IMapper _mapper;
 
-        public BasketService(IBasketRepository basketRepository)
+        public BasketService(IBasketRepository basketRepository,IMapper mapper)
         {
             _basketRepository = basketRepository;
+            _mapper= mapper;
         }
 
-        public void AddProductToBasket(BasketProduct basketProduct)
+        public void AddProductToBasket(CreateNewBasketProductRequestDto createBasketProduct)
         {
-            _basketRepository.AddProductToBasketProduct(basketProduct);
+            var addBasketProduct = _mapper.Map<BasketProduct>(createBasketProduct);
+            _basketRepository.AddProductToBasketProduct(addBasketProduct);
         }
 
-        public async Task AddProductToBasketAsync(BasketProduct basketProduct)
+        public async Task AddProductToBasketAsync(CreateNewBasketProductRequestDto createBasketProduct)
         {
-            await _basketRepository.AddProductToBasketProductAsync(basketProduct);
+            var addBasketProduct = _mapper.Map<BasketProduct>(createBasketProduct);
+            await _basketRepository.AddProductToBasketProductAsync(addBasketProduct);
         }
 
-        public void CreateBasket(Basket basket)
+        public void CreateBasket(CreateNewBasketRequestDto createNewBasket)
         {
-            _basketRepository.Create(basket);
+            var newBasket=_mapper.Map<Basket>(createNewBasket);
+            _basketRepository.Create(newBasket);
         }
 
-        public async Task CreateBasketAsync(Basket basket)
+        public async Task CreateBasketAsync(CreateNewBasketRequestDto createNewBasket)
         {
-            await _basketRepository.CreateAsync(basket);
+            var newBasket = _mapper.Map<Basket>(createNewBasket);
+            await _basketRepository.CreateAsync(newBasket);
         }
 
         public void DeleteBasket(int id)
         {
-            _basketRepository.Delete(id );
+            _basketRepository.Delete(id);
         }
 
         public async Task DeleteBasketAsync(int id)
         {
-             await _basketRepository.DeleteAsync(id);
+            await _basketRepository.DeleteAsync(id);
         }
 
-        public Basket? GetBasket(int customerId)
+        public BasketDisplayResponseDto? GetBasket(int customerId)
         {
-            var basket=_basketRepository.Get(customerId);
-            return basket;
+            var basket = _basketRepository.Get(customerId);
+            return _mapper.Map<BasketDisplayResponseDto>(basket);
         }
 
-        public async Task<Basket>? GetBasketAsync(int customerId)
+        public async Task<BasketDisplayResponseDto>? GetBasketAsync(int customerId)
         {
-            var basket =await _basketRepository.GetAsync(customerId);
-            return basket;
+            var basket = await _basketRepository.GetAsync(customerId);
+            return _mapper.Map<BasketDisplayResponseDto>(basket);
+        }
+
+        public BasketProductsDisplayResponseDto? GetBasketProduct(int basketId, int productId)
+        {
+            var basketProduct = _basketRepository.GetBasketProduct(basketId, productId);
+            return _mapper.Map<BasketProductsDisplayResponseDto>(basketProduct);
+        }
+
+        public async Task<BasketProductsDisplayResponseDto>? GetBasketProductAsync(int basketId, int productId)
+        {
+            var basketProduct =await _basketRepository.GetBasketProductAsync(basketId, productId);
+            return _mapper.Map<BasketProductsDisplayResponseDto>(basketProduct);
         }
 
         public int? GetCustomerBasketId(int customerId)
         {
-            var customersBasketId=_basketRepository.GetCustomerBasketId(customerId);
+            var customersBasketId = _basketRepository.GetCustomerBasketId(customerId);
             return customersBasketId;
         }
 
         public async Task<int>? GetCustomerBasketIdAsync(int customerId)
         {
-            var customersBasketId =await _basketRepository.GetCustomerBasketIdAsync(customerId);
+            var customersBasketId = await _basketRepository.GetCustomerBasketIdAsync(customerId);
             return customersBasketId;
         }
 
@@ -74,7 +95,7 @@ namespace TurkcellPasajApp.Services
 
         public async Task<bool> IsCustomerHaveBasketAsync(int customerId)
         {
-            var isHaveBasket =await _basketRepository.IsCustomerHaveBasketAsync(customerId);
+            var isHaveBasket = await _basketRepository.IsCustomerHaveBasketAsync(customerId);
             return isHaveBasket;
         }
 
@@ -96,6 +117,18 @@ namespace TurkcellPasajApp.Services
         public async Task UpdateBasketAsync(Basket basket)
         {
             await _basketRepository.UpdateAsync(basket);
+        }
+
+        public void UpdateBasketProducts(UpdateBasketProductsRequestDto updateBasketProducts)
+        {
+            var basketProduct = _mapper.Map<BasketProduct>(updateBasketProducts);
+            _basketRepository.UpdateBasketProduct(basketProduct);
+        }
+
+        public async Task UpdateBasketProductsAsync(UpdateBasketProductsRequestDto updateBasketProducts)
+        {
+            var basketProduct = _mapper.Map<BasketProduct>(updateBasketProducts);
+            await _basketRepository.UpdateBasketProductAsync(basketProduct);
         }
     }
 }

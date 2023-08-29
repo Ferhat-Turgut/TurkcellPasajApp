@@ -1,4 +1,4 @@
-﻿@model TurkcellPasajApp.Entities.Basket
+﻿@model TurkcellPasajApp.DataTransferObjects.Responses.BasketDisplayResponseDto
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Sepetim";
@@ -30,7 +30,7 @@
     <div class="container">
         <h3 class="text-center">Sepetim</h3>
 
-        @if (Model!=null&&Model.BasketProducts.Count() != 0)
+        @if (Model != null && Model.BasketProducts.Count() != 0)
         {
             <table class="table table-bordered table-hover">
                 <thead class="text-center">
@@ -38,6 +38,7 @@
                         <th>Fotoğraf</th>
                         <th>Ürün Adı</th>
                         <th>Fiyat</th>
+                        <th>Adet</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -51,6 +52,7 @@
                             </td>
                             <td class="align-middle text-center">@product.Product.Name</td>
                             <td class="align-middle text-center">@product.Product.Price.ToString("C2")</td>
+                            <td class="align-middle text-center">@product.Quantity Adet</td>
                             <td class="align-middle text-center">
                                 <button class="btn btn-danger" onclick="removeFromBasket(@product.Product.Id)">Kaldır</button>
                             </td>
@@ -60,10 +62,11 @@
             </table>
 
             @* Sepet toplamı hesaplanır *@
+
             decimal totalPrice = 0;
             foreach (var product in Model.BasketProducts)
             {
-                totalPrice += product.Product.Price;
+                totalPrice += product.Product.Price * product.Quantity;
             }
 
             <div class="text-end">
@@ -115,13 +118,12 @@
         // Ajax isteği yapalım
         $.ajax({
             type: "POST",
-            url: "/Customer/RemoveToBasket",
+            url: "/Basket/RemoveToBasket",
             data: { productId: productId },
             success: function (data) {
 
                 showToast("Ürün sepetten çıkarıldı.");
                 location.reload();
-
             },
             error: function () {
                 alert("Bir hata oluştu.");

@@ -5,7 +5,7 @@ namespace TurkcellPasajApp.MVC.ViewModels
 {
     public class OrderViewModel
     {
-        public Basket Basket { get; set; }
+        public BasketDisplayResponseDto Basket { get; set; }
         public CustomerDisplayResponseDto Customer { get; set; }
     }
 }

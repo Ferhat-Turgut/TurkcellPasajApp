@@ -164,17 +164,13 @@
         function addToBasket(productId) {
             $.ajax({
                 type: "POST",
-                url: "/Customer/AddToBasket",
+                url: "/Basket/AddToBasket",
                 data: { productId: productId },
                 success: function (data) {
                     if (data.success) {
                         // Başarılı ekleme tost mesajı göster
                         showToast("Ürün başarıyla sepete eklendi.");
                     }
-                },
-                error: function (xhr, status, error) {
-                    // Hata tost mesajı göster
-                    showToast("Ürün sepete daha önce eklenmiştir.");
                 }
             });
         }

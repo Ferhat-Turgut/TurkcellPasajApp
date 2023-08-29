@@ -46,7 +46,6 @@ namespace TurkcellPasajApp.MVC.Controllers
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
             var basket = await _basketService.GetBasketAsync((int)customerId);
-            var customer = await _customerService.GetCustomerByIdAsync((int)customerId);
            
                 CreateNewOrderRequestDto createNewOrder = new CreateNewOrderRequestDto
                 {
@@ -60,10 +59,10 @@ namespace TurkcellPasajApp.MVC.Controllers
                 {
                     CreateNewOrderDetailRequestDto createNewOrderDetailRequest = new CreateNewOrderDetailRequestDto
                     {
-                        Quantity = 1,
+                        Quantity =product.Quantity,
                         OrderId = orderId,
                         OrderDetailsProductId = product.ProductId,
-                        OrderDetailsSellerId = product.Product.SellerId
+                        OrderDetailsSellerId = product.Product.Seller.Id
                     };
                     await _orderDetailService.CreateNewOrderDetailAsync(createNewOrderDetailRequest);
                 }

@@ -97,9 +97,12 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         public Customer? GetCustomerProfileById(int Id)
         {
             var customer = _turkcellPasajAppDbContext.Customers
-                 .Include(c => c.Orders) // Include ile Order ilişkisini dahil ediyoruz
-                 .Include(c => c.Favourites) // Include ile Favourite ilişkisini dahil ediyoruz
-                 .SingleOrDefault(c => c.Id == Id);
+                       .Include(c => c.Orders)
+                           .ThenInclude(order => order.OrderDetails)
+                               .ThenInclude(orderDetail => orderDetail.OrderDetailsProduct) // OrderDetails içindeki OrderDetailsProduct ilişkisi
+                       .Include(c => c.Favourites)
+                           .ThenInclude(favourite => favourite.FavouriteProduct) // Favourites içindeki FavouriteProduct ilişkisi
+                       .SingleOrDefault(c => c.Id == Id);
 
             return customer;
 

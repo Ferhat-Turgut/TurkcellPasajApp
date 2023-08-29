@@ -91,10 +91,12 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         public Seller GetSellerForProfile(int sellerId)
         {
             var sellerProfile = _turkcellPasajAppDbContext.Sellers
-                                  .Include(s => s.Products) // Satıcının ürünlerini dahil et
-                                  .Include(s => s.SellersOrderDetails)
-                                      .ThenInclude(od => od.OrderDetailsProduct) // Satıcının sipariş detaylarını dahil et
-                                      .FirstOrDefault(s => s.Id == sellerId);
+                .Include(s => s.Products)
+                .Include(s => s.SellersOrderDetails)
+                    .ThenInclude(od => od.OrderDetailsProduct)
+                    .ThenInclude(odp => odp.OrderDetails) // OrderDetailsProduct içindeki her bir öğeyle ilişkili olan OrderDetails'ı dahil et
+                    .ThenInclude(od => od.Order) // Her bir OrderDetails'ın ilişkili olduğu Order'ı dahil et
+                .FirstOrDefault(s => s.Id == sellerId);
 
             return sellerProfile;
 

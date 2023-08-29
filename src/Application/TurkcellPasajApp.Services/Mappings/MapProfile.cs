@@ -17,6 +17,18 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<Order, OrderDisplayResponseDto>().ReverseMap();
             CreateMap<Customer, CustomerDisplayResponseDto>().ReverseMap();
             CreateMap<Seller, SellerDisplayResponseDto>().ReverseMap();
+            CreateMap<Basket, BasketDisplayResponseDto>().ReverseMap();
+
+            CreateMap<BasketProduct, BasketProductsDisplayResponseDto>()
+                     .ForMember(dest => dest.BasketId, opt => opt.MapFrom(src => src.BasketId))
+                     .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                     .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                     .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+                     .ForPath(dest => dest.Product.Seller, opt => opt.MapFrom(src => src.Product.Seller))
+                     .ReverseMap();
+
+
+
 
 
             CreateMap<Product, ProductDisplayResponseDto>()
@@ -25,7 +37,8 @@ namespace TurkcellPasajApp.Services.Mappings
                   .ForMember(dest => dest.Seller, opt => opt.MapFrom(src => src.Seller))
                   .ReverseMap();
 
-           
+
+
 
             CreateMap<OrderDetail, OrderDetailsDisplayResponseDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -78,6 +91,8 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<CreateNewOrderRequestDto, Order>().ReverseMap();
             CreateMap<CreateNewProductRequestDto, Product>().ReverseMap();
             CreateMap<CreateNewSellerRequestDto, Seller>().ReverseMap();
+            CreateMap<CreateNewBasketRequestDto, Basket>().ReverseMap();
+            CreateMap<CreateNewBasketProductRequestDto, BasketProduct>().ReverseMap();
 
             CreateMap<UpdateProductRequestDto, Product>()
                  .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
@@ -87,6 +102,15 @@ namespace TurkcellPasajApp.Services.Mappings
             CreateMap<UpdateCustomerRequestDto, Customer>().ReverseMap();
             CreateMap<UpdateSellerRequestDto, Seller>().ReverseMap();
             CreateMap<UpdateCreditCardRequestDto, CreditCard>().ReverseMap();
+
+            CreateMap<UpdateBasketProductsRequestDto, BasketProduct>()
+                    .ForMember(dest => dest.BasketId, opt => opt.MapFrom(src => src.BasketId))
+                    .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                    .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                    .ForMember(dest => dest.Basket, opt => opt.Ignore()) // Ignore Basket property during mapping
+                    .ForMember(dest => dest.Product, opt => opt.Ignore()) // Ignore Product property during mapping
+                    .ReverseMap();
+
 
             CreateMap<UpdateCustomerRequestDto, CustomerDisplayResponseDto>().ReverseMap();
 
