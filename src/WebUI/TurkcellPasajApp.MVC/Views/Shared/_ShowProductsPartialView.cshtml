@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>@ViewData["Title"]</title>
-    @if (TempData["UpdateProductErrorMessage"]!=null)
+    @if (TempData["UpdateProductErrorMessage"] != null)
     {
         @TempData["UpdateProductErrorMessage"]
     }
@@ -12,6 +12,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        .favorite-button,
+        .custom-basket-button,
+        .form-select-sm {
+            height: 2.5rem; /* Daha yüksek bir yükseklik değeri */
+        }
+
         .favorite-button {
             background-color: #6c757d !important; /* Gri renk */
             border: none;
@@ -22,7 +28,6 @@
                 background-color: #ffc900 !important; /* Kırmızı renk */
             }
 
-            /* İkonun yatay ve dikey hizalama için */
             .favorite-button i {
                 line-height: 1; /* Dikey hizalama */
             }
@@ -30,7 +35,6 @@
         #favorite-counter {
             font-size: 12px;
             min-width: 20px;
-            height: 20px;
             padding: 3px;
         }
 
@@ -47,7 +51,17 @@
                 background-color: #ffc900 !important; /* Hover durumunda arka plan rengi ffc900 */
                 color: black !important; /* Hover durumunda metin rengi siyah */
             }
+
+        /* Daha büyük ve sade bir combobox görünümü */
+        .form-select-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            width: 4rem; /* Ayarlayabileceğiniz genişlik */
+            line-height: 1;
+            border-radius: 0.2rem;
+        }
     </style>
+
 
 </head>
 <body>
@@ -73,6 +87,14 @@
                             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto justify-content-center">
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
                                 {
+                                    <!--Sepete eklenecek ürün adedi -->
+                                    <select class="form-select form-select-sm" id="quantitySelect_@product.Id">
+                                        @for (int i = 1; i <= (product.StockQuantity >= 10 ? 10 : product.StockQuantity); i++)
+                                        {
+                                            <option>@i</option>
+                                        }
+                                    </select>
+                                    <!--Sepete eklenecek ürün adedi -->
                                     <!-- Sepet butonu -->
                                     <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center custom-basket-button" onclick="addToBasket(@product.Id)">
                                         <i class="fas fa-shopping-cart m-1"></i> Sepete Ekle
@@ -162,14 +184,19 @@
 
         // Ürünleri sepete ekleyen fonksiyon
         function addToBasket(productId) {
+            var quantitySelect = document.getElementById(`quantitySelect_${productId}`);
+            var selectedQuantity = parseInt(quantitySelect.value);
+
             $.ajax({
                 type: "POST",
                 url: "/Basket/AddToBasket",
-                data: { productId: productId },
+                data: { productId: productId, quantity: selectedQuantity }, // Miktarı da gönder
                 success: function (data) {
                     if (data.success) {
                         // Başarılı ekleme tost mesajı göster
                         showToast("Ürün başarıyla sepete eklendi.");
+                    } else {
+                        console.error(data.message); // Eğer geçersiz miktar ise hata mesajını göster
                     }
                 }
             });

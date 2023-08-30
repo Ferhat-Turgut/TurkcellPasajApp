@@ -17,20 +17,27 @@ namespace TurkcellPasajApp.MVC.Controllers
 
         [HttpPost]
         [Authorize(Roles = "customer")]
-        public async Task<IActionResult> AddToBasket(int productId)
+        public async Task<IActionResult> AddToBasket(int productId, int quantity)
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
+
+            if (quantity < 1 || quantity > 10)
+            {
+                return Json(new { success = false, message = "Geçersiz miktar seçimi." });
+            }
+
             if (await _basketService.IsCustomerHaveBasketAsync((int)customerId))
             {
                 var basketId = await _basketService.GetCustomerBasketIdAsync((int)customerId);
                 var existingBasketProduct = await _basketService.GetBasketProductAsync(basketId, productId);
+
                 if (existingBasketProduct != null)
                 {
                     UpdateBasketProductsRequestDto basketProduct = new UpdateBasketProductsRequestDto
                     {
                         BasketId = basketId,
                         ProductId = productId,
-                        Quantity = existingBasketProduct.Quantity + 1
+                        Quantity = existingBasketProduct.Quantity + quantity
                     };
 
                     await _basketService.UpdateBasketProductsAsync(basketProduct);
@@ -41,12 +48,11 @@ namespace TurkcellPasajApp.MVC.Controllers
                     {
                         BasketId = basketId,
                         ProductId = productId,
-                        Quantity = 1
+                        Quantity = quantity
                     };
 
                     await _basketService.AddProductToBasketAsync(basketProduct);
                 }
-
             }
             else
             {
@@ -54,19 +60,24 @@ namespace TurkcellPasajApp.MVC.Controllers
                 {
                     CustomerId = (int)customerId
                 };
+
                 await _basketService.CreateBasketAsync(newBasket);
-                var basketId= await _basketService.GetCustomerBasketIdAsync((int)customerId);
+
+                var basketId = await _basketService.GetCustomerBasketIdAsync((int)customerId);
+
                 CreateNewBasketProductRequestDto basketProduct = new CreateNewBasketProductRequestDto
                 {
                     BasketId = basketId,
                     ProductId = productId,
-                    Quantity = 1
+                    Quantity = quantity
                 };
 
                 await _basketService.AddProductToBasketAsync(basketProduct);
             }
+
             return Json(new { success = true });
         }
+
         [HttpPost]
         [Authorize(Roles = "customer")]
         public async Task<IActionResult> RemoveToBasket(int productId)

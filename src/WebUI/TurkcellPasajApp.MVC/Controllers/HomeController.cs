@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TurkcellPasajApp.Entities;
 using TurkcellPasajApp.MVC.Models;
 using TurkcellPasajApp.MVC.ViewModels;
 using TurkcellPasajApp.Services;
@@ -104,11 +101,22 @@ namespace TurkcellPasajApp.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProductDetail(int id)
+        public async Task<IActionResult> ProductDetail(int id)
         {
-            var product = _productService.GetProductById(id);
+            var product =await _productService.GetProductByIdAsync(id); 
 
-            return View(_mapper.Map<Product>(product));
+            if (User.Identity.IsAuthenticated && User.IsInRole("customer"))
+            {
+                var customerId = HttpContext.Session.GetInt32("customerId"); 
+
+                // Eğer giriş yapan müşteri favoriye eklemişse
+                bool isFavorited = product.Favourites.Any(f => f.CustomerId == customerId && f.IsFavourite&&f.FavouriteProductId==id);
+
+               
+                ViewBag.IsFavorited = isFavorited;
+            }
+
+            return View(product);
         }
         [HttpGet]
         public async Task<IActionResult> Logout()

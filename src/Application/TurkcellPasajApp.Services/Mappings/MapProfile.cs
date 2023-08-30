@@ -28,9 +28,6 @@ namespace TurkcellPasajApp.Services.Mappings
                      .ReverseMap();
 
 
-
-
-
             CreateMap<Product, ProductDisplayResponseDto>()
                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                   .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))

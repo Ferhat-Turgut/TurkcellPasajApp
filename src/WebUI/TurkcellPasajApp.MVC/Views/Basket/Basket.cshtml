@@ -37,8 +37,9 @@
                     <tr>
                         <th>Fotoğraf</th>
                         <th>Ürün Adı</th>
-                        <th>Fiyat</th>
+                        <th>Adet Fiyatı</th>
                         <th>Adet</th>
+                        <th>Tutar</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -46,6 +47,7 @@
                 <tbody>
                     @foreach (var product in Model.BasketProducts)
                     {
+                        decimal productTotal = product.Product.Price * product.Quantity;
                         <tr>
                             <td class="align-middle text-center">
                                 <img src="/ProductPhotos/@product.Product.PhotoUrl" alt="@product.Product.Name" width="100" height="100" />
@@ -53,6 +55,8 @@
                             <td class="align-middle text-center">@product.Product.Name</td>
                             <td class="align-middle text-center">@product.Product.Price.ToString("C2")</td>
                             <td class="align-middle text-center">@product.Quantity Adet</td>
+                            <td class="align-middle text-center"> @productTotal.ToString("C2")</td>
+
                             <td class="align-middle text-center">
                                 <button class="btn btn-danger" onclick="removeFromBasket(@product.Product.Id)">Kaldır</button>
                             </td>

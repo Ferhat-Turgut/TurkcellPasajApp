@@ -1,4 +1,6 @@
-﻿namespace TurkcellPasajApp.DataTransferObjects.Responses
+﻿
+
+namespace TurkcellPasajApp.DataTransferObjects.Responses
 {
     public class ProductDisplayResponseDto
     {
@@ -9,6 +11,7 @@
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
         public CategoryDisplayResponseDto Category { get; set; }
+        public IEnumerable<FavouriteDisplayResponseDto>? Favourites { get; set; }
         public SellerDisplayResponseDto Seller { get; set; }
     }
 }
