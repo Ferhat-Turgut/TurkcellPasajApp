@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+ï»¿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using TurkcellPasajApp.Entities;
 using TurkcellPasajApp.Infrastructure.Data;
 using TurkcellPasajApp.Infrastructure.Repositories;
+using TurkcellPasajApp.MVC.Extensions;
 using TurkcellPasajApp.Services;
 using TurkcellPasajApp.Services.Mappings;
 
@@ -18,35 +15,15 @@ builder.Services.AddAutoMapper(typeof(MapProfile));
 
 builder.Services.AddSession(opt =>
 {
-    opt.IdleTimeout = TimeSpan.FromMinutes(5); // Session süresini burada ayarlayabilirsiniz
+    opt.IdleTimeout = TimeSpan.FromMinutes(10); // Session sÃ¼resini burada ayarlayabilirsiniz
     opt.Cookie.HttpOnly = true;
     opt.Cookie.IsEssential = true;
 });
 
-builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductRepository, EFProductRepository>();
-builder.Services.AddScoped<ISellerService, SellerService>();
-builder.Services.AddScoped<ISellerRepository, EFSellerRepository>();
-builder.Services.AddScoped<IFavouriteService, FavouriteService>();
-builder.Services.AddScoped<IFavouriteRepository, EFFavouriteRepository>();
-builder.Services.AddScoped<IBasketService, BasketService>();
-builder.Services.AddScoped<IBasketRepository, EFBasketRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
-builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IOrderDetailRepository, EFOrderDetailRepository>();
-builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
-builder.Services.AddScoped<ICreditCardRepository, EFCreditCardRepository>();
-builder.Services.AddScoped<ICreditCardService, CreditCardService>();
-
-
-
-
 var connectionString = builder.Configuration.GetConnectionString("db");
-builder.Services.AddDbContext<TurkcellPasajAppDbContext>(opt => opt.UseSqlServer(connectionString));
+builder.Services.AddInjections(connectionString);//extension yazdÃ½k.(IoC Extensions)
+
+
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<TurkcellPasajAppDbContext>()
@@ -54,13 +31,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Home/Login"; // Giriþ yapmamýþ kullanýcýlarý bu sayfaya yönlendir
-    options.AccessDeniedPath = "/Home/AccessDenied"; // Yetkisiz eriþim durumunda yönlendirilecek sayfa
-    // Diðer ayarlar...
+    options.LoginPath = "/Home/Login"; // GiriÅŸ yapmamÄ±ÅŸ kullanÄ±cÄ±larÄ± bu sayfaya yÃ¶nlendir
+    options.AccessDeniedPath = "/Home/AccessDenied"; // Yetkisiz eriÅŸim durumunda yÃ¶nlendirilecek sayfa
+   
 });
-
-
-
 
 builder.Services.AddMemoryCache();
 

@@ -32,6 +32,22 @@ namespace TurkcellPasajApp.Infrastructure.Data
                 .Property(p => p.Price)
                 .HasColumnType("decimal(10, 2)");
 
+            modelBuilder.Entity<Order>()
+                .Property(p => p.Amount)
+                .HasColumnType("decimal(10, 2)");
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(p => p.Amount)
+                .HasColumnType("decimal(10, 2)");
+
+            modelBuilder.Entity<Basket>()
+               .Property(b => b.Amount)
+               .HasColumnType("decimal(10, 2)");
+
+            modelBuilder.Entity<BasketProduct>()
+               .Property(bp => bp.Amount)
+               .HasColumnType("decimal(10, 2)");
+
             modelBuilder.Entity<CreditCard>()
                 .Property(c => c.AvaibleBalance)
                 .HasColumnType("decimal(18,2)");

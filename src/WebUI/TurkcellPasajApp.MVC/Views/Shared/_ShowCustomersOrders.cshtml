@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<TurkcellPasajApp.DataTransferObjects.Responses.OrderDisplayResponseDto>
 
 <style>
+
+
     .order-details-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 10px;
         margin-bottom: 10px;
         font-weight: bold;
@@ -11,10 +13,11 @@
         border-top: 2px solid #000;
     }
 
-    .product-detail-entry{
+    .product-detail-entry {
         display: flex;
         align-items: center;
     }
+
     .order-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -67,6 +70,7 @@
     .product-image {
         max-width: 100px;
         height: auto;
+    }
 </style>
 
 <body>
@@ -126,38 +130,34 @@
         </div>
         <div id="order-details-@order.Id" style="display: none;">
             <div class="order-details-grid">
-                <div class="product-detail-entry">
-                    <span class="product-label">Fotoğraf</span>
-                </div>
-                <div class="product-detail-entry">
-                    <span class="product-label">Ürün Adı</span>
-                </div>
-                <div class="product-detail-entry">
-                    <span class="product-label">Miktar</span>
-                </div>
-                <div class="product-detail-entry">
-                    <span class="product-label">Fiyat</span>
-                </div>
+                <div class="product-detail-entry product-label">Fotoğraf</div>
+                <div class="product-detail-entry product-label">Ürün Adı</div>
+                <div class="product-detail-entry product-label">Miktar</div>
+                <div class="product-detail-entry product-label">Birim Fiyat</div>
+                <div class="product-detail-entry product-label">Tutar</div>
+
                 @foreach (var orderDetail in order.OrderDetails)
                 {
+                    decimal totalPrice = orderDetail.Quantity * orderDetail.OrderDetailsProduct.Price;
                     <div class="product-detail-entry">
-                        <span>
-                            <a href="@Url.Action("ProductDetail", "Home", new { id = orderDetail.Id})">
-                                <img src="/ProductPhotos/@orderDetail.OrderDetailsProduct.PhotoUrl" class="product-image" />
-                            </a>
-                        </span>
+                        <a href="@Url.Action("ProductDetail", "Home", new { id = orderDetail.Id})">
+                            <img src="/ProductPhotos/@orderDetail.OrderDetailsProduct.PhotoUrl" class="product-image" />
+                        </a>
                     </div>
                     <div class="product-detail-entry">
-                        <span class="product-value">@orderDetail.OrderDetailsProduct.Name</span>
+                        <span class="product-value">@orderDetail.OrderDetailsProduct.Name.ToUpper()</span>
                     </div>
                     <div class="product-detail-entry">
                         <span class="product-value">@orderDetail.Quantity</span>
                     </div>
                     <div class="product-detail-entry">
-                        <span class="product-value">@orderDetail.OrderDetailsProduct.Price</span>
+                        <span class="product-value">@orderDetail.OrderDetailsProduct.Price.ToString("C")</span>
                     </div>
-
+                    <div class="product-detail-entry">
+                        <span class="product-value">@totalPrice.ToString("C")</span>
+                    </div>
                 }
+                
             </div>
             <div class="order-detail-separator"></div>
         </div>

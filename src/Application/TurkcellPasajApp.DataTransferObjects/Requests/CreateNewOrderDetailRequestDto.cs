@@ -11,5 +11,6 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         [Required]
         public int Quantity { get; set; }
         public int OrderDetailsSellerId { get; set; }
+        public decimal Amount { get; set; }
     }
 }

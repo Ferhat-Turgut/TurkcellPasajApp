@@ -10,6 +10,7 @@ namespace TurkcellPasajApp.Entities
         public string Status { get; set; }
         [Required]
         public DateTime Date { get; set; }
+        public decimal Amount { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; }
 

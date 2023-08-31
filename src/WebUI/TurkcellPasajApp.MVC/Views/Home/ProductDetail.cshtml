@@ -75,7 +75,7 @@
                                     <p><strong>Açıklama: </strong>@Model.Description</p>
                                 }
 
-                                <p><strong>Fiyat</strong>:@Model.Price TL</p>
+                                <p><strong>Fiyat</strong>:@Model.Price.ToString("C")</p>
                                 <p><strong>Satıcı:</strong>:@Model.Seller.Name.ToUpper()</p>
                                 <p><strong>Kategori:</strong>:@Model.Category.Name.ToUpper()</p>
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("customer"))

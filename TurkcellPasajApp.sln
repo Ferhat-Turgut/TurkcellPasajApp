@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurkcellPasajApp.MVC", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{C8E928DA-B53A-4185-AC85-81A2D2BE8A41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurkcellPasajApp.Services", "src\Application\TurkcellPasajApp.Services\TurkcellPasajApp.Services.csproj", "{F87EF8E6-AABA-4BEA-940C-9AA55DE89B83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurkcellPasajApp.Services", "src\Application\TurkcellPasajApp.Services\TurkcellPasajApp.Services.csproj", "{F87EF8E6-AABA-4BEA-940C-9AA55DE89B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurkcellPasajApp.DataTransferObjects", "src\Application\TurkcellPasajApp.DataTransferObjects\TurkcellPasajApp.DataTransferObjects.csproj", "{FE3DAF27-8994-40B9-825F-5CBB0A7542BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurkcellPasajApp.DataTransferObjects", "src\Application\TurkcellPasajApp.DataTransferObjects\TurkcellPasajApp.DataTransferObjects.csproj", "{FE3DAF27-8994-40B9-825F-5CBB0A7542BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

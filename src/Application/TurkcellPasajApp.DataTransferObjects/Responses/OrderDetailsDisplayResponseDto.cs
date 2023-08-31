@@ -10,6 +10,7 @@ namespace TurkcellPasajApp.DataTransferObjects.Responses
         public int OrderDetailsProductId { get; set; }
         public ProductDisplayResponseDto OrderDetailsProduct { get; set; }
         public int Quantity { get; set; }
+        public int Amount { get; set; }
       
     }
 }

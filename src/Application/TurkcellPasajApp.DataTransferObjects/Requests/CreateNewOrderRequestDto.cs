@@ -9,5 +9,6 @@ namespace TurkcellPasajApp.DataTransferObjects.Requests
         [Required]
         public int CustomerId { get; set; }
         public DateTime Date { get; set; }
+        public decimal Amount { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace TurkcellPasajApp.Entities
         public Seller OrderDetailsSeller { get; set; } // Navigasyon özelliği
         [Required]
         public int Quantity { get; set; }
+        public decimal Amount { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace TurkcellPasajApp.MVC.Controllers
 {
     public class OrderController : Controller
     {
-       
+
         private readonly IBasketService _basketService;
         private readonly ICustomerService _customerService;
         private readonly IOrderService _orderService;
@@ -35,8 +35,8 @@ namespace TurkcellPasajApp.MVC.Controllers
             var customer = await _customerService.GetCustomerByIdAsync((int)customerId);
             OrderViewModel orderViewModel = new OrderViewModel
             {
-                Basket= basket,
-                Customer=customer
+                Basket = basket,
+                Customer = customer
             };
             return View(orderViewModel);
         }
@@ -46,33 +46,43 @@ namespace TurkcellPasajApp.MVC.Controllers
         {
             var customerId = HttpContext.Session.GetInt32("CustomerId");
             var basket = await _basketService.GetBasketAsync((int)customerId);
-           
-                CreateNewOrderRequestDto createNewOrder = new CreateNewOrderRequestDto
+
+            decimal totalAmount = 0;
+
+            foreach (var product in basket.BasketProducts)
+            {
+                decimal productTotal = product.Product.Price * product.Quantity;
+                totalAmount += productTotal;
+            }
+
+            CreateNewOrderRequestDto createNewOrder = new CreateNewOrderRequestDto
+            {
+                CustomerId = (int)customerId,
+                Date = DateTime.Now,
+                Status = "created",
+                Amount = totalAmount
+            };
+            int orderId = await _orderService.CreateOrderAndReturnIdAsync(createNewOrder);
+
+            foreach (var product in basket.BasketProducts)
+            {
+                CreateNewOrderDetailRequestDto createNewOrderDetailRequest = new CreateNewOrderDetailRequestDto
                 {
-                    CustomerId = (int)customerId,
-                    Date = DateTime.Now,
-                    Status="created"
+                    Quantity = product.Quantity,
+                    OrderId = orderId,
+                    OrderDetailsProductId = product.ProductId,
+                    OrderDetailsSellerId = product.Product.Seller.Id,
+                    Amount=product.Amount
                 };
-                int orderId = await _orderService.CreateOrderAndReturnIdAsync(createNewOrder);
+                await _orderDetailService.CreateNewOrderDetailAsync(createNewOrderDetailRequest);
+            }
+            await _basketService.DeleteBasketAsync(basket.Id);
+            return RedirectToAction("Index", "Customer");
 
-                foreach (var product in basket.BasketProducts)
-                {
-                    CreateNewOrderDetailRequestDto createNewOrderDetailRequest = new CreateNewOrderDetailRequestDto
-                    {
-                        Quantity =product.Quantity,
-                        OrderId = orderId,
-                        OrderDetailsProductId = product.ProductId,
-                        OrderDetailsSellerId = product.Product.Seller.Id
-                    };
-                    await _orderDetailService.CreateNewOrderDetailAsync(createNewOrderDetailRequest);
-                }
-                await _basketService.DeleteBasketAsync(basket.Id);
-                return RedirectToAction("Index", "Customer");
-           
 
-           
+
         }
- 
+
 
     }
 }
