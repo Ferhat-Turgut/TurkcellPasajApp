@@ -150,11 +150,14 @@
         function addToBasket(productId) {
             var quantitySelect = document.getElementById(`quantitySelect_${productId}`);
             var selectedQuantity = parseInt(quantitySelect.value);
+            var productPrice = parseFloat('@Model.Price'); // Ürünün fiyatını decimal olarak alın
+
+            var basketProductAmount = selectedQuantity * productPrice; // Amount hesaplaması
 
             $.ajax({
                 type: "POST",
                 url: "/Basket/AddToBasket",
-                data: { productId: productId, quantity: selectedQuantity }, // Miktarı da gönder
+                data: { productId: productId, quantity: selectedQuantity, basketProductAmount: basketProductAmount }, // Miktarı ve Amount'u da gönder
                 success: function (data) {
                     if (data.success) {
                         // Başarılı ekleme tost mesajı göster
@@ -165,6 +168,7 @@
                 }
             });
         }
+
         //Favorilere ekleme yada çıkarma işlemleri
         function addToFavorites(productId) {
             $.ajax({

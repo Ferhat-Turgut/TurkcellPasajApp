@@ -1,5 +1,4 @@
 ﻿using TurkcellPasajApp.Entities;
-using TurkcellPasajApp.Infrastructure.Data;
 
 namespace TurkcellPasajApp.Infrastructure.Repositories
 {
@@ -12,13 +11,16 @@ namespace TurkcellPasajApp.Infrastructure.Repositories
         Task<BasketProduct>? GetBasketProductAsync(int basketId, int productId);
         BasketProduct? GetBasketProduct(int basketId, int productId);
 
-        void UpdateBasketProduct(BasketProduct basketProduct);
-        Task UpdateBasketProductAsync(BasketProduct basketProduct);
+        void UpdateBasketProduct(BasketProduct updateBasketProducts);
+        Task UpdateBasketProductAsync(BasketProduct updateBasketProducts);
         int?  GetCustomerBasketId(int customerId);
         Task<int>? GetCustomerBasketIdAsync(int customerId);
 
         bool IsCustomerHaveBasket(int customerId);
-        Task<bool> IsCustomerHaveBasketAsync(int customerId); 
+        Task<bool> IsCustomerHaveBasketAsync(int customerId);
+
+        void UpdateBasketAmount(int basketId);
+        Task UpdateBasketAmountAsync(int basketId);
 
 
     }

@@ -26,9 +26,11 @@ namespace TurkcellPasajApp.Services
         void CreateBasket(CreateNewBasketRequestDto createNewBasket);
         Task DeleteBasketAsync(int id);
         void DeleteBasket(int id);
-        Task UpdateBasketAsync(Basket basket);
-        void UpdateBasket(Basket basket );
+        Task UpdateBasketAsync(UpdateBasketRequestDto updateBasketRequest);
+        void UpdateBasket(UpdateBasketRequestDto updateBasketRequest);
         Task UpdateBasketProductsAsync(UpdateBasketProductsRequestDto updateBasketProducts);
         void UpdateBasketProducts(UpdateBasketProductsRequestDto updateBasketProducts);
+        void UpdateBasketAmount(int basketId);
+        Task UpdateBasketAmountAsync(int basketId);
     }
 }

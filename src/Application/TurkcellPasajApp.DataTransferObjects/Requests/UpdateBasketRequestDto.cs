@@ -1,8 +1,11 @@
 ﻿
-namespace TurkcellPasajApp.DataTransferObjects.Responses
+using TurkcellPasajApp.DataTransferObjects.Responses;
+
+namespace TurkcellPasajApp.DataTransferObjects.Requests
 {
-    public class BasketDisplayResponseDto
+    public class UpdateBasketRequestDto
     {
+
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public decimal Amount { get; set; }
@@ -10,4 +13,3 @@ namespace TurkcellPasajApp.DataTransferObjects.Responses
         public List<BasketProductsDisplayResponseDto> BasketProducts { get; set; }
     }
 }
-

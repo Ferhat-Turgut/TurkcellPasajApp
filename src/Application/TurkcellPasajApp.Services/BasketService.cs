@@ -109,13 +109,25 @@ namespace TurkcellPasajApp.Services
             await _basketRepository.RemoveProductToBasketProductAsync(basketProduct);
         }
 
-        public void UpdateBasket(Basket basket)
+        public void UpdateBasket(UpdateBasketRequestDto updateBasketRequest)
         {
+            var basket=_mapper.Map<Basket>(updateBasketRequest);
             _basketRepository.Update(basket);
         }
 
-        public async Task UpdateBasketAsync(Basket basket)
+        public void UpdateBasketAmount(int basketId)
         {
+            _basketRepository.UpdateBasketAmount(basketId);
+        }
+
+        public async Task UpdateBasketAmountAsync(int basketId)
+        {
+            await _basketRepository.UpdateBasketAmountAsync(basketId);
+        }
+
+        public async Task UpdateBasketAsync(UpdateBasketRequestDto updateBasketRequest)
+        {
+            var basket = _mapper.Map<Basket>(updateBasketRequest);
             await _basketRepository.UpdateAsync(basket);
         }
 

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TurkcellPasajApp.DataTransferObjects.Requests;
 using TurkcellPasajApp.Entities;
+using TurkcellPasajApp.Infrastructure.Data;
 using TurkcellPasajApp.Services;
 
 namespace TurkcellPasajApp.MVC.Controllers
@@ -14,69 +16,71 @@ namespace TurkcellPasajApp.MVC.Controllers
         {
             _basketService = basketService;
         }
-
         [HttpPost]
         [Authorize(Roles = "customer")]
-        public async Task<IActionResult> AddToBasket(int productId, int quantity)
+        public async Task<IActionResult> AddToBasket(int productId, int quantity, decimal basketProductAmount)
         {
-            var customerId = HttpContext.Session.GetInt32("CustomerId");
-
             if (quantity < 1 || quantity > 10)
             {
                 return Json(new { success = false, message = "Geçersiz miktar seçimi." });
             }
+            var customerId = HttpContext.Session.GetInt32("CustomerId");
+            var customerBasket = await _basketService.GetBasketAsync((int)customerId);
 
-            if (await _basketService.IsCustomerHaveBasketAsync((int)customerId))
+            if (customerBasket != null)
             {
-                var basketId = await _basketService.GetCustomerBasketIdAsync((int)customerId);
-                var existingBasketProduct = await _basketService.GetBasketProductAsync(basketId, productId);
+                var ProductInBasket = await _basketService.GetBasketProductAsync(customerBasket.Id, productId);
 
-                if (existingBasketProduct != null)
+                if (ProductInBasket != null)
                 {
-                    UpdateBasketProductsRequestDto basketProduct = new UpdateBasketProductsRequestDto
+                    var existingBasketProduct = await _basketService.GetBasketProductAsync(customerBasket.Id, productId);
+                    UpdateBasketProductsRequestDto updateBasketProductsRequestDto = new UpdateBasketProductsRequestDto
                     {
-                        BasketId = basketId,
-                        ProductId = productId,
-                        Quantity = existingBasketProduct.Quantity + quantity
+                        BasketId= customerBasket.Id,
+                        ProductId= productId,
+                        Quantity= existingBasketProduct.Quantity+quantity,
+                        Amount=existingBasketProduct.Amount+basketProductAmount
                     };
-
-                    await _basketService.UpdateBasketProductsAsync(basketProduct);
+                    await _basketService.UpdateBasketProductsAsync(updateBasketProductsRequestDto);
+                    await _basketService.UpdateBasketAmountAsync(customerBasket.Id);
                 }
                 else
                 {
-                    CreateNewBasketProductRequestDto basketProduct = new CreateNewBasketProductRequestDto
+                    var createNewBasketProductRequestDto = new CreateNewBasketProductRequestDto
                     {
-                        BasketId = basketId,
+                        BasketId = customerBasket.Id,
                         ProductId = productId,
-                        Quantity = quantity
+                        Quantity = quantity,
+                        Amount = basketProductAmount
                     };
-
-                    await _basketService.AddProductToBasketAsync(basketProduct);
+                    await _basketService.AddProductToBasketAsync(createNewBasketProductRequestDto);
+                    await _basketService.UpdateBasketAmountAsync(customerBasket.Id);
                 }
             }
             else
             {
-                var newBasket = new CreateNewBasketRequestDto
+                var createNewBasketRequestDto = new CreateNewBasketRequestDto
                 {
-                    CustomerId = (int)customerId
+                    CustomerId = (int)customerId,
+                    Amount = basketProductAmount
                 };
+                await _basketService.CreateBasketAsync(createNewBasketRequestDto);
+                var newBasketId = await _basketService.GetCustomerBasketIdAsync((int)customerId);
 
-                await _basketService.CreateBasketAsync(newBasket);
-
-                var basketId = await _basketService.GetCustomerBasketIdAsync((int)customerId);
-
-                CreateNewBasketProductRequestDto basketProduct = new CreateNewBasketProductRequestDto
+                var newBasketProduct = new CreateNewBasketProductRequestDto
                 {
-                    BasketId = basketId,
+                    BasketId = newBasketId,
                     ProductId = productId,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    Amount = basketProductAmount
                 };
-
-                await _basketService.AddProductToBasketAsync(basketProduct);
+                await _basketService.AddProductToBasketAsync(newBasketProduct);
+                await _basketService.UpdateBasketAmountAsync(newBasketId);
             }
 
             return Json(new { success = true });
         }
+
 
         [HttpPost]
         [Authorize(Roles = "customer")]

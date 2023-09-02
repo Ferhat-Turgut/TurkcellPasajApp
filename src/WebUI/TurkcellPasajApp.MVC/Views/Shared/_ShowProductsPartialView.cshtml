@@ -77,7 +77,7 @@
 
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text"><strong>Fiyat:</strong>@product.Price.ToString("C")</p>
+                            <p class="card-text" id="productPrice_@product.Id" data-product-price="@product.Price"><strong>Fiyat:</strong>@product.Price.ToString("C")</p>
                             @*  <p class="card-text"><strong>Kategori:</strong>@product.Category.Name.ToUpper()</p>*@
                             <p class="card-text"><strong>Satıcı:</strong>@product.Seller.Name.ToUpper()</p>
                             @if (User.Identity.IsAuthenticated && User.IsInRole("seller") && product.Seller.Id == ViewContext.HttpContext.Session.GetInt32("SellerId"))
@@ -96,7 +96,7 @@
                                     </select>
                                     <!--Sepete eklenecek ürün adedi -->
                                     <!-- Sepet butonu -->
-                                    <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center custom-basket-button" onclick="addToBasket(@product.Id)">
+                                    <button class="btn btn-primary shadow-0 me-1 d-flex align-items-center custom-basket-button" onclick="addToBasket(@product.Id, $('#quantitySelect_' + @product.Id).val())">
                                         <i class="fas fa-shopping-cart m-1"></i> Sepete Ekle
                                     </button>
                                     <!-- Sepet butonu -->
@@ -183,14 +183,15 @@
         }
 
         // Ürünleri sepete ekleyen fonksiyon
-        function addToBasket(productId) {
-            var quantitySelect = document.getElementById(`quantitySelect_${productId}`);
-            var selectedQuantity = parseInt(quantitySelect.value);
+        function addToBasket(productId, selectedQuantity) {
+            var productPrice = parseFloat($("#productPrice_" + productId).data("product-price")); // Ürünün fiyatını float olarak alın
+
+            var basketProductAmount = selectedQuantity * productPrice; // Amount hesaplaması
 
             $.ajax({
                 type: "POST",
                 url: "/Basket/AddToBasket",
-                data: { productId: productId, quantity: selectedQuantity }, // Miktarı da gönder
+                data: { productId: productId, quantity: selectedQuantity, basketProductAmount: basketProductAmount, productPrice: productPrice }, // Miktarı, Amount'u ve fiyatı da gönder
                 success: function (data) {
                     if (data.success) {
                         // Başarılı ekleme tost mesajı göster
