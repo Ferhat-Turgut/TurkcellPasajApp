@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TurkcellPasajApp.DataTransferObjects.Requests;
+using TurkcellPasajApp.MVC.ViewModels;
 using TurkcellPasajApp.Services;
 
 namespace TurkcellPasajApp.MVC.Controllers
@@ -13,18 +14,31 @@ namespace TurkcellPasajApp.MVC.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IProductService _productService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ICategoryService _categoryService;
 
-        public ProductController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IProductService productService, IWebHostEnvironment webHostEnvironment)
+        public ProductController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IProductService productService, IWebHostEnvironment webHostEnvironment, ICategoryService categoryService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _productService = productService;
             _webHostEnvironment = webHostEnvironment;
+            _categoryService = categoryService;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpGet]
+        [Authorize(Roles = "seller")]
+        public async Task<IActionResult> AddProduct()
+        {
+            AddProductViewModel addProductViewModel = new AddProductViewModel
+            {
+                Categories =await _categoryService.GetAllCategoryDisplayResponsesAsync(),
+                CreateProduct=new CreateNewProductRequestDto() 
+            };
+            return View(addProductViewModel);
         }
         [HttpGet]
         [Authorize(Roles = "seller")]

@@ -88,12 +88,6 @@ namespace TurkcellPasajApp.MVC.Controllers
             return View(sellerProfileViewModel);
            
         }
-        [HttpGet]
-        [Authorize(Roles = "seller")]
-        public async Task<IActionResult> ShowStores()
-        {
-           
-            return View();
-        }
+        
     }
 }

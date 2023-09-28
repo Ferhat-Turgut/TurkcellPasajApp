@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TurkcellPasajApp.DataTransferObjects.Requests;
 using TurkcellPasajApp.Entities;
-using TurkcellPasajApp.Infrastructure.Data;
 using TurkcellPasajApp.Services;
 
 namespace TurkcellPasajApp.MVC.Controllers

@@ -1,0 +1,49 @@
+﻿@model TurkcellPasajApp.MVC.ViewModels.AddProductViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Ürün Ekle";
+}
+<head>
+    <link href="~/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Ürün Ekle</h2>
+        <form method="post">
+            <div class="form-group">
+                <input asp-for="CreateProduct.Name" class="form-control" placeholder="Ürün Adı" />
+                <span asp-validation-for="CreateProduct.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="CreateProduct.Price" class="form-control" placeholder="Fiyat (Örn: 19.99)" />
+                <span asp-validation-for="CreateProduct.Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="CreateProduct.StockQuantity" class="form-control" placeholder="Stok Adedi" />
+                <span asp-validation-for="CreateProduct.StockQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="CreateProduct.Description" class="form-control" placeholder="Ürün Açıklaması" />
+                <span asp-validation-for="CreateProduct.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="CategoryId">Kategori Seçin</label>
+                <select asp-for="CreateProduct.CategoryId" class="form-control" id="CategoryId">
+                    <option value="">Kategori Seçin</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CreateProduct.CategoryId" class="text-danger"></span>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+    </div>
+</body>
